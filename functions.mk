@@ -4,18 +4,30 @@ include trace.mk
 ifndef __functions_included
 
 # ----------------------------------------------------------------------------
-# Function:  echo
-# Arguments: 1: An argument
-# Returns:   The argument
+# Function:  echo_argument
+# Arguments: 1: A string
+# Returns:   The string;
+#            just to establisch a test case for trace and assert
+#            and a function with just one argument
 # ----------------------------------------------------------------------------
-echo = $(__make_tr1)$1
+echo_argunent = $(__make_tr1)$1
 
 # ----------------------------------------------------------------------------
 # Function:  foo
 # Arguments: None
-# Returns:   Nothing
+# Returns:   Nothing;
+#            just to establisch a test case for trace and assert
+#            and a function with just no argument
 # ----------------------------------------------------------------------------
-foo = $(shell echo "foo")
+foo :=
+
+# ----------------------------------------------------------------------------
+# Function:  prepgrep4help
+# Arguments: 1: A Pattern
+#            2: A filename
+# Returns:   A shell command to grep for pattern in filename
+# ----------------------------------------------------------------------------
+prepgrep4help = $(__make_tr2)grep -B 1 -A 6 -E '^\# Target:.*$1$$|^\# Function:.*$1$$' $2|grep ^\#
 
 # ----------------------------------------------------------------------------
 # Function:  printallvars

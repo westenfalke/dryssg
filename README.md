@@ -2,9 +2,9 @@
 title: dryssg 
 ---
 
-## Don't Repeat Yourself Static Site Generator
+## Static Site Generator
 
-A static site generator with preprocessor to reduce the pain from creating new or updating a working websites by automation and the fearless competence of its end-users.
+A static site generator with preprocessor to reduce the pain from creating new or updating a working websites by automation and the fearless competence of its end-users. 
 
 ## BLURB
 
@@ -23,10 +23,6 @@ Hence this static website generator will make use of  `make` , there has to be a
 [TOC]
 
 ## Outline
-
-### Workflow
-
-
 
 ### Dataflow
 
