@@ -1,10 +1,11 @@
 include gmsl
+#GMSL_TRACE  := $(true)
 MAKE_DEBUG  := $(true)
 MAKE_TRACE  := $(true)
 MAKE_DOC    := $(true)
 MAKE_REPORT := $(true)
 include dryssg.mk
-.PHONY :
+.PHONY : QUERY
 	$(__debug_t2p)
 .SILENT :
 	$(__debug_t2p)
@@ -24,14 +25,18 @@ FORCE :
 # Arguments: None
 # Does:      Diplays usage
 # ----------------------------------------------------------------------------
-all : FORCE
+usage : FORCE
 	$(__debug_t2p)
 	@echo "usage"
+	@echo "# make help"
 	@echo "# make website"
-	@echo "# make help [QUERY=pattern]"
+	@echo "# make search [QUERY=pattern]"
 
-QUERY :
+export GOALS := BOTTOM
+
+QUERY : help
 	$(__debug_t2p)
+	$(info $$(MAKECMDGOALS) $(MAKECMDGOALS))
 
 # ----------------------------------------------------------------------------
 # Target:    clean_public_html
@@ -138,12 +143,11 @@ printallvars : FORCE
 # Arguments: $(QUERY)
 # Does:      ?
 # ----------------------------------------------------------------------------
-help :
+find :
 	$(__debug_t2p)
 	$(eval SANQUERY = $(shell echo $(QUERY) | sed 's/[^a-zA-Z0-9_-]//g'))
-	$(info $$(SANQUERY) $(SANQUERY))
-	$(if $(SANQUERY),-$(call prepgrep4help,$(SANQUERY),functions.mk))
-	$(if $(SANQUERY),-$(call prepgrep4help,$(SANQUERY),makefile))
-	$(if $(SANQUERY),-$(call prepgrep4help,$(SANQUERY),/usr/include/__gmsl))
+	$(if $(SANQUERY),-$(call fetch_comment4pattern,$(SANQUERY),functions.mk))
+	$(if $(SANQUERY),-$(call fetch_comment4pattern,$(SANQUERY),makefile))
+	$(if $(SANQUERY),-$(call fetch_comment4pattern,$(SANQUERY),/usr/include/__gmsl))
 
-.DEFAULT_GOAL := all
+.DEFAULT_GOAL := usage

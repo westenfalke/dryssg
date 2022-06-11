@@ -21,13 +21,15 @@ echo_argunent = $(__make_tr1)$(if $1,$1,$$1 missing)
 foo :=
 
 # ----------------------------------------------------------------------------
-# Function:  prepgrep4help
+# Function:  fetch_comment4pattern
 # Arguments: 1: A Pattern
 #            2: A filename
-# Returns:   A shell command to grep for pattern in filename
+# Returns:   A command to filter for a block comment
+#            in the file filename that contains the pattern
 #            and nothing on empty or missing parameter
 # ----------------------------------------------------------------------------
-prepgrep4help = $(__make_tr2)$(if $1,$(if $2,grep -B 1 -A 10 -E '^\#\s*Target\s*:.*$1.*|^\#\s*Function\s*:\s*.*$1' $2|grep ^\#))
+#comma := ,
+fetch_comment4pattern = $(__make_tr2)$(if $1,$(if $2,grep -B 1 -A 10 -E '^\#\s*Target\s*:.*$1.*|^\#\s*Function\s*:\s*.*$1' $2|grep ^\#))
 
 # ----------------------------------------------------------------------------
 # Function:  printallvars
