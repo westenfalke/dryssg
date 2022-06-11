@@ -1,11 +1,4 @@
-include gmsl
-#GMSL_TRACE  := $(true)
-MAKE_DEBUG  := $(true)
-MAKE_TRACE  := $(true)
-MAKE_DOC    := $(true)
-MAKE_REPORT := $(true)
-MAKE_LOG    := $(true)
-include dryssg.mk
+include config.mk
 .PHONY : QUERY
 	$(__debug_tnp)
 .SILENT :
@@ -21,22 +14,27 @@ FORCE :
 	$(__debug_tnp)
 
 # ----------------------------------------------------------------------------
-# Target:    all
+# Target:    usage
 # Arguments: None
 # Does:      Diplays usage
 # ----------------------------------------------------------------------------
 usage : FORCE
 	$(__debug_tnp)
 	@echo "usage"
-	@echo "# make help"
+	@echo "# make usage"
 	@echo "# make website"
-	@echo "# make search [QUERY=pattern]"
+	@echo "# make find [QUERY=pattern]"
 
-export GOALS := BOTTOM
-
-QUERY : help
+# ----------------------------------------------------------------------------
+# Target:      .DEFAULT_GOAL : QUERY
+# Prerequisit: 'usage :' if $(QUERY) is empty, else 'find :'
+# Arguments:   $(QUERY)
+# Does:        Supplies CLI with auto compleation for the find target
+#              find [QUERY=pattern]
+#              Diplays usage, QUERY is empty
+# ----------------------------------------------------------------------------
+QUERY : $(if $(QUERY),find,usage)
 	$(__debug_tnp)
-	$(info $$(MAKECMDGOALS) $(MAKECMDGOALS))
 
 # ----------------------------------------------------------------------------
 # Target:    clean_public_html
@@ -105,18 +103,6 @@ foo : FORCE
 	$(call foo,A,B,C)
 
 # ----------------------------------------------------------------------------
-# Target:    HelloWorld
-# Arguments: None
-# Does:      ?
-# ----------------------------------------------------------------------------
-func1 := echo
-func2 := foo
-HelloWorld :
-	$(__debug_tnp)
-	echo $(call $(func1),Hallo Welt)
-	echo $(call $(func2),Hallo Welt)
-
-# ----------------------------------------------------------------------------
 # Target:    EMPTYTARGET
 # Arguments: None
 # Does:      Nothing, but
@@ -138,9 +124,9 @@ printallvars : FORCE
 	echo $(call printallvars)
 
 # ----------------------------------------------------------------------------
-# Target:    help
-# Arguments: $(QUERY)
-# Does:      ?
+# Target:    find
+# Arguments: $(QUERY) text/plain [a-zA-Z0-9_-]
+# Does:      Searches the comments blocks of the make files
 # ----------------------------------------------------------------------------
 find :
 	$(__debug_tnp)
@@ -149,4 +135,4 @@ find :
 	$(if $(SANQUERY),-$(call fetch_comment4pattern,$(SANQUERY),makefile))
 	$(if $(SANQUERY),-$(call fetch_comment4pattern,$(SANQUERY),/usr/include/__gmsl))
 
-.DEFAULT_GOAL := usage
+.DEFAULT_GOAL := QUERY

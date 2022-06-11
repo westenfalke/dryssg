@@ -28,8 +28,7 @@ foo :=
 #            in the file filename that contains the pattern
 #            and nothing on empty or missing parameter
 # ----------------------------------------------------------------------------
-#comma := ,
-fetch_comment4pattern = $(__make_tr2)$(if $1,$(if $2,grep -B 1 -A 10 -E '^\#\s*Target\s*:.*$1.*|^\#\s*Function\s*:\s*.*$1' $2|grep ^\#))
+fetch_comment4pattern = $(__make_tr2)$(if $1,$(if $2,grep -B 10 -A 10 -E '^\#\s*.*$1.*' $2 | grep ^\#))
 
 # ----------------------------------------------------------------------------
 # Function:  printallvars
