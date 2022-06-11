@@ -4,11 +4,12 @@ MAKE_DEBUG  := $(true)
 MAKE_TRACE  := $(true)
 MAKE_DOC    := $(true)
 MAKE_REPORT := $(true)
+MAKE_LOG    := $(true)
 include dryssg.mk
 .PHONY : QUERY
-	$(__debug_t2p)
+	$(__debug_tnp)
 .SILENT :
-	$(__debug_t2p)
+	$(__debug_tnp)
 
 # ----------------------------------------------------------------------------
 # Target:    FORCE
@@ -17,8 +18,7 @@ include dryssg.mk
 #            therefore to trigger another (not PHONY) target
 # ----------------------------------------------------------------------------
 FORCE :
-	$(__debug_t2p)
-	$(info $$(MAKECMDGOALS) $(MAKECMDGOALS))
+	$(__debug_tnp)
 
 # ----------------------------------------------------------------------------
 # Target:    all
@@ -26,7 +26,7 @@ FORCE :
 # Does:      Diplays usage
 # ----------------------------------------------------------------------------
 usage : FORCE
-	$(__debug_t2p)
+	$(__debug_tnp)
 	@echo "usage"
 	@echo "# make help"
 	@echo "# make website"
@@ -35,7 +35,7 @@ usage : FORCE
 export GOALS := BOTTOM
 
 QUERY : help
-	$(__debug_t2p)
+	$(__debug_tnp)
 	$(info $$(MAKECMDGOALS) $(MAKECMDGOALS))
 
 # ----------------------------------------------------------------------------
@@ -45,8 +45,7 @@ QUERY : help
 #            It does not remove other generated conent out site public_html
 # ----------------------------------------------------------------------------
 clean_public_html : FORCE
-	$(__debug_t2p)
-	$(info $$(MAKECMDGOALS) $(MAKECMDGOALS))
+	$(__debug_tnp)
 
 # ----------------------------------------------------------------------------
 # Target:    public_html
@@ -55,7 +54,7 @@ clean_public_html : FORCE
 #            The content of this folder is wat's going to be published
 # ----------------------------------------------------------------------------
 public_html : FORCE
-	$(__debug_t2p)
+	$(__debug_tnp)
 
 # ----------------------------------------------------------------------------
 # Target:    sitmap.xml
@@ -65,7 +64,7 @@ public_html : FORCE
 #            and index the website
 # ----------------------------------------------------------------------------
 sitmap.xml : public_html
-	$(__debug_t2p)
+	$(__debug_tnp)
 
 # ----------------------------------------------------------------------------
 # Target:    robots.txt
@@ -74,7 +73,7 @@ sitmap.xml : public_html
 #            search engins to the sitmap.xml
 # ----------------------------------------------------------------------------
 robots.txt : sitmap.xml
-	$(__debug_t2p)
+	$(__debug_tnp)
 
 # ----------------------------------------------------------------------------
 # Target:    website
@@ -82,7 +81,7 @@ robots.txt : sitmap.xml
 # Does:      Build all parts of a website
 # ----------------------------------------------------------------------------
 website : robots.txt
-	$(__debug_t2p)
+	$(__debug_tnp)
 
 # ----------------------------------------------------------------------------
 # Target:    test_echo_argument
@@ -92,7 +91,7 @@ website : robots.txt
 test_echo_argument : FOO := An Argument
 test_echo_argument : BAR := $(call echo,$(FOO))
 test_echo_argument : FORCE
-	$(__debug_t2p)
+	$(__debug_tnp)
 	$(call assert,$(call seq,$(FOO),$(BAR)),value '$(FOO)' and '$(BAR)' should be equal)
 
 # ----------------------------------------------------------------------------
@@ -102,7 +101,7 @@ test_echo_argument : FORCE
 # Returns:   Nothing
 # ----------------------------------------------------------------------------
 foo : FORCE
-	$(__debug_t2p)
+	$(__debug_tnp)
 	$(call foo,A,B,C)
 
 # ----------------------------------------------------------------------------
@@ -113,7 +112,7 @@ foo : FORCE
 func1 := echo
 func2 := foo
 HelloWorld :
-	$(__debug_t2p)
+	$(__debug_tnp)
 	echo $(call $(func1),Hallo Welt)
 	echo $(call $(func2),Hallo Welt)
 
@@ -124,7 +123,7 @@ HelloWorld :
 #            It's usesed to create a baseline for tests and in profiling
 # ----------------------------------------------------------------------------
 EMPTYTARGET : FORCE
-	$(__debug_t2p)
+	$(__debug_tnp)
 
 # ----------------------------------------------------------------------------
 # Target:    printallvars
@@ -135,7 +134,7 @@ EMPTYTARGET : FORCE
 #            or if their origin is in (environment% default automatic)
 # ----------------------------------------------------------------------------
 printallvars : FORCE
-	$(__debug_t2p)
+	$(__debug_tnp)
 	echo $(call printallvars)
 
 # ----------------------------------------------------------------------------
@@ -144,7 +143,7 @@ printallvars : FORCE
 # Does:      ?
 # ----------------------------------------------------------------------------
 find :
-	$(__debug_t2p)
+	$(__debug_tnp)
 	$(eval SANQUERY = $(shell echo $(QUERY) | sed 's/[^a-zA-Z0-9_-]//g'))
 	$(if $(SANQUERY),-$(call fetch_comment4pattern,$(SANQUERY),functions.mk))
 	$(if $(SANQUERY),-$(call fetch_comment4pattern,$(SANQUERY),makefile))
