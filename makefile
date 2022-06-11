@@ -1,17 +1,13 @@
+include gmsl
+MAKE_DEBUG  := $(true)
+MAKE_TRACE  := $(true)
+MAKE_DOC    := $(true)
+MAKE_REPORT := $(true)
+include dryssg.mk
 .PHONY :
 	$(__debug_t2p)
 .SILENT :
 	$(__debug_t2p)
-
-
-GMSL_TRACE  := ENABLED
-MAKE_DEBUG  := ENABELED
-MAKE_TRACE  := ENABLED
-MAKE_DOC    := ENABLED
-MAKE_REPORT := ENABLED
-include trace.mk
-include debug.mk
-include functions.mk
 
 # ----------------------------------------------------------------------------
 # Target:    FORCE
@@ -21,6 +17,7 @@ include functions.mk
 # ----------------------------------------------------------------------------
 FORCE :
 	$(__debug_t2p)
+	$(info $$(MAKECMDGOALS) $(MAKECMDGOALS))
 
 # ----------------------------------------------------------------------------
 # Target:    all
@@ -29,33 +26,38 @@ FORCE :
 # ----------------------------------------------------------------------------
 all : FORCE
 	$(__debug_t2p)
-	echo "usage"
-	echo "# make website"
-	echo "# make help [QUERY=pattern]"
+	@echo "usage"
+	@echo "# make website"
+	@echo "# make help [QUERY=pattern]"
 
 QUERY :
 	$(__debug_t2p)
 
 # ----------------------------------------------------------------------------
-# Target:    clean
+# Target:    clean_public_html
 # Arguments: None
-# Does:      ?
+# Does:      Removes the folder provided by public_html and its content
+#            It does not remove other generated conent out site public_html
 # ----------------------------------------------------------------------------
-clean : FORCE
+clean_public_html : FORCE
 	$(__debug_t2p)
+	$(info $$(MAKECMDGOALS) $(MAKECMDGOALS))
 
 # ----------------------------------------------------------------------------
 # Target:    public_html
 # Arguments: None
-# Does:      ?
+# Does:      Provide the parent folder for the website.
+#            The content of this folder is wat's going to be published
 # ----------------------------------------------------------------------------
-public_html :
+public_html : FORCE
 	$(__debug_t2p)
 
 # ----------------------------------------------------------------------------
 # Target:    sitmap.xml
 # Arguments: None
-# Does:      ?
+# Does:      Creates a file referencing the HTML-files of the website
+#            A search engine can use this file to navigate
+#            and index the website
 # ----------------------------------------------------------------------------
 sitmap.xml : public_html
 	$(__debug_t2p)
@@ -63,7 +65,8 @@ sitmap.xml : public_html
 # ----------------------------------------------------------------------------
 # Target:    robots.txt
 # Arguments: None
-# Does:      ?
+# Does:      Provides a is static file in order to point
+#            search engins to the sitmap.xml
 # ----------------------------------------------------------------------------
 robots.txt : sitmap.xml
 	$(__debug_t2p)
@@ -71,8 +74,7 @@ robots.txt : sitmap.xml
 # ----------------------------------------------------------------------------
 # Target:    website
 # Arguments: None
-# Does:      Nothing, but to deal as an target without a recipe and
-#            therefore to trigger another (not PHONY) target
+# Does:      Build all parts of a website
 # ----------------------------------------------------------------------------
 website : robots.txt
 	$(__debug_t2p)
@@ -111,10 +113,10 @@ HelloWorld :
 	echo $(call $(func2),Hallo Welt)
 
 # ----------------------------------------------------------------------------
-# Target:    EMPTYTARGE
+# Target:    EMPTYTARGET
 # Arguments: None
-# Does:      Nothing, but to have FORCE as a prerequisit.
-#            It's usesed to create a baselie for testsand in profiling
+# Does:      Nothing, but
+#            It's usesed to create a baseline for tests and in profiling
 # ----------------------------------------------------------------------------
 EMPTYTARGET : FORCE
 	$(__debug_t2p)
@@ -136,32 +138,12 @@ printallvars : FORCE
 # Arguments: $(QUERY)
 # Does:      ?
 # ----------------------------------------------------------------------------
-VALIDTAREGETS  := $(sort $(shell grep -v -e ':=|$(__gmsl_tab)' makefile | sed -n 's/\(^.*\)\( : \)\(.*$$\)/\1/p' | tr '\n' ' '))
-VALIDFUNCTIONS := $(sort foo printvars printallvars prepgrep4help)
-SAVEQUERIES   := $(sort $(VALIDTAREGETS) $(VALIDFUNCTIONS))
 help :
 	$(__debug_t2p)
-	$(info $$(SAVEQUERIES) '$(SAVEQUERIES)')
-	$(eval SANQUERY = $(filter $(QUERY),$(SAVEQUERIES)))
-ifeq (/$(filter $(QUERY),$(SAVEQUERIES))/,//)
-	$(warning $$(QUERY) '$(QUERY)' (is potentialy dangerous))
-	$(eval SANQUERY = all)
-	$(info $$(SANQUERY) '$(SANQUERY)' (default))
-else
-	$(info $$(SANQUERY) '$(SANQUERY)' (OK))
-endif
-	-$(call prepgrep4help,$(SANQUERY),functions.mk)
-	-$(call prepgrep4help,$(SANQUERY),makefile)
+	$(eval SANQUERY = $(shell echo $(QUERY) | sed 's/[^a-zA-Z0-9_-]//g'))
+	$(info $$(SANQUERY) $(SANQUERY))
+	$(if $(SANQUERY),-$(call prepgrep4help,$(SANQUERY),functions.mk))
+	$(if $(SANQUERY),-$(call prepgrep4help,$(SANQUERY),makefile))
+	$(if $(SANQUERY),-$(call prepgrep4help,$(SANQUERY),/usr/include/__gmsl))
 
-
-# ----------------------------------------------------------------------------
-# Target:    liste
-# Arguments: $(VALIDTAREGETS) $(VALIDFUNCTIONS)
-# Does:      ?
-# ----------------------------------------------------------------------------
-list : all
-	echo "targets: [QUERY=($(foreach pattern,$(VALIDTAREGETS),$(pattern) |) <NOTHING>)]"
-	echo "function: [QUERY=($(foreach pattern,$(VALIDFUNCTIONS),$(pattern) |) <NOTHING>)]"
-
-
-.DEFAULT_GOAL := list
+.DEFAULT_GOAL := all

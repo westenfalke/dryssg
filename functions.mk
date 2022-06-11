@@ -1,7 +1,6 @@
+ifndef __functions_included
 include gmsl
 include trace.mk
-
-ifndef __functions_included
 
 # ----------------------------------------------------------------------------
 # Function:  echo_argument
@@ -10,7 +9,7 @@ ifndef __functions_included
 #            just to establisch a test case for trace and assert
 #            and a function with just one argument
 # ----------------------------------------------------------------------------
-echo_argunent = $(__make_tr1)$1
+echo_argunent = $(__make_tr1)$(if $1,$1,$$1 missing)
 
 # ----------------------------------------------------------------------------
 # Function:  foo
@@ -26,8 +25,9 @@ foo :=
 # Arguments: 1: A Pattern
 #            2: A filename
 # Returns:   A shell command to grep for pattern in filename
+#            and nothing on empty or missing parameter
 # ----------------------------------------------------------------------------
-prepgrep4help = $(__make_tr2)grep -B 1 -A 6 -E '^\# Target:.*$1$$|^\# Function:.*$1$$' $2|grep ^\#
+prepgrep4help = $(__make_tr2)$(if $1,$(if $2,grep -B 1 -A 10 -E '^\#\s*Target\s*:.*$1.*|^\#\s*Function\s*:\s*.*$1' $2|grep ^\#))
 
 # ----------------------------------------------------------------------------
 # Function:  printallvars

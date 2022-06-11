@@ -1,5 +1,5 @@
-include gmsl
 ifndef __debug_included
+include gmsl
 
 __debug_included := $(true)
 

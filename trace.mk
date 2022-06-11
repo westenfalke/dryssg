@@ -1,5 +1,5 @@
-include gmsl
 ifndef __trace_included
+include gmsl
 
 __trace_included := $(true)
 
