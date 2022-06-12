@@ -37,12 +37,22 @@ QUERY : $(if $(QUERY),find,usage)
 	$(__debug_tnp)
 
 # ----------------------------------------------------------------------------
-# Target:    clean_public_html
+# Target:    clean_DOCUMENT_ROOT
 # Arguments: None
-# Does:      Removes the folder provided by public_html and its content
+# Does:      Removes the folder provided by DOCUMENT_ROOT and its content
 #            It does not remove other generated conent out site public_html
 # ----------------------------------------------------------------------------
-clean_public_html : FORCE
+clean_DOCUMENT_ROOT :
+	$(__debug_tnp)
+	$(if $(DOCUMENT_ROOT),$(call recursively_remove_folder,$(DOCUMENT_ROOT)))
+
+# ----------------------------------------------------------------------------
+# Target:    index.html
+# Arguments: None
+# Does:      Provide the parent folder for the website.
+#            The content of this folder is wat's going to be published
+# ----------------------------------------------------------------------------
+$(DOCUMENT_ROOT)/%.html : %.md
 	$(__debug_tnp)
 
 # ----------------------------------------------------------------------------
