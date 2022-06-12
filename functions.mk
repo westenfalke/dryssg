@@ -57,11 +57,10 @@ printvars = $(foreach V,                                    \
 
 # ----------------------------------------------------------------------------
 # Function:  recursively_remove_folder
-# Arguments: 1: A Pattern
-#            2: A filename
-# Returns:   A command to filter for a block comment
-#            in the file filename that contains the pattern
-#            and nothing on empty or missing parameter
+# Arguments: 1: A folder
+# Returns:   Removes the folder and its content
+#            skip any directory that is on a file system different
+#            from that of the corresponding command line argument
 # ----------------------------------------------------------------------------
 recursively_remove_folder = $(__make_tr1)$(if $1,rm --one-file-system --recursive --force $(__make_log_p_delete) $1)
 

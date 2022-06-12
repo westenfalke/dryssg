@@ -40,7 +40,7 @@ QUERY : $(if $(QUERY),find,usage)
 # Target:    clean_DOCUMENT_ROOT
 # Arguments: None
 # Does:      Removes the folder provided by DOCUMENT_ROOT and its content
-#            It does not remove other generated conent out site public_html
+#            It does not remove other generated content
 # ----------------------------------------------------------------------------
 clean_DOCUMENT_ROOT :
 	$(__debug_tnp)
