@@ -1,17 +1,17 @@
-ifndef __config_included
+ifndef __gmswe_config_included
 include gmsl
-__config_included := $(true)
+__gmswe_config_included := $(true)
 
 GMSL_TRACE  := $(true)
-MAKE_DEBUG  := $(true)
-MAKE_TRACE  := $(true)
-MAKE_DOC    := $(true)
-MAKE_REPORT := $(true)
-MAKE_LOG    := $(true)
+GMSWE_DEBUG  := $(true)
+GMSWE_TRACE  := $(true)
+GMSWE_DOC    := $(true)
+GMSWE_REPORT := $(true)
+GMSWE_LOG    := $(true)
 
 include trace.mk
 include debug.mk
 include functions.mk
 include logging.mk
 
-endif #__config_included
+endif #__gmswe_config_included

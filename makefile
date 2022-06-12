@@ -1,8 +1,8 @@
 include config.mk
 .PHONY : QUERY
-	$(__debug_tnp)
+	$(__gmswe_dbg_tnp)
 .SILENT :
-	$(__debug_tnp)
+	$(__gmswe_dbg_tnp)
 
 # ----------------------------------------------------------------------------
 # Target:    FORCE
@@ -11,7 +11,7 @@ include config.mk
 #            therefore to trigger another (not PHONY) target
 # ----------------------------------------------------------------------------
 FORCE :
-	$(__debug_tnp)
+	$(__gmswe_dbg_tnp)
 
 # ----------------------------------------------------------------------------
 # Target:    usage
@@ -19,7 +19,7 @@ FORCE :
 # Does:      Diplays usage
 # ----------------------------------------------------------------------------
 usage : FORCE
-	$(__debug_tnp)
+	$(__gmswe_dbg_tnp)
 	@echo "usage"
 	@echo "# make usage"
 	@echo "# make website"
@@ -34,7 +34,7 @@ usage : FORCE
 #              Diplays usage, QUERY is empty
 # ----------------------------------------------------------------------------
 QUERY : $(if $(QUERY),find,usage)
-	$(__debug_tnp)
+	$(__gmswe_dbg_tnp)
 
 # ----------------------------------------------------------------------------
 # Target:    clean_DOCUMENT_ROOT
@@ -43,8 +43,8 @@ QUERY : $(if $(QUERY),find,usage)
 #            It does not remove other generated content
 # ----------------------------------------------------------------------------
 clean_DOCUMENT_ROOT :
-	$(__debug_tnp)
-	$(if $(DOCUMENT_ROOT),$(call recursively_remove_folder,$(DOCUMENT_ROOT)))
+	$(__gmswe_dbg_tnp)
+	$(info $(call exec_cli01,recursively_remove_folder,DOCUMENT_ROOT))
 
 # ----------------------------------------------------------------------------
 # Target:    index.html
@@ -53,7 +53,7 @@ clean_DOCUMENT_ROOT :
 #            The content of this folder is wat's going to be published
 # ----------------------------------------------------------------------------
 $(DOCUMENT_ROOT)/%.html : %.md
-	$(__debug_tnp)
+	$(__gmswe_dbg_tnp)
 
 # ----------------------------------------------------------------------------
 # Target:    public_html
@@ -62,7 +62,7 @@ $(DOCUMENT_ROOT)/%.html : %.md
 #            The content of this folder is wat's going to be published
 # ----------------------------------------------------------------------------
 public_html : FORCE
-	$(__debug_tnp)
+	$(__gmswe_dbg_tnp)
 
 # ----------------------------------------------------------------------------
 # Target:    sitmap.xml
@@ -72,7 +72,7 @@ public_html : FORCE
 #            and index the website
 # ----------------------------------------------------------------------------
 sitmap.xml : public_html
-	$(__debug_tnp)
+	$(__gmswe_dbg_tnp)
 
 # ----------------------------------------------------------------------------
 # Target:    robots.txt
@@ -81,7 +81,7 @@ sitmap.xml : public_html
 #            search engins to the sitmap.xml
 # ----------------------------------------------------------------------------
 robots.txt : sitmap.xml
-	$(__debug_tnp)
+	$(__gmswe_dbg_tnp)
 
 # ----------------------------------------------------------------------------
 # Target:    website
@@ -89,7 +89,7 @@ robots.txt : sitmap.xml
 # Does:      Build all parts of a website
 # ----------------------------------------------------------------------------
 website : robots.txt
-	$(__debug_tnp)
+	$(__gmswe_dbg_tnp)
 
 # ----------------------------------------------------------------------------
 # Target:    test_echo_argument
@@ -99,7 +99,7 @@ website : robots.txt
 test_echo_argument : FOO := An Argument
 test_echo_argument : BAR := $(call echo,$(FOO))
 test_echo_argument : FORCE
-	$(__debug_tnp)
+	$(__gmswe_dbg_tnp)
 	$(call assert,$(call seq,$(FOO),$(BAR)),value '$(FOO)' and '$(BAR)' should be equal)
 
 # ----------------------------------------------------------------------------
@@ -109,7 +109,7 @@ test_echo_argument : FORCE
 # Returns:   Nothing
 # ----------------------------------------------------------------------------
 foo : FORCE
-	$(__debug_tnp)
+	$(__gmswe_dbg_tnp)
 	$(call foo,A,B,C)
 
 # ----------------------------------------------------------------------------
@@ -119,7 +119,7 @@ foo : FORCE
 #            It's usesed to create a baseline for tests and in profiling
 # ----------------------------------------------------------------------------
 EMPTYTARGET : FORCE
-	$(__debug_tnp)
+	$(__gmswe_dbg_tnp)
 
 # ----------------------------------------------------------------------------
 # Target:    printallvars
@@ -130,7 +130,7 @@ EMPTYTARGET : FORCE
 #            or if their origin is in (environment% default automatic)
 # ----------------------------------------------------------------------------
 printallvars : FORCE
-	$(__debug_tnp)
+	$(__gmswe_dbg_tnp)
 	echo $(call printallvars)
 
 # ----------------------------------------------------------------------------
@@ -139,7 +139,7 @@ printallvars : FORCE
 # Does:      Searches the comments blocks of the make files
 # ----------------------------------------------------------------------------
 find :
-	$(__debug_tnp)
+	$(__gmswe_dbg_tnp)
 	$(eval SANQUERY = $(shell echo $(QUERY) | sed 's/[^a-zA-Z0-9_-]//g'))
 	$(if $(SANQUERY),-$(call fetch_comment4pattern,$(SANQUERY),functions.mk))
 	$(if $(SANQUERY),-$(call fetch_comment4pattern,$(SANQUERY),makefile))

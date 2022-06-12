@@ -1,16 +1,16 @@
-ifndef __debug_included
+ifndef __gmswe_debug_included
 include gmsl
 
-__debug_included := $(true)
+__gmswe_debug_included := $(true)
 
-ifdef MAKE_DEBUG
-__debug_trg = $(warning $$@ $@)
-__debug_pre = $(warning $$< $<)
-__debug_tnp = $(warning $$@ $@ $$< $<)
+ifdef GMSWE_DEBUG
+__gmswe_dbg_trg = $(warning $$@ $@)
+__gmswe_dbg_pre = $(warning $$< $<)
+__gmswe_dbg_tnp = $(warning $$@ $@ $$< $<)
 else
-__debug_trg :=
-__debug_pre :=
-__debug_tnp :=
+__gmswe_dbg_trg :=
+__gmswe_dbg_pre :=
+__gmswe_dbg_tnp :=
 endif
 
-endif #__debug_included
+endif #__gmswe_debug_included

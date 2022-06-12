@@ -1,6 +1,6 @@
-ifndef __test_included
+ifndef __gmswe_test_included
 include gmsl
 
-__test_included := $(true)
+__gmswe_test_included := $(true)
 
-endif #__test_included
+endif #__gmswe_test_included
