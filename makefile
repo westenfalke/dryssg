@@ -1,5 +1,5 @@
 include config.mk
-.PHONY : QUERY
+.PHONY : QUERY FORCE
 	$(__gmswe_dbg_tnp)
 .SILENT :
 	$(__gmswe_dbg_tnp)
@@ -44,7 +44,8 @@ QUERY : $(if $(QUERY),find,usage)
 # ----------------------------------------------------------------------------
 clean_DOCUMENT_ROOT :
 	$(__gmswe_dbg_tnp)
-	$(info $(call exec_cli01,recursively_remove_folder,DOCUMENT_ROOT))
+#	$(info $(call exec_cli01,recursively_remove_folder,DOCUMENT_ROOT))
+	$(info $(call exec_cli,recursively_remove_folder,DOCUMENT_ROOT))
 
 # ----------------------------------------------------------------------------
 # Target:    index.html
@@ -52,7 +53,7 @@ clean_DOCUMENT_ROOT :
 # Does:      Provide the parent folder for the website.
 #            The content of this folder is wat's going to be published
 # ----------------------------------------------------------------------------
-$(DOCUMENT_ROOT)/%.html : %.md
+$(DOCUMENT_ROOT)/index.html : index.md
 	$(__gmswe_dbg_tnp)
 
 # ----------------------------------------------------------------------------

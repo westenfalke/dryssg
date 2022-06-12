@@ -1,7 +1,7 @@
 ifndef __gmswe_functions_included
 include config.mk
 __gmswe_functions_included = $(true)
-
+comma := ,
 # ----------------------------------------------------------------------------
 # Function:  echo_argument
 # Arguments: 1: A string
@@ -13,12 +13,29 @@ echo_argunent = $(__gmswe_tr1)$(if $1,$1,$$1 missing)
 
 # ----------------------------------------------------------------------------
 # Function:  exec_cli01
-# Arguments: 1: A namen of a function
-#            2: A parameter to apply the function
+# Arguments: 1: Name of function to $(call) withe the parameter in 2
+#            2: Parameter to use when calling the function in 1
 # Returns:   Nothing?
-# Does:      Applies the non empty function to the parameter
+# Does:      Invoke $(call) the function with the parameter and execute
+#            the result as CLI CMD in a $(shell)
 # ----------------------------------------------------------------------------
-exec_cli01 = $(__gmswe_tr2)$(if $($1),$(shell $(call $1,$(value $2))))
+exec_cli01 = $(__gmswe_tr2)$(if $1,$(shell $(call $1,$(value $2))))
+
+# ----------------------------------------------------------------------------
+# Function:  exec_cli
+# Arguments: 1: Name of function to $(call) withe the list of parameters 2
+#            2: List of parameter to use when calling the function in 1
+# Returns:   Nothing?
+# Does:      Invoke $(call) the function with the parameters and execute
+#            the result as CLI CMD in a $(shell)
+# ----------------------------------------------------------------------------
+exec_cli = $(__gmswe_tr2) \
+               $(eval cmd =\
+                 $$(call $1,$(call merge,$(comma),$(foreach param,$2,$(value $(param)))\
+                 ))\
+               )\
+             $(info $$(cmd) $(cmd))\
+             $(shell $(cmd))
 
 # ----------------------------------------------------------------------------
 # Function:  fetch_comment4pattern
@@ -75,6 +92,6 @@ printvars = $(foreach V,                                    \
 #            Skips any directory that is on a file system
 #            different from that of the corresponding command line argument
 # ----------------------------------------------------------------------------
-recursively_remove_folder = $(__gmswe_tr1)$(if $1,rm --one-file-system --recursive --force $(__gmswe_log_p_delete) $1)
+recursively_remove_folder = $(__gmswe_tr4)$(if $1,rm --one-file-system --recursive --force $(__gmswe_log_p_delete) $1)
 
 endif # __gmswe_functions_included
