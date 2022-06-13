@@ -8,7 +8,7 @@ GMSWE_DOC    ?= $(false)
 GMSWE_REPORT ?= $(false)
 GMSWE_LOG    ?= $(false)
 
-DOCUMETROOT ?= public_html
+DOCUMENTROOT ?= public_html
 
 
 endif #__gmswe_defaults_included

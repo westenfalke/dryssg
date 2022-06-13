@@ -37,24 +37,24 @@ QUERY : $(if $(QUERY),find,usage)
 	$(__gmswe_dbg_tnp)
 
 # ----------------------------------------------------------------------------
-# Target:    DOCUMENT_ROOT
+# Target:    DOCUMENTROOT
 # Arguments: None
-# Does:      Removes the folder provided by DOCUMENT_ROOT and its content
+# Does:      Removes the folder provided by DOCUMENTROOT and its content
 #            It does not remove other generated content
 # ----------------------------------------------------------------------------
-$(DOCUMENT_ROOT):
+$(DOCUMENTROOT):
 	$(__gmswe_dbg_tnp)
 
 # ----------------------------------------------------------------------------
-# Target:    clean_DOCUMENT_ROOT
+# Target:    clean_DOCUMENTROOT
 # Arguments: None
-# Does:      Removes the folder provided by DOCUMENT_ROOT and its content
+# Does:      Removes the folder provided by DOCUMENTROOT and its content
 #            It does not remove other generated content
 # ----------------------------------------------------------------------------
-clean_DOCUMENT_ROOT :
+clean_DOCUMENTROOT : FORCE
 	$(__gmswe_dbg_tnp)
-	$(info $(call exec_cli01,recursively_remove_folder,DOCUMENT_ROOT))
-#	$(info $(call exec_cli,recursively_remove_folder,DOCUMENT_ROOT))
+	$(info $(call exec_cli01,recursively_remove_folder,DOCUMENTROOT))
+#	$(info $(call exec_cli,recursively_remove_folder,DOCUMENTROOT))
 
 # ----------------------------------------------------------------------------
 # Target:    index.html
@@ -62,7 +62,7 @@ clean_DOCUMENT_ROOT :
 # Does:      Provide the parent folder for the website.
 #            The content of this folder is wat's going to be published
 # ----------------------------------------------------------------------------
-$(DOCUMENT_ROOT)/index.html : index.md
+$(DOCUMENTROOT)/index.html : index.md
 	$(__gmswe_dbg_tnp)
 
 # ----------------------------------------------------------------------------

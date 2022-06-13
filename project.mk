@@ -8,7 +8,7 @@ GMSWE_DOC    ?= $(true)
 GMSWE_REPORT ?= $(true)
 GMSWE_LOG    ?= $(true)
 
-DOCUMETROOT := public_html
+DOCUMENTROOT := public_html
 
 
 endif #__gmswe_project_included
