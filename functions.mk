@@ -2,6 +2,17 @@ ifndef __gmswe_functions_included
 include config.mk
 __gmswe_functions_included = $(true)
 comma := ,
+nullstring :=
+
+# ----------------------------------------------------------------------------
+# Function:  create_folder_w_parent
+# Arguments: 1: A folder
+# Returns:   A CLI CMD for $(SHELL)
+# Does:      Create the folder(s), if they do not already exist
+#            no error if existing, makes parent directories as needed
+# ----------------------------------------------------------------------------
+create_folder_w_parent = $(__gmswe_tr1)$(if $1,mkdir --parent $(__gmswe_log_p_create) $1)
+
 # ----------------------------------------------------------------------------
 # Function:  echo_argument
 # Arguments: 1: A string
@@ -64,7 +75,7 @@ foo :=
 #            except if they start with '__' hence this are likely to be gmsl
 #            or if their origin is in (environment% default automatic)
 # ----------------------------------------------------------------------------
-printallvars = $(call printvars,$(filter-out printvars ,$(.VARIABLES)))
+printallvars = $(call printvars,.VARIABLES)
 
 # ----------------------------------------------------------------------------
 # Function:  printvars
@@ -74,13 +85,14 @@ printallvars = $(call printvars,$(filter-out printvars ,$(.VARIABLES)))
 #            except if they start with '__' hence this are likely to be gmsl
 #            or if their origin is in (environment% default automatic)
 # ----------------------------------------------------------------------------
-printvars = $(foreach V,                                    \
-              $(filter-out __%,$(sort $1)),                  \
-              $(if                                            \
-                $(filter-out  environment% default automatic,  \
-                  $(origin $V)),                                \
-                $(warning $V=$($V) ($(value $V)))                \
-              )                                                   \
+printvars = $(foreach V,                                   \
+              $(filter-out __% and assert%,                 \
+                $(sort $(value $1))),                         \
+                $(if                                          \
+                  $(filter-out environment% default automatic, \
+                    $(origin $V)),                              \
+                  $(info $V ($(value $V)))              \
+                )                                                 \
             )
 
 # ----------------------------------------------------------------------------
@@ -92,6 +104,6 @@ printvars = $(foreach V,                                    \
 #            Skips any directory that is on a file system
 #            different from that of the corresponding command line argument
 # ----------------------------------------------------------------------------
-recursively_remove_folder = $(__gmswe_tr4)$(if $1,rm --one-file-system --recursive --force $(__gmswe_log_p_delete) $1)
+recursively_remove_folder = $(__gmswe_tr1)$(if $1,rm --one-file-system --recursive --force $(__gmswe_log_p_delete) $1)
 
 endif # __gmswe_functions_included
