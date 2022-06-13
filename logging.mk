@@ -1,6 +1,5 @@
 ifndef __gmswe_logging_included
-include gmsl
-
+include config.mk
 __gmswe_logging_included := $(true)
 
 ifdef GMSWE_LOG

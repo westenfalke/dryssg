@@ -1,6 +1,7 @@
 ifndef __gmswe_test_included
-include gmsl
-
+include config.mk
 __gmswe_test_included := $(true)
+
+
 
 endif #__gmswe_test_included

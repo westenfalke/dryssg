@@ -37,6 +37,15 @@ QUERY : $(if $(QUERY),find,usage)
 	$(__gmswe_dbg_tnp)
 
 # ----------------------------------------------------------------------------
+# Target:    DOCUMENT_ROOT
+# Arguments: None
+# Does:      Removes the folder provided by DOCUMENT_ROOT and its content
+#            It does not remove other generated content
+# ----------------------------------------------------------------------------
+$(DOCUMENT_ROOT):
+	$(__gmswe_dbg_tnp)
+
+# ----------------------------------------------------------------------------
 # Target:    clean_DOCUMENT_ROOT
 # Arguments: None
 # Does:      Removes the folder provided by DOCUMENT_ROOT and its content
@@ -44,8 +53,8 @@ QUERY : $(if $(QUERY),find,usage)
 # ----------------------------------------------------------------------------
 clean_DOCUMENT_ROOT :
 	$(__gmswe_dbg_tnp)
-#	$(info $(call exec_cli01,recursively_remove_folder,DOCUMENT_ROOT))
-	$(info $(call exec_cli,recursively_remove_folder,DOCUMENT_ROOT))
+	$(info $(call exec_cli01,recursively_remove_folder,DOCUMENT_ROOT))
+#	$(info $(call exec_cli,recursively_remove_folder,DOCUMENT_ROOT))
 
 # ----------------------------------------------------------------------------
 # Target:    index.html
@@ -139,7 +148,7 @@ printallvars : FORCE
 # Arguments: $(QUERY) text/plain [a-zA-Z0-9_-]
 # Does:      Searches the comments blocks of the make files
 # ----------------------------------------------------------------------------
-find :
+find : FORCE
 	$(__gmswe_dbg_tnp)
 	$(eval SANQUERY = $(shell echo $(QUERY) | sed 's/[^a-zA-Z0-9_-]//g'))
 	$(if $(SANQUERY),-$(call fetch_comment4pattern,$(SANQUERY),functions.mk))
