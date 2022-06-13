@@ -20,7 +20,7 @@ create_folder_w_parent = $(__gmswe_tr1)$(if $1,mkdir --parent $(__gmswe_log_p_cr
 #            just to establisch a test case for trace and assert
 #            and a function with just one argument
 # ----------------------------------------------------------------------------
-echo_argunent = $(__gmswe_tr1)$(if $1,$1,$$1 missing)
+echo_argunent = $(__gmswe_tr1)$(if $1,$1)
 
 # ----------------------------------------------------------------------------
 # Function:  exec_cli01

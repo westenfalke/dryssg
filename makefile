@@ -54,6 +54,7 @@ $(CLEAN) : $(CLEAN_DOCUMENTROOT)
 $(CLEAN_DOCUMENTROOT) :
 	$(__gmswe_dbg_tnp)
 	$(info $(call exec_cli01,invalidate_target,$(CLEAN_DOCUMENTROOT)))
+	$(info $(call exec_cli,$(DOCUMENTROOT)recursively_remove_folder,DOCUMENTROOT))
 	$(info $(call exec_cli01,recursively_remove_folder,DOCUMENTROOT))
 	$(info $(call exec_cli01,touch_target,CLEAN_DOCUMENTROOT))
 
@@ -112,17 +113,6 @@ $(WEBSITE) : $(DOCUMENTROOT_ROBOTS.TXT)
 	$(__gmswe_dbg_tnp)
 	$(info $(call exec_cli01,invalidate_target,WEBSITE))
 	$(info $(call exec_cli01,touch_target,WEBSITE))
-
-# ----------------------------------------------------------------------------
-# Target:    test_echo_argument
-# Arguments: A string
-# Does:      Test the function.mk:echo_argunent
-# ----------------------------------------------------------------------------
-test_echo_argument : FOO := An Argument
-test_echo_argument : BAR := $(call echo,$(FOO))
-test_echo_argument : FORCE
-	$(__gmswe_dbg_tnp)
-	$(call assert,$(call seq,$(FOO),$(BAR)),value '$(FOO)' and '$(BAR)' should be equal)
 
 # ----------------------------------------------------------------------------
 # Taeget:    foo (.PHONY)
