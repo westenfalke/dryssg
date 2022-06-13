@@ -68,6 +68,17 @@ fetch_comment4pattern = $(__gmswe_tr2)$(if $1,$(if $2,grep -B 10 -A 10 -E '^\#\s
 foo :=
 
 # ----------------------------------------------------------------------------
+# Function:  invalidate_target
+# Arguments: 1: A file or folder
+# Returns:   A CLI CMD for $(SHELL)
+# Does:      Removes the folder and its content to invalidate a target
+#            Fails silently if file or folder does not exist
+#            Skips any directory that is on a file system
+#            different from that of the corresponding command line argument
+# ----------------------------------------------------------------------------
+invalidate_target = $(__gmswe_tr1)$(if $1,rm --one-file-system --recursive --force $(__gmswe_log_p_delete) $1)
+
+# ----------------------------------------------------------------------------
 # Function:  printallvars
 # Arguments: None
 # Returns:   A list of the name, value and (expanded value) of all variables
@@ -105,5 +116,16 @@ printvars = $(foreach V,                                   \
 #            different from that of the corresponding command line argument
 # ----------------------------------------------------------------------------
 recursively_remove_folder = $(__gmswe_tr1)$(if $1,rm --one-file-system --recursive --force $(__gmswe_log_p_delete) $1)
+
+# ----------------------------------------------------------------------------
+# Function:  touch_target
+# Arguments: 1: A file or folder
+# Returns:   A CLI CMD for $(SHELL)
+# Does:      Removes the folder and its content to invalidate a target
+#            Fails silently if file or folder does not exist
+#            Skips any directory that is on a file system
+#            different from that of the corresponding command line argument
+# ----------------------------------------------------------------------------
+touch_target = $(__gmswe_tr1)$(if $1,touch $1)
 
 endif # __gmswe_functions_included
