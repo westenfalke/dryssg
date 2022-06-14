@@ -18,11 +18,10 @@ FORCE :
 # Arguments: None
 # Does:      Diplays usage
 # ----------------------------------------------------------------------------
-usage : FORCE
+$(USAGE) : FORCE
 	$(__gmswe_dbg_tnp)
-	@echo "usage"
-	@echo "# make usage"
-	@echo "# make website"
+	@echo "# make $(USAGE)"
+	@echo "# make $(WEBSITE)"
 	@echo "# make find [QUERY=pattern]"
 
 # ----------------------------------------------------------------------------
@@ -33,11 +32,11 @@ usage : FORCE
 #              find [QUERY=pattern]
 #              Diplays usage, QUERY is empty
 # ----------------------------------------------------------------------------
-QUERY : $(if $(QUERY),find,usage)
+QUERY : $(if $(QUERY),$(FIND),$(USAGE))
 	$(__gmswe_dbg_tnp)
 
 # ----------------------------------------------------------------------------
-# Target:    CLEAN (clean)
+# Target:    $(CLEAN) (clean)
 # Arguments: None
 # Does:      Triggers all $(CLEAN.*) targets
 $(CLEAN) : $(CLEAN_DOCUMENTROOT)
@@ -54,9 +53,21 @@ $(CLEAN) : $(CLEAN_DOCUMENTROOT)
 $(CLEAN_DOCUMENTROOT) :
 	$(__gmswe_dbg_tnp)
 	$(info $(call exec_cli01,invalidate_target,$(CLEAN_DOCUMENTROOT)))
-	$(info $(call exec_cli,$(DOCUMENTROOT)recursively_remove_folder,DOCUMENTROOT))
 	$(info $(call exec_cli01,recursively_remove_folder,DOCUMENTROOT))
 	$(info $(call exec_cli01,touch_target,CLEAN_DOCUMENTROOT))
+
+# ----------------------------------------------------------------------------
+# Target:    DOCUMENTS (documents)
+# Arguments: None
+# Does:      Creates the folder provided by DOCUMENTS
+# ----------------------------------------------------------------------------
+$(DOCUMENTS):
+	$(__gmswe_dbg_tnp)
+	$(if $(CLEAN_DOCUMENTS),$(info $(call exec_cli01,invalidate_target,DOCUMENTS)))
+	$(info $(call exec_cli01,create_folder_w_parent,DOCUMENTS))
+	$(info $(call exec_cli01,invalidate_target,CLEAN))
+	$(if $(CLEAN_DOCUMENTS),$(info $(call exec_cli01,invalidate_target,CLEAN_DOCUMENTS)))
+	$(info $(call exec_cli01,touch_target,DOCUMENTS))
 
 # ----------------------------------------------------------------------------
 # Target:    DOCUMENTROOT (public_html)
@@ -72,14 +83,21 @@ $(DOCUMENTROOT):
 	$(info $(call exec_cli01,invalidate_target,CLEAN_DOCUMENTROOT))
 	$(info $(call exec_cli01,touch_target,DOCUMENTROOT))
 
+$(DOCUMENTS_INDEX.MD) :
+	$(__gmswe_dbg_tnp)
+	$(info $(call exec_cli01,invalidate_target,DOCUMENTS_INDEX.MD))
+	$(info $(call exec_cli01,touch_target,DOCUMENTS_INDEX.MD))
+
 # ----------------------------------------------------------------------------
 # Target:    DOCUMENTROOT_INDEX.HTML (public_html/index.html)
 # Arguments: None
 # Does:      Provide the parent folder for the WEBSITE.
 #            The content of this folder is wat's going to be published
 # ----------------------------------------------------------------------------
-$(DOCUMENTROOT_INDEX.HTML) : index.md
+$(DOCUMENTROOT_INDEX.HTML) : $(DOCUMENTS_INDEX.MD)
 	$(__gmswe_dbg_tnp)
+	$(info $(call exec_cli01,invalidate_target,DOCUMENTROOT_INDEX.HTML))
+	$(info $(call exec_cli01,touch_target,DOCUMENTROOT_INDEX.HTML))
 
 # ----------------------------------------------------------------------------
 # Target:    DOCUMENTROOT_SITEMAP.XML (public_html/sitmap.xml)
@@ -88,13 +106,13 @@ $(DOCUMENTROOT_INDEX.HTML) : index.md
 #            A search engine can use this file to navigate
 #            and index the website
 # ----------------------------------------------------------------------------
-$(DOCUMENTROOT_SITEMAP.XML) : $(DOCUMENTROOT)
+$(DOCUMENTROOT_SITEMAP.XML) : $(DOCUMENTROOT_INDEX.HTML)
 	$(__gmswe_dbg_tnp)
 	$(info $(call exec_cli01,invalidate_target,DOCUMENTROOT_SITEMAP.XML))
 	$(info $(call exec_cli01,touch_target,DOCUMENTROOT_SITEMAP.XML))
 
 # ----------------------------------------------------------------------------
-# Target:    robots.txt
+# Target:    $(DOCUMENTROOT_ROBOTS.TXT) (robots.txt)
 # Arguments: None
 # Does:      Provides a is static file in order to point
 #            search engins to the sitmap.xml
@@ -105,24 +123,14 @@ $(DOCUMENTROOT_ROBOTS.TXT) : $(DOCUMENTROOT_SITEMAP.XML)
 	$(info $(call exec_cli01,touch_target,DOCUMENTROOT_ROBOTS.TXT))
 
 # ----------------------------------------------------------------------------
-# Target:    WEBSITE (website)
+# Target:    $(WEBSITE) (website)
 # Arguments: None
 # Does:      Build all parts of a website
 # ----------------------------------------------------------------------------
-$(WEBSITE) : $(DOCUMENTROOT_ROBOTS.TXT)
+$(WEBSITE) : $(DOCUMENTS) $(DOCUMENTROOT) $(DOCUMENTROOT_ROBOTS.TXT)
 	$(__gmswe_dbg_tnp)
-	$(info $(call exec_cli01,invalidate_target,WEBSITE))
+#	$(info $(call exec_cli01,invalidate_target,WEBSITE))
 	$(info $(call exec_cli01,touch_target,WEBSITE))
-
-# ----------------------------------------------------------------------------
-# Taeget:    foo (.PHONY)
-# Arguments: None
-# Does:      Test the function.mk:foo
-# Returns:   Nothing
-# ----------------------------------------------------------------------------
-foo : FORCE
-	$(__gmswe_dbg_tnp)
-	$(call foo,A,B,C)
 
 # ----------------------------------------------------------------------------
 # Target:    EMPTYTARGET (.PHONY)
@@ -146,11 +154,11 @@ printallvars : FORCE (.PHONY)
 	echo $(call printallvars)
 
 # ----------------------------------------------------------------------------
-# Target:    find (.PHONY)
+# Target:    $(FIND) (find)
 # Arguments: $(QUERY) text/plain [a-zA-Z0-9_-]
 # Does:      Searches the comments blocks of the make files
 # ----------------------------------------------------------------------------
-find : FORCE
+$(FIND) : FORCE
 	$(__gmswe_dbg_tnp)
 	$(eval SANQUERY = $(shell echo $(QUERY) | sed 's/[^a-zA-Z0-9_-]//g'))
 	$(if $(SANQUERY),-$(call fetch_comment4pattern,$(SANQUERY),functions.mk))

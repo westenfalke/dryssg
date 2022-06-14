@@ -5,20 +5,24 @@ __gmswe_defaults_included := $(true)
 # set to $(true) to exclude project.mk
 __gmswe_project_included := $(false)
 
-GMSWE_DEBUG  ?= $(false)
-GMSWE_DOC    ?= $(false)
-GMSWE_LOG    ?= $(false)
-GMSWE_REPORT ?= $(false)
+#GMSWE_DEBUG  ?= $(true)
+#GMSWE_DOC    ?= $(true)
+#GMSWE_LOG    ?= $(true)
+#GMSWE_REPORT ?= $(true)
+#GMSWE_TEST   ?= $(true)
 
+FIND         ?= find
+USAGE        ?= usage
 WEBSITE      ?= website
 CLEAN        ?= clean
 DOCUMENTS    ?= documents
+### is activated if GMSWE_TEST = $(true)
 DOCUMENTROOT ?= public_html
 $(eval CLEAN_DOCUMENTROOT = $(CLEAN)_$(DOCUMENTROOT))
 INDEX.HTML   ?= index.html
-$(eval DOCUMENTS_INDEX.HTML = $(DOCUMENTS)/$(INDEX.HTML))
+$(eval DOCUMENTROOT_INDEX.HTML = $(DOCUMENTROOT)/$(INDEX.HTML))
 INDEX.MD     ?= index.md
-$(eval DOCUMENTROOT_INDEX.MD = $(DOCUMENTROOT)/$(INDEX.MD))
+$(eval DOCUMENTS_INDEX.MD = $(DOCUMENTS)/$(INDEX.MD))
 ROBOTS.TXT   ?= robots.txt
 $(eval DOCUMENTROOT_ROBOTS.TXT = $(DOCUMENTROOT)/$(ROBOTS.TXT))
 SITEMAP.XML  ?= sitmap.xml

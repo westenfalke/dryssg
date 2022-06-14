@@ -7,6 +7,7 @@ GMSWE_TRACE  ?= $(true)
 GMSWE_DOC    ?= $(true)
 GMSWE_REPORT ?= $(true)
 GMSWE_LOG    ?= $(true)
+GMSWE_TEST   ?= $(true)
 
 DOCUMENTROOT := public_html
 
