@@ -36,13 +36,13 @@ QUERY : $(if $(QUERY),$(FIND),$(USAGE))
 	$(__gmswe_dbg_tnp)
 
 # ----------------------------------------------------------------------------
-# Target:    $(CLEAN) (clean)
+# Target:    CLEAN (clean)
 # Arguments: None
 # Does:      Triggers all $(CLEAN.*) targets
 $(CLEAN) : $(CLEAN_DOCUMENTROOT)
 	$(__gmswe_dbg_tnp)
-	$(info $(call exec_cli01,invalidate_target,CLEAN))
-	$(info $(call exec_cli01,touch_target,CLEAN))
+	$(info $(call exec_cliVAL01,invalidate_target,$@))
+	$(info $(call exec_cliVAL01,touch_target,$@))
 
 # ----------------------------------------------------------------------------
 # Target:    CLEAN_DOCUMENTROOT (clean_public_html)
@@ -52,9 +52,9 @@ $(CLEAN) : $(CLEAN_DOCUMENTROOT)
 # ----------------------------------------------------------------------------
 $(CLEAN_DOCUMENTROOT) :
 	$(__gmswe_dbg_tnp)
-	$(info $(call exec_cli01,invalidate_target,$(CLEAN_DOCUMENTROOT)))
-	$(info $(call exec_cli01,recursively_remove_folder,DOCUMENTROOT))
-	$(info $(call exec_cli01,touch_target,CLEAN_DOCUMENTROOT))
+	$(info $(call exec_cliVAL01,invalidate_target,$@))
+	$(info $(call exec_cliPTR01,recursively_remove_folder,DOCUMENTROOT))
+	$(info $(call exec_cliVAL01,touch_target,$@))
 
 # ----------------------------------------------------------------------------
 # Target:    DOCUMENTS (documents)
@@ -63,8 +63,8 @@ $(CLEAN_DOCUMENTROOT) :
 # ----------------------------------------------------------------------------
 $(DOCUMENTS):
 	$(__gmswe_dbg_tnp)
-	$(info $(call exec_cli01,create_folder_w_parent,DOCUMENTS))
-	$(info $(call exec_cli01,touch_target,DOCUMENTS))
+	$(info $(call exec_cliVAL01,create_folder_w_parent,$@))
+	$(info $(call exec_cliVAL01,touch_target,$@))
 
 # ----------------------------------------------------------------------------
 # Target:    DOCUMENTROOT (public_html)
@@ -72,18 +72,18 @@ $(DOCUMENTS):
 # Does:      Removes the folder provided by DOCUMENTROOT and its content
 #            It does not remove other generated content
 # ----------------------------------------------------------------------------
-$(DOCUMENTROOT):
+$(DOCUMENTROOT) :
 	$(__gmswe_dbg_tnp)
-	$(info $(call exec_cli01,invalidate_target,DOCUMENTROOT))
-	$(info $(call exec_cli01,create_folder_w_parent,DOCUMENTROOT))
-	$(info $(call exec_cli01,invalidate_target,CLEAN))
-	$(info $(call exec_cli01,invalidate_target,CLEAN_DOCUMENTROOT))
-	$(info $(call exec_cli01,touch_target,DOCUMENTROOT))
+	$(info $(call exec_cliVAL01,invalidate_target,$@))
+	$(info $(call exec_cliVAL01,create_folder_w_parent,$@))
+	$(info $(call exec_cliPTR01,invalidate_target,CLEAN_DOCUMENTROOT))
+	$(info $(call exec_cliPTR01,invalidate_target,CLEAN))
+	$(info $(call exec_cliVAL01,touch_target,$@))
 
 $(DOCUMENTS_INDEX.MD) :
 	$(__gmswe_dbg_tnp)
-	$(info $(call exec_cli01,invalidate_target,DOCUMENTS_INDEX.MD))
-	$(info $(call exec_cli01,touch_target,DOCUMENTS_INDEX.MD))
+	$(info $(call exec_cliVAL01,invalidate_target,$@))
+	$(info $(call exec_cliVAL01,touch_target,$@))
 
 # ----------------------------------------------------------------------------
 # Target:    DOCUMENTROOT_INDEX.HTML (public_html/index.html)
@@ -93,8 +93,8 @@ $(DOCUMENTS_INDEX.MD) :
 # ----------------------------------------------------------------------------
 $(DOCUMENTROOT_INDEX.HTML) : $(DOCUMENTS_INDEX.MD)
 	$(__gmswe_dbg_tnp)
-	$(info $(call exec_cli01,invalidate_target,DOCUMENTROOT_INDEX.HTML))
-	$(info $(call exec_cli01,touch_target,DOCUMENTROOT_INDEX.HTML))
+	$(info $(call exec_cliVAL01,invalidate_target,$@))
+	$(info $(call exec_cliVAL01,touch_target,$@))
 
 # ----------------------------------------------------------------------------
 # Target:    DOCUMENTROOT_SITEMAP.XML (public_html/sitmap.xml)
@@ -105,8 +105,8 @@ $(DOCUMENTROOT_INDEX.HTML) : $(DOCUMENTS_INDEX.MD)
 # ----------------------------------------------------------------------------
 $(DOCUMENTROOT_SITEMAP.XML) : $(DOCUMENTROOT_INDEX.HTML)
 	$(__gmswe_dbg_tnp)
-	$(info $(call exec_cli01,invalidate_target,DOCUMENTROOT_SITEMAP.XML))
-	$(info $(call exec_cli01,touch_target,DOCUMENTROOT_SITEMAP.XML))
+	$(info $(call exec_cliVAL01,invalidate_target,$@))
+	$(info $(call exec_cliVAL01,touch_target,$@))
 
 # ----------------------------------------------------------------------------
 # Target:    $(DOCUMENTROOT_ROBOTS.TXT) (robots.txt)
@@ -116,8 +116,8 @@ $(DOCUMENTROOT_SITEMAP.XML) : $(DOCUMENTROOT_INDEX.HTML)
 # ----------------------------------------------------------------------------
 $(DOCUMENTROOT_ROBOTS.TXT) : $(DOCUMENTROOT_SITEMAP.XML)
 	$(__gmswe_dbg_tnp)
-	$(info $(call exec_cli01,invalidate_target,DOCUMENTROOT_ROBOTS.TXT))
-	$(info $(call exec_cli01,touch_target,DOCUMENTROOT_ROBOTS.TXT))
+	$(info $(call exec_cliVAL01,invalidate_target,$@))
+	$(info $(call exec_cliVAL01,touch_target,$@))
 
 # ----------------------------------------------------------------------------
 # Target:    $(WEBSITE) (website)
@@ -126,8 +126,8 @@ $(DOCUMENTROOT_ROBOTS.TXT) : $(DOCUMENTROOT_SITEMAP.XML)
 # ----------------------------------------------------------------------------
 $(WEBSITE) : $(DOCUMENTS) $(DOCUMENTROOT) $(DOCUMENTROOT_ROBOTS.TXT)
 	$(__gmswe_dbg_tnp)
-#	$(info $(call exec_cli01,invalidate_target,WEBSITE))
-	$(info $(call exec_cli01,touch_target,WEBSITE))
+#	$(info $(call exec_cliVAL01,invalidate_target,$@))
+	$(info $(call exec_cliVAL01,touch_target,$@))
 
 # ----------------------------------------------------------------------------
 # Target:    EMPTYTARGET (.PHONY)

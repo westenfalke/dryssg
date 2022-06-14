@@ -23,14 +23,24 @@ create_folder_w_parent = $(__gmswe_tr1)$(if $1,mkdir --parent $(__gmswe_log_p_cr
 echo_argunent = $(__gmswe_tr1)$(if $1,$1)
 
 # ----------------------------------------------------------------------------
-# Function:  exec_cli01
-# Arguments: 1: Name of function to $(call) withe the parameter in 2
-#            2: Parameter to use when calling the function in 1
+# Function:  exec_cliPTR01
+# Arguments: 1: Name of function to $(call) withe the argument in 2
+#            2: Variable name to use when calling the function in 1
 # Returns:   Nothing?
 # Does:      Invoke $(call) the function with the parameter and execute
 #            the result as CLI CMD in a $(shell)
 # ----------------------------------------------------------------------------
-exec_cli01 = $(__gmswe_tr2)$(if $1,$(shell $(call $1,$(value $2))))
+exec_cliPTR01 = $(__gmswe_tr2)$(if $1,$(shell $(call $1,$(value $2))))
+
+# ----------------------------------------------------------------------------
+# Function:  exec_cliVAL01
+# Arguments: 1: Name of function to $(call) withe the parameter in 2
+#            2: Parameter value to use when calling the function in 1
+# Returns:   Nothing?
+# Does:      Invoke $(call) the function with the parameter and execute
+#            the result as CLI CMD in a $(shell)
+# ----------------------------------------------------------------------------
+exec_cliVAL01 = $(__gmswe_tr2)$(if $1,$(shell $(call $1,$2)))
 
 # ----------------------------------------------------------------------------
 # Function:  exec_cli
