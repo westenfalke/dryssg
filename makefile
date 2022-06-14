@@ -63,10 +63,7 @@ $(CLEAN_DOCUMENTROOT) :
 # ----------------------------------------------------------------------------
 $(DOCUMENTS):
 	$(__gmswe_dbg_tnp)
-	$(if $(CLEAN_DOCUMENTS),$(info $(call exec_cli01,invalidate_target,DOCUMENTS)))
 	$(info $(call exec_cli01,create_folder_w_parent,DOCUMENTS))
-	$(info $(call exec_cli01,invalidate_target,CLEAN))
-	$(if $(CLEAN_DOCUMENTS),$(info $(call exec_cli01,invalidate_target,CLEAN_DOCUMENTS)))
 	$(info $(call exec_cli01,touch_target,DOCUMENTS))
 
 # ----------------------------------------------------------------------------
