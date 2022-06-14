@@ -1,6 +1,4 @@
-
 __functions_tests := test_foo test_echo_argument
-
 
 # ----------------------------------------------------------------------------
 # Taeget:    __functions_test
@@ -27,7 +25,7 @@ test_foo : FORCE
 # Does:      Test the function.mk:echo_argunent
 # ----------------------------------------------------------------------------
 BAR = $(FOO)
-FOO := $(call echo_argunent,An Argument)
+FOO = $(call echo_argunent,An Argument)
 test_echo_argument :
 	$(__gmswe_dbg_tnp)
 	$(info value '$(FOO)' and '$(BAR)')
