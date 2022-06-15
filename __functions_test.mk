@@ -10,22 +10,22 @@ __functions_test : FORCE $(__functions_tests)
 	$(__gmswe_dbg_tnp)
 
 # ----------------------------------------------------------------------------
-# Taeget:    foo
+# Taeget:    func_foo
 # Arguments: None
-# Does:      Test the function.mk:foo
+# Does:      Test the function.mk:func_foo
 # Returns:   Nothing
 # ----------------------------------------------------------------------------
 test_foo : FORCE
 	$(__gmswe_dbg_tnp)
-	$(call foo,A,B,C)
+	$(call func_foo,A,B,C)
 
 # ----------------------------------------------------------------------------
 # Target:    test_echo_argument
 # Arguments: A string
-# Does:      Test the function.mk:echo_argunent
+# Does:      Test the function.mk:func_echo_argument
 # ----------------------------------------------------------------------------
 BAR = $(FOO)
-FOO = $(call echo_argunent,An Argument)
+FOO = $(call func_echo_argument,An Argument)
 test_echo_argument :
 	$(__gmswe_dbg_tnp)
 	$(info value '$(FOO)' and '$(BAR)')

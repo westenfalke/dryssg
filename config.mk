@@ -8,6 +8,7 @@ include trace.mk
 include debug.mk
 include logging.mk
 include functions.mk
+include commands.mk
 include sitemap.mk
 include test.mk
 endif #__gmswe_config_included

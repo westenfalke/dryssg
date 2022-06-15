@@ -1,5 +1,5 @@
 include config.mk
-.PHONY : find foo printallvars EMPTYTARGET FORCE QUERY
+.PHONY : find func_foo func_printallvars EMPTYTARGET FORCE QUERY
 	$(__gmswe_dbg_tnp)
 .SILENT :
 	$(__gmswe_dbg_tnp)
@@ -21,9 +21,9 @@ FORCE :
 $(USAGE) : FORCE
 	$(__gmswe_dbg_tnp)
 	@echo "# make $(USAGE)"
+	@echo "# make $(CLEAN)"
 	@echo "# make $(WEBSITE)"
 	@echo "# make find [QUERY=pattern]"
-	@echo $(DOKU)
 
 # ----------------------------------------------------------------------------
 # Target:      QUERY QUERY (.DEFAULT_GOAL) [QUERY]
@@ -44,9 +44,9 @@ QUERY : $(if $(QUERY),$(FIND),$(USAGE))
 # ----------------------------------------------------------------------------
 $(CLEAN_DOCUMENTROOT) :
 	$(__gmswe_dbg_tnp)
-	$(info $(call exec_cliVAL01,invalidate_target,$@))
-	$(info $(call exec_cliPTR01,recursively_remove_folder,DOCUMENTROOT))
-	$(info $(call exec_cliVAL01,touch_target,$@))
+	$(info $(call exec_cliVAL01,cmd_invalidate_target,$@))
+	$(info $(call exec_cliPTR01,cmd_recursively_remove_folder,DOCUMENTROOT))
+	$(info $(call exec_cliVAL01,cmd_touch_target,$@))
 
 # ----------------------------------------------------------------------------
 # Target:    $$(CLEAN) $(CLEAN) [clean]
@@ -54,8 +54,8 @@ $(CLEAN_DOCUMENTROOT) :
 # Does:      Triggers all $(CLEAN)_.* targets as prerequisite
 $(CLEAN) : $(CLEAN_DOCUMENTROOT)
 	$(__gmswe_dbg_tnp)
-	$(info $(call exec_cliVAL01,invalidate_target,$@))
-	$(info $(call exec_cliVAL01,touch_target,$@))
+	$(info $(call exec_cliVAL01,cmd_invalidate_target,$@))
+	$(info $(call exec_cliVAL01,cmd_touch_target,$@))
 
 # ----------------------------------------------------------------------------
 # Target:    $$(DOCUMENTS) $(DOCUMENTS) [documents]
@@ -64,8 +64,8 @@ $(CLEAN) : $(CLEAN_DOCUMENTROOT)
 # ----------------------------------------------------------------------------
 $(DOCUMENTS):
 	$(__gmswe_dbg_tnp)
-	$(info $(call exec_cliVAL01,create_folder_w_parent,$@))
-	$(info $(call exec_cliVAL01,touch_target,$@))
+	$(info $(call exec_cliVAL01,cmd_create_folder_w_parent,$@))
+	$(info $(call exec_cliVAL01,cmd_touch_target,$@))
 
 # ----------------------------------------------------------------------------
 # Target:    $$(DOCUMENTROOT) $(DOCUMENTROOT) [public_html]
@@ -75,11 +75,11 @@ $(DOCUMENTS):
 # ----------------------------------------------------------------------------
 $(DOCUMENTROOT) :
 	$(__gmswe_dbg_tnp)
-	$(info $(call exec_cliVAL01,invalidate_target,$@))
-	$(info $(call exec_cliVAL01,create_folder_w_parent,$@))
-	$(info $(call exec_cliPTR01,invalidate_target,CLEAN_DOCUMENTROOT))
-	$(info $(call exec_cliPTR01,invalidate_target,CLEAN))
-	$(info $(call exec_cliVAL01,touch_target,$@))
+	$(info $(call exec_cliVAL01,cmd_invalidate_target,$@))
+	$(info $(call exec_cliVAL01,cmd_create_folder_w_parent,$@))
+	$(info $(call exec_cliPTR01,cmd_invalidate_target,CLEAN_DOCUMENTROOT))
+	$(info $(call exec_cliPTR01,cmd_invalidate_target,CLEAN))
+	$(info $(call exec_cliVAL01,cmd_touch_target,$@))
 
 
 # ----------------------------------------------------------------------------
@@ -90,8 +90,8 @@ $(DOCUMENTROOT) :
 # ----------------------------------------------------------------------------
 $(DOCUMENTS_INDEX.MD) :
 	$(__gmswe_dbg_tnp)
-	$(info $(call exec_cliVAL01,invalidate_target,$@))
-	$(info $(call exec_cliVAL01,touch_target,$@))
+	$(info $(call exec_cliVAL01,cmd_invalidate_target,$@))
+	$(info $(call exec_cliVAL01,cmd_touch_target,$@))
 
 # ----------------------------------------------------------------------------
 # Target:    $$(DOCUMENTROOT_INDEX.HTML) $(DOCUMENTROOT_INDEX.HTML) [public_html/index.html]
@@ -101,8 +101,8 @@ $(DOCUMENTS_INDEX.MD) :
 # ----------------------------------------------------------------------------
 $(DOCUMENTROOT_INDEX.HTML) : $(DOCUMENTS_INDEX.MD)
 	$(__gmswe_dbg_tnp)
-	$(info $(call exec_cliVAL01,invalidate_target,$@))
-	$(info $(call exec_cliVAL01,touch_target,$@))
+	$(info $(call exec_cliVAL01,cmd_invalidate_target,$@))
+	$(info $(call exec_cliVAL01,cmd_touch_target,$@))
 
 # ----------------------------------------------------------------------------
 # Target:    $$(DOCUMENTROOT_SITEMAP.XML) $(DOCUMENTROOT_SITEMAP.XML) [public_html/sitmap.xml]
@@ -113,9 +113,9 @@ $(DOCUMENTROOT_INDEX.HTML) : $(DOCUMENTS_INDEX.MD)
 # ----------------------------------------------------------------------------
 $(DOCUMENTROOT_SITEMAP.XML) : $(DOCUMENTROOT_INDEX.HTML)
 	$(__gmswe_dbg_tnp)
-	$(info $(call exec_cliVAL01,invalidate_target,$@))
+	$(info $(call exec_cliVAL01,cmd_invalidate_target,$@))
 	$(eval $(call sitemap,$(DOCUMENTROOT),$(SITEMAP_WILDCARD),$@))
-	$(info $(call exec_cliVAL01,touch_target,$@))
+	$(info $(call exec_cliVAL01,cmd_touch_target,$@))
 
 # ----------------------------------------------------------------------------
 # Target:    $$(DOCUMENTROOT_ROBOTS.TXT) $(DOCUMENTROOT_ROBOTS.TXT) [robots.txt}
@@ -125,8 +125,8 @@ $(DOCUMENTROOT_SITEMAP.XML) : $(DOCUMENTROOT_INDEX.HTML)
 # ----------------------------------------------------------------------------
 $(DOCUMENTROOT_ROBOTS.TXT) : $(DOCUMENTROOT_SITEMAP.XML)
 	$(__gmswe_dbg_tnp)
-	$(info $(call exec_cliVAL01,invalidate_target,$@))
-	$(info $(call exec_cliVAL01,touch_target,$@))
+	$(info $(call exec_cliVAL01,cmd_invalidate_target,$@))
+	$(info $(call exec_cliVAL01,cmd_touch_target,$@))
 
 # ----------------------------------------------------------------------------
 # Target:    $$(WEBSITE) $(WEBSITE) [website]
@@ -135,8 +135,8 @@ $(DOCUMENTROOT_ROBOTS.TXT) : $(DOCUMENTROOT_SITEMAP.XML)
 # ----------------------------------------------------------------------------
 $(WEBSITE) : $(DOCUMENTS) $(DOCUMENTROOT) $(DOCUMENTROOT_ROBOTS.TXT)
 	$(__gmswe_dbg_tnp)
-#	$(info $(call exec_cliVAL01,invalidate_target,$@))
-	$(info $(call exec_cliVAL01,touch_target,$@))
+	$(info $(call exec_cliVAL01,cmd_invalidate_target,$@))
+	$(info $(call exec_cliVAL01,cmd_touch_target,$@))
 
 # ----------------------------------------------------------------------------
 # Target:    EMPTYTARGET EMPTYTARGET (.PHONY) [EMPTYTARGET]
@@ -148,16 +148,16 @@ EMPTYTARGET : FORCE
 	$(__gmswe_dbg_tnp)
 
 # ----------------------------------------------------------------------------
-# Target:    printallvars printallvars (.PHONY) [printallvars]
+# Target:    func_printallvars func_printallvars (.PHONY) [func_printallvars]
 # Arguments: None
 # Does:      Prints the name, value and (expanded value) of all variables
 #            in $(.VARIABLES)
 #            except if they start with '__' hence this are likely to be gmsl
 #            or if their origin is in (environment% default automatic)
 # ----------------------------------------------------------------------------
-printallvars : FORCE
+func_printallvars : FORCE
 	$(__gmswe_dbg_tnp)
-	echo $(call printallvars)
+	echo $(call func_printallvars)
 
 # ----------------------------------------------------------------------------
 # Target:    $$(FIND) $(FIND) [find]
@@ -167,8 +167,8 @@ printallvars : FORCE
 $(FIND) : FORCE
 	$(__gmswe_dbg_tnp)
 	$(eval SANQUERY = $(shell echo $(QUERY) | sed 's/[^a-zA-Z0-9_-]//g'))
-	$(if $(SANQUERY),-$(call fetch_comment4pattern,$(SANQUERY),functions.mk))
-	$(if $(SANQUERY),-$(call fetch_comment4pattern,$(SANQUERY),makefile))
-	$(if $(SANQUERY),-$(call fetch_comment4pattern,$(SANQUERY),/usr/include/__gmsl))
+	$(if $(SANQUERY),-$(call cmd_fetch_comment4pattern,$(SANQUERY),functions.mk))
+	$(if $(SANQUERY),-$(call cmd_fetch_comment4pattern,$(SANQUERY),makefile))
+	$(if $(SANQUERY),-$(call cmd_fetch_comment4pattern,$(SANQUERY),/usr/include/__gmsl))
 
 .DEFAULT_GOAL := QUERY

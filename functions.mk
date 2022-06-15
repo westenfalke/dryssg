@@ -1,112 +1,46 @@
 ifndef __gmswe_functions_included
 include config.mk
 __gmswe_functions_included = $(true)
-comma := ,
-nullstring :=
+__gmswe_comma := ,
+__gmswe_nullstring :=
 
 # ----------------------------------------------------------------------------
-# Function:  create_folder_w_parent
-# Arguments: 1: A folder
-# Returns:   A CLI CMD for $(SHELL)
-# Does:      Create the folder(s), if they do not already exist
-#            no error if existing, makes parent directories as needed
-# ----------------------------------------------------------------------------
-create_folder_w_parent = $(__gmswe_tr1)$(if $1,mkdir --parent $(__gmswe_log_p_create) $1)
-
-# ----------------------------------------------------------------------------
-# Function:  echo_argument
+# Function:  func_echo_argument
 # Arguments: 1: A string
 # Returns:   The string;
 #            just to establisch a test case for trace and assert
 #            and a function with just one argument
 # ----------------------------------------------------------------------------
-echo_argunent = $(__gmswe_tr1)$(if $1,$1)
+func_echo_argument = $(__gmswe_tr1)$(if $1,$1)
 
 # ----------------------------------------------------------------------------
-# Function:  exec_cliPTR01
-# Arguments: 1: Name of function to $(call) withe the argument in 2
-#            2: Variable name to use when calling the function in 1
-# Returns:   Nothing?
-# Does:      Invoke $(call) the function with the parameter and execute
-#            the result as CLI CMD in a $(shell)
-# ----------------------------------------------------------------------------
-exec_cliPTR01 = $(__gmswe_tr2)$(if $1,$(shell $(call $1,$(value $2))))
-
-# ----------------------------------------------------------------------------
-# Function:  exec_cliVAL01
-# Arguments: 1: Name of function to $(call) withe the parameter in 2
-#            2: Parameter value to use when calling the function in 1
-# Returns:   Nothing?
-# Does:      Invoke $(call) the function with the parameter and execute
-#            the result as CLI CMD in a $(shell)
-# ----------------------------------------------------------------------------
-exec_cliVAL01 = $(__gmswe_tr2)$(if $1,$(shell $(call $1,$2)))
-
-# ----------------------------------------------------------------------------
-# Function:  exec_cli
-# Arguments: 1: Name of function to $(call) withe the list of parameters 2
-#            2: List of parameter to use when calling the function in 1
-# Returns:   Nothing?
-# Does:      Invoke $(call) the function with the parameters and execute
-#            the result as CLI CMD in a $(shell)
-# ----------------------------------------------------------------------------
-exec_cli = $(__gmswe_tr2) \
-               $(eval cmd =\
-                 $$(call $1,$(call merge,$(comma),$(foreach param,$2,$(value $(param)))\
-                 ))\
-               )\
-             $(info $$(cmd) $(cmd))\
-             $(shell $(cmd))
-
-# ----------------------------------------------------------------------------
-# Function:  fetch_comment4pattern
-# Arguments: 1: A Pattern
-#            2: A filename
-# Returns:   A command to filter for a block comment
-#            in the file filename that contains the pattern
-#            and nothing on empty or missing parameter
-# ----------------------------------------------------------------------------
-fetch_comment4pattern = $(__gmswe_tr2)$(if $1,$(if $2,grep -B 10 -A 10 -E '^\#\s*.*$1.*' $2 | grep ^\#))
-
-# ----------------------------------------------------------------------------
-# Function:  foo
+# Function:  func_foo
 # Arguments: None
 # Returns:   Nothing;
 #            just to establisch a test case for trace and assert
 #            and a function with just no argument
 # ----------------------------------------------------------------------------
-foo :=
+func_foo :=
 
 # ----------------------------------------------------------------------------
-# Function:  invalidate_target
-# Arguments: 1: A file or folder
-# Returns:   A CLI CMD for $(SHELL)
-# Does:      Removes the folder and its content to invalidate a target
-#            Fails silently if file or folder does not exist
-#            Skips any directory that is on a file system
-#            different from that of the corresponding command line argument
-# ----------------------------------------------------------------------------
-invalidate_target = $(__gmswe_tr1)$(if $1,rm --one-file-system --recursive --force $(__gmswe_log_p_delete) $1)
-
-# ----------------------------------------------------------------------------
-# Function:  printallvars
+# Function:  func_printallvars
 # Arguments: None
 # Returns:   A list of the name, value and (expanded value) of all variables
 #            in $(.VARIABLES)
 #            except if they start with '__' hence this are likely to be gmsl
 #            or if their origin is in (environment% default automatic)
 # ----------------------------------------------------------------------------
-printallvars = $(call printvars,.VARIABLES)
+func_printallvars = $(call func_printvars,.VARIABLES)
 
 # ----------------------------------------------------------------------------
-# Function:  printvars
+# Function:  func_printvars
 # Arguments: 1: A list
 # Returns:   A list of the name, value and (expanded value)
 #            of all variables in the list
 #            except if they start with '__' hence this are likely to be gmsl
 #            or if their origin is in (environment% default automatic)
 # ----------------------------------------------------------------------------
-printvars = $(foreach V,                                   \
+func_printvars = $(foreach V,                                   \
               $(filter-out __% and assert%,                 \
                 $(sort $(value $1))),                         \
                 $(if                                          \
@@ -117,39 +51,13 @@ printvars = $(foreach V,                                   \
             )
 
 # ----------------------------------------------------------------------------
-# Function:  recursively_remove_folder
-# Arguments: 1: A folder
-# Returns:   A CLI CMD for $(SHELL)
-# Does:      Removes the folder and its content
-#            Fails silently if folder does not exist
-#            Skips any directory that is on a file system
-#            different from that of the corresponding command line argument
-# ----------------------------------------------------------------------------
-recursively_remove_folder = $(__gmswe_tr1)$(if $1,rm --one-file-system --recursive --force $(__gmswe_log_p_delete) $1)
-WILDCARD := *#.html
-
-
-# ----------------------------------------------------------------------------
-# Function:  rwildcard
-# Arguments: 1: A list of folder
+# Function:  func_rwildcard
+# Arguments: 1: A folder name
 #            2: A list off pattern
-# Returns:   A list of files/folder matching in the list of pattern 2
-#            witin the list of folder 1
+# Returns:   A list of files/folder matching the list of pattern 2
+#            within folder 1
 # Does:      ?
 # ----------------------------------------------------------------------------
-define rwildcard
-$(foreach d,$(wildcard $1*),$(call rwildcard,$d/,$2) $(filter $(subst *,%,$2),$d))
-endef
-
-# ----------------------------------------------------------------------------
-# Function:  touch_target
-# Arguments: 1: A file or folder
-# Returns:   A CLI CMD for $(SHELL)
-# Does:      Removes the folder and its content to invalidate a target
-#            Fails silently if file or folder does not exist
-#            Skips any directory that is on a file system
-#            different from that of the corresponding command line argument
-# ----------------------------------------------------------------------------
-touch_target = $(__gmswe_tr1)$(if $1,touch $1)
+func_rwildcard = $(__gmswe_tr2)$(if $1$2,$(foreach d,$(wildcard $1*),$(call func_rwildcard,$d/,$2) $(filter $(subst *,%,$2),$d)))
 
 endif # __gmswe_functions_included
