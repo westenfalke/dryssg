@@ -25,7 +25,7 @@ INDEX.MD     ?= index.md
 $(eval DOCUMENTS_INDEX.MD = $(DOCUMENTS)/$(INDEX.MD))
 ROBOTS.TXT   ?= robots.txt
 $(eval DOCUMENTROOT_ROBOTS.TXT = $(DOCUMENTROOT)/$(ROBOTS.TXT))
-SITEMAP.XML  ?= sitmap.xml
+SITEMAP.XML  ?= sitemap.xml
 $(eval DOCUMENTROOT_SITEMAP.XML = $(DOCUMENTROOT)/$(SITEMAP.XML))
 
 endif #__gmswe_defaults_included
