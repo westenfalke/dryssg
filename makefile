@@ -115,7 +115,7 @@ $(DOCUMENTROOT_SITEMAP.XML) : $(DOCUMENTROOT_INDEX.HTML)
 	$(__gmswe_dbg_tnp)
 	$(info $(call exec_cliVAL01,invalidate_target,$@))
 	$(info $(call exec_cliVAL01,touch_target,$@))
-	$(info $(call rsitemap,$(DOCUMENTROOT),$(SITEMAP_WILDCARD)))
+	$(info $(call sitemap,$(DOCUMENTROOT),$(SITEMAP_WILDCARD),$@))
 
 # ----------------------------------------------------------------------------
 # Target:    $$(DOCUMENTROOT_ROBOTS.TXT) $(DOCUMENTROOT_ROBOTS.TXT) [robots.txt}
