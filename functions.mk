@@ -126,6 +126,18 @@ printvars = $(foreach V,                                   \
 #            different from that of the corresponding command line argument
 # ----------------------------------------------------------------------------
 recursively_remove_folder = $(__gmswe_tr1)$(if $1,rm --one-file-system --recursive --force $(__gmswe_log_p_delete) $1)
+WILDCARD := *#.html
+define rwildcard
+$(foreach d,$(wildcard $1*),$(call rwildcard,$d/,$2) $(filter $(subst *,%,$2),$d))
+endef
+
+NEWrsitemap = $(__gmswe_tr2)$(foreach d,$(wildcard $1*),$(call rsitemap,$d/,$2) $(call SITEMAP_ENTRY,$(filter $(subst *,%,$2),$d)))
+
+define rsitemap
+$(__gmswe_tr2)$(foreach d,$(wildcard $1*),$(call rsitemap,$d/,$2) $(call SITEMAP_ENTRY,$(filter $(subst *,%,$2),$d)))
+endef
+
+SITEMAP_ENTRY = $(__gmswe_tr1)$(file >> rsitemap.xml,$(SITEMAP_URL_OPEN)$(SITEMAP_LOC_OPEN)$(SITEMAP_LOC_CONTENT)$(SITEMAP_LOC_CLOSE)$(SITEMAP_URL_CLOSE))
 
 # ----------------------------------------------------------------------------
 # Function:  touch_target
