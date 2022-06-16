@@ -101,6 +101,7 @@ $(DOCUMENTS_INDEX.MD) :
 $(DOCUMENTROOT_INDEX.HTML) : $(DOCUMENTS_INDEX.MD)
 	$(__gmswe_dbg_tnp)
 	$(info $(call exec_cliVAL01,cmd_invalidate_target,$@))
+	$(eval $(call func_transform_md2html,$<,$@))
 	$(info $(call exec_cliVAL01,cmd_touch_target,$@))
 
 # ----------------------------------------------------------------------------
@@ -113,7 +114,7 @@ $(DOCUMENTROOT_INDEX.HTML) : $(DOCUMENTS_INDEX.MD)
 $(DOCUMENTROOT_SITEMAP.XML) : $(DOCUMENTROOT_INDEX.HTML)
 	$(__gmswe_dbg_tnp)
 	$(info $(call exec_cliVAL01,cmd_invalidate_target,$@))
-	$(eval $(call func_create_sitemap_xml,$(DOCUMENTROOT),$(SITEMAP_WILDCARD),$@))
+	$(eval $(call func_write_sitemap_xml,$(DOCUMENTROOT),$(SITEMAP_WILDCARD),$@))
 	$(info $(call exec_cliVAL01,cmd_touch_target,$@))
 
 # ----------------------------------------------------------------------------
@@ -125,7 +126,7 @@ $(DOCUMENTROOT_SITEMAP.XML) : $(DOCUMENTROOT_INDEX.HTML)
 $(DOCUMENTROOT_ROBOTS.TXT) : $(DOCUMENTROOT_SITEMAP.XML)
 	$(__gmswe_dbg_tnp)
 	$(info $(call exec_cliVAL01,cmd_invalidate_target,$@))
-	$(eval $(call func_create_robots_txt,$@))
+	$(eval $(call func_create_robots_txt,$<,$@))
 	$(info $(call exec_cliVAL01,cmd_touch_target,$@))
 
 # ----------------------------------------------------------------------------
@@ -167,8 +168,8 @@ func_printallvars : FORCE
 $(FIND) : FORCE
 	$(__gmswe_dbg_tnp)
 	$(eval SANQUERY = $(shell echo $(QUERY) | sed 's/[^a-zA-Z0-9_-]//g'))
-	$(if $(SANQUERY),-$(call cmd_fetch_comment4pattern,$(SANQUERY),functions.mk))
-	$(if $(SANQUERY),-$(call cmd_fetch_comment4pattern,$(SANQUERY),makefile))
 	$(if $(SANQUERY),-$(call cmd_fetch_comment4pattern,$(SANQUERY),/usr/include/__gmsl))
+	$(if $(SANQUERY),-$(call cmd_fetch_comment4pattern,$(SANQUERY),*.mk))
+	$(if $(SANQUERY),-$(call cmd_fetch_comment4pattern,$(SANQUERY),makefile))
 
 .DEFAULT_GOAL := QUERY
