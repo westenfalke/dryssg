@@ -81,7 +81,6 @@ $(DOCUMENTROOT) :
 	$(info $(call exec_cliPTR01,cmd_invalidate_target,CLEAN))
 	$(info $(call exec_cliVAL01,cmd_touch_target,$@))
 
-
 # ----------------------------------------------------------------------------
 # Target:    $$(DOCUMENTS_INDEX.HTML) $(DOCUMENTS_INDEX.HTML) [documents/index.md]
 # Arguments: None
@@ -114,7 +113,7 @@ $(DOCUMENTROOT_INDEX.HTML) : $(DOCUMENTS_INDEX.MD)
 $(DOCUMENTROOT_SITEMAP.XML) : $(DOCUMENTROOT_INDEX.HTML)
 	$(__gmswe_dbg_tnp)
 	$(info $(call exec_cliVAL01,cmd_invalidate_target,$@))
-	$(eval $(call sitemap,$(DOCUMENTROOT),$(SITEMAP_WILDCARD),$@))
+	$(eval $(call func_create_sitemap_xml,$(DOCUMENTROOT),$(SITEMAP_WILDCARD),$@))
 	$(info $(call exec_cliVAL01,cmd_touch_target,$@))
 
 # ----------------------------------------------------------------------------
@@ -126,6 +125,7 @@ $(DOCUMENTROOT_SITEMAP.XML) : $(DOCUMENTROOT_INDEX.HTML)
 $(DOCUMENTROOT_ROBOTS.TXT) : $(DOCUMENTROOT_SITEMAP.XML)
 	$(__gmswe_dbg_tnp)
 	$(info $(call exec_cliVAL01,cmd_invalidate_target,$@))
+	$(eval $(call func_create_robots_txt,$@))
 	$(info $(call exec_cliVAL01,cmd_touch_target,$@))
 
 # ----------------------------------------------------------------------------

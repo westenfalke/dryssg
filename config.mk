@@ -4,11 +4,7 @@ GMSL_TRACE := T
 include gmsl
 include project.mk
 include defaults.mk
-include trace.mk
-include debug.mk
-include logging.mk
 include functions.mk
 include commands.mk
-include sitemap.mk
-include test.mk
+include modules.mk
 endif #__gmswe_config_included
