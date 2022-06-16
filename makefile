@@ -101,7 +101,7 @@ $(DOCUMENTS_INDEX.MD) :
 $(DOCUMENTROOT_INDEX.HTML) : $(DOCUMENTS_INDEX.MD)
 	$(__gmswe_dbg_tnp)
 	$(info $(call exec_cliVAL01,cmd_invalidate_target,$@))
-	$(eval $(call func_transform_md2html,$<,$@))
+	$(info $(call exec_cliVAL,cmd_transform_md2html,$< $@))
 	$(info $(call exec_cliVAL01,cmd_touch_target,$@))
 
 # ----------------------------------------------------------------------------

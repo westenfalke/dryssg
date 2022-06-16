@@ -25,7 +25,7 @@ exec_cliPTR01 = $(__gmswe_tr2)$(if $1,$(shell $(call $1,$(value $2))))
 
 # ----------------------------------------------------------------------------
 # Function:  exec_cliVAL01
-# Arguments: 1: Name of the cmd_function to $(call) with the value name in 2
+# Arguments: 1: Name of the cmd_function to $(call) with the value in 2
 #            2: Name of the value to use when calling the function in 1
 # Returns:   Nothing?
 # Does:      Invoke $(call) with function 1 with the value name 2 and execute
@@ -34,11 +34,27 @@ exec_cliPTR01 = $(__gmswe_tr2)$(if $1,$(shell $(call $1,$(value $2))))
 exec_cliVAL01 = $(__gmswe_tr2)$(if $1,$(shell $(call $1,$2)))
 
 # ----------------------------------------------------------------------------
-# Function:  exec_cliPTR
+# Function:  exec_cliVAL
 # Arguments: 1: Name of function to $(call) withe the list of parameters 2
 #            2: List of parameter to use when calling the function in 1
 # Returns:   Nothing?
 # Does:      Invoke $(call) the function with the parameters and execute
+#            the result as CLI CMD in a $(shell)
+# ----------------------------------------------------------------------------
+exec_cliVAL = $(__gmswe_tr2) \
+               $(eval cmd =\
+                 $$(call $1,$(call merge,$(__gmswe_comma),$(foreach param,$2,$(param))\
+                 ))\
+               )\
+             $(info $$(cmd) $(cmd))\
+             $(shell $(cmd))
+
+# ----------------------------------------------------------------------------
+# Function:  exec_cliPTR
+# Arguments: 1: Name of function to $(call) withe the list of value name 2
+#            2: List of parameter to use when calling the function in 1
+# Returns:   Nothing?
+# Does:      Invoke $(call) the function with the value names and execute
 #            the result as CLI CMD in a $(shell)
 # ----------------------------------------------------------------------------
 exec_cliPTR = $(__gmswe_tr2) \
