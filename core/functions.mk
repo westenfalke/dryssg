@@ -40,13 +40,13 @@ func_printallvars = $(call func_printvars,.VARIABLES)
 #            except if they start with '__' hence this are likely to be gmsl
 #            or if their origin is in (environment% default automatic)
 # ----------------------------------------------------------------------------
-func_printvars = $(foreach V,                                   \
+func_printvars = $(foreach V,                              \
               $(filter-out __% and assert%,                 \
-                $(sort $(value $1))),                         \
+                $(sort $(value $1))),                        \
                 $(if                                          \
                   $(filter-out environment% default automatic, \
                     $(origin $V)),                              \
-                  $(info $V ($(value $V)))              \
+                      $(info $V=$($V) ($(value $V)))          \
                 )                                                 \
             )
 

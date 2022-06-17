@@ -3,9 +3,6 @@ __gmswe_config_included := T
 #GMSL_TRACE := T
 include gmsl
 include project.mk
-include base.mk
-include defaults.mk
-include functions.mk
-include commands.mk
-include modules.mk
+include core/_core.mk
+include modules/_modules.mk
 endif #__gmswe_config_included

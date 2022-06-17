@@ -4,7 +4,7 @@ __gmswe_test_included := $(true)
 
 ifdef GMSWE_TEST
 
-include __functions_test.mk
+include modules/test/__functions_test.mk
 __test : __functions_test
 
 else
