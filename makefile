@@ -4,6 +4,7 @@ include config.mk
 .SILENT :
 	$(__gmswe_dbg_tnp)
 
+
 # ----------------------------------------------------------------------------
 # Target:    FORCE FORCE (.PHONY) [FORCE]
 # Arguments: None
@@ -101,9 +102,10 @@ $(DOCUMENTS_INDEX.MD) :
 $(DOCUMENTROOT)/%.html : $(DOCUMENTS)/%.md
 	$(__gmswe_dbg_tnp)
 	$(info $(call exec_cliVAL01,cmd_invalidate_target,$@))
-	$(info $(call exec_cliVAL01,cmd_create_folder_w_parent,$@))
+	$(info $(call exec_cliVAL01,cmd_create_folder_w_parent,$(dir $@)))
 	$(info $(call exec_cliVAL,cmd_transform_md2html,$< $@))
 	$(info $(call exec_cliVAL01,cmd_mark_target_done,$@))
+DOCUMENTS_ALL_MD = $(patsubst $(DOCUMENTS)/%.md,$(DOCUMENTROOT)/%.html,$(call func_rwildcard,$(DOCUMENTS),*.md))
 
 # ----------------------------------------------------------------------------
 # Target:    $$(DOCUMENTROOT_SITEMAP.XML) $(DOCUMENTROOT_SITEMAP.XML) [public_html/sitmap.xml]
@@ -112,7 +114,7 @@ $(DOCUMENTROOT)/%.html : $(DOCUMENTS)/%.md
 #            A search engine can use this file to navigate
 #            and index the website
 # ----------------------------------------------------------------------------
-$(DOCUMENTROOT_SITEMAP.XML) : $(DOCUMENTROOT_INDEX.HTML)
+$(DOCUMENTROOT_SITEMAP.XML) : $(DOCUMENTS_ALL_MD)
 	$(__gmswe_dbg_tnp)
 	$(info $(call exec_cliVAL01,cmd_invalidate_target,$@))
 	$(eval $(call func_write_sitemap_xml,$(DOCUMENTROOT),$(SITEMAP_WILDCARD),$@))
@@ -128,17 +130,6 @@ $(DOCUMENTROOT_ROBOTS.TXT) : $(DOCUMENTROOT_SITEMAP.XML)
 	$(__gmswe_dbg_tnp)
 	$(info $(call exec_cliVAL01,cmd_invalidate_target,$@))
 	$(eval $(call func_create_robots_txt,$<,$@))
-	$(info $(call exec_cliVAL01,cmd_mark_target_done,$@))
-
-# ----------------------------------------------------------------------------
-# Target:    $$(WEBSITE) $(WEBSITE) [website]
-# Arguments: None
-# Does:      Build all parts of a website
-# ----------------------------------------------------------------------------
-DOCUMENTS_ALL_MD = $(patsubst $(DOCUMENTS)/%.md,$(DOCUMENTROOT)/%.html,$(call func_rwildcard,$(DOCUMENTS),*.md))
-$(WEBSITE) : $(DOCUMENTROOT) $(DOCUMENTS_ALL_MD) $(DOCUMENTROOT_ROBOTS.TXT)
-	$(__gmswe_dbg_tnp)
-	$(info $(call exec_cliVAL01,cmd_invalidate_target,$@))
 	$(info $(call exec_cliVAL01,cmd_mark_target_done,$@))
 
 # ----------------------------------------------------------------------------
@@ -173,5 +164,16 @@ $(FIND) : FORCE
 	$(if $(SANQUERY),-$(call cmd_fetch_comment4pattern,$(SANQUERY),/usr/include/__gmsl))
 	$(if $(SANQUERY),-$(call cmd_fetch_comment4pattern,$(SANQUERY),*.mk))
 	$(if $(SANQUERY),-$(call cmd_fetch_comment4pattern,$(SANQUERY),makefile))
+
+# ----------------------------------------------------------------------------
+# Target:    $$(WEBSITE) $(WEBSITE) [website]
+# Arguments: None
+# Does:      Build all parts of a website
+# ----------------------------------------------------------------------------
+$(WEBSITE) : $(DOCUMENTROOT) $(DOCUMENTROOT_ROBOTS.TXT)
+	$(__gmswe_dbg_tnp)
+	$(info $(call exec_cliVAL01,cmd_invalidate_target,$@))
+	$(info $(call exec_cliVAL01,cmd_mark_target_done,$@))
+
 
 .DEFAULT_GOAL := QUERY
