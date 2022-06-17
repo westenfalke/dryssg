@@ -46,7 +46,7 @@ $(CLEAN_DOCUMENTROOT) :
 	$(__gmswe_dbg_tnp)
 	$(info $(call exec_cliVAL01,cmd_invalidate_target,$@))
 	$(info $(call exec_cliPTR01,cmd_recursively_remove_folder,DOCUMENTROOT))
-	$(info $(call exec_cliVAL01,cmd_touch_target,$@))
+	$(info $(call exec_cliVAL01,cmd_mark_target_done,$@))
 
 # ----------------------------------------------------------------------------
 # Target:    $$(CLEAN) $(CLEAN) [clean]
@@ -55,7 +55,7 @@ $(CLEAN_DOCUMENTROOT) :
 $(CLEAN) : $(CLEAN_DOCUMENTROOT)
 	$(__gmswe_dbg_tnp)
 	$(info $(call exec_cliVAL01,cmd_invalidate_target,$@))
-	$(info $(call exec_cliVAL01,cmd_touch_target,$@))
+	$(info $(call exec_cliVAL01,cmd_mark_target_done,$@))
 
 # ----------------------------------------------------------------------------
 # Target:    $$(DOCUMENTS) $(DOCUMENTS) [documents]
@@ -65,7 +65,7 @@ $(CLEAN) : $(CLEAN_DOCUMENTROOT)
 $(DOCUMENTS):
 	$(__gmswe_dbg_tnp)
 	$(info $(call exec_cliVAL01,cmd_create_folder_w_parent,$@))
-	$(info $(call exec_cliVAL01,cmd_touch_target,$@))
+	$(info $(call exec_cliVAL01,cmd_mark_target_done,$@))
 
 # ----------------------------------------------------------------------------
 # Target:    $$(DOCUMENTROOT) $(DOCUMENTROOT) [public_html]
@@ -79,7 +79,7 @@ $(DOCUMENTROOT) :
 	$(info $(call exec_cliVAL01,cmd_create_folder_w_parent,$@))
 	$(info $(call exec_cliPTR01,cmd_invalidate_target,CLEAN_DOCUMENTROOT))
 	$(info $(call exec_cliPTR01,cmd_invalidate_target,CLEAN))
-	$(info $(call exec_cliVAL01,cmd_touch_target,$@))
+	$(info $(call exec_cliVAL01,cmd_mark_target_done,$@))
 
 # ----------------------------------------------------------------------------
 # Target:    $$(DOCUMENTS_INDEX.HTML) $(DOCUMENTS_INDEX.HTML) [documents/index.md]
@@ -90,7 +90,7 @@ $(DOCUMENTROOT) :
 $(DOCUMENTS_INDEX.MD) :
 	$(__gmswe_dbg_tnp)
 	$(info $(call exec_cliVAL01,cmd_invalidate_target,$@))
-	$(info $(call exec_cliVAL01,cmd_touch_target,$@))
+	$(info $(call exec_cliVAL01,cmd_mark_target_done,$@))
 
 # ----------------------------------------------------------------------------
 # Target:    $$(DOCUMENTROOT_INDEX.HTML) $(DOCUMENTROOT_INDEX.HTML) [public_html/index.html]
@@ -98,11 +98,12 @@ $(DOCUMENTS_INDEX.MD) :
 # Does:      Provide the parent folder for the WEBSITE.
 #            The content of this folder is wat's going to be published
 # ----------------------------------------------------------------------------
-$(DOCUMENTROOT_INDEX.HTML) : $(DOCUMENTS_INDEX.MD)
+$(DOCUMENTROOT)/%.html : $(DOCUMENTS)/%.md
 	$(__gmswe_dbg_tnp)
 	$(info $(call exec_cliVAL01,cmd_invalidate_target,$@))
+	$(info $(call exec_cliVAL01,cmd_create_folder_w_parent,$@))
 	$(info $(call exec_cliVAL,cmd_transform_md2html,$< $@))
-	$(info $(call exec_cliVAL01,cmd_touch_target,$@))
+	$(info $(call exec_cliVAL01,cmd_mark_target_done,$@))
 
 # ----------------------------------------------------------------------------
 # Target:    $$(DOCUMENTROOT_SITEMAP.XML) $(DOCUMENTROOT_SITEMAP.XML) [public_html/sitmap.xml]
@@ -115,7 +116,7 @@ $(DOCUMENTROOT_SITEMAP.XML) : $(DOCUMENTROOT_INDEX.HTML)
 	$(__gmswe_dbg_tnp)
 	$(info $(call exec_cliVAL01,cmd_invalidate_target,$@))
 	$(eval $(call func_write_sitemap_xml,$(DOCUMENTROOT),$(SITEMAP_WILDCARD),$@))
-	$(info $(call exec_cliVAL01,cmd_touch_target,$@))
+	$(info $(call exec_cliVAL01,cmd_mark_target_done,$@))
 
 # ----------------------------------------------------------------------------
 # Target:    $$(DOCUMENTROOT_ROBOTS.TXT) $(DOCUMENTROOT_ROBOTS.TXT) [robots.txt}
@@ -127,17 +128,18 @@ $(DOCUMENTROOT_ROBOTS.TXT) : $(DOCUMENTROOT_SITEMAP.XML)
 	$(__gmswe_dbg_tnp)
 	$(info $(call exec_cliVAL01,cmd_invalidate_target,$@))
 	$(eval $(call func_create_robots_txt,$<,$@))
-	$(info $(call exec_cliVAL01,cmd_touch_target,$@))
+	$(info $(call exec_cliVAL01,cmd_mark_target_done,$@))
 
 # ----------------------------------------------------------------------------
 # Target:    $$(WEBSITE) $(WEBSITE) [website]
 # Arguments: None
 # Does:      Build all parts of a website
 # ----------------------------------------------------------------------------
-$(WEBSITE) : $(DOCUMENTS) $(DOCUMENTROOT) $(DOCUMENTROOT_ROBOTS.TXT)
+DOCUMENTS_ALL_MD = $(patsubst $(DOCUMENTS)/%.md,$(DOCUMENTROOT)/%.html,$(call func_rwildcard,$(DOCUMENTS),*.md))
+$(WEBSITE) : $(DOCUMENTROOT) $(DOCUMENTS_ALL_MD) $(DOCUMENTROOT_ROBOTS.TXT)
 	$(__gmswe_dbg_tnp)
 	$(info $(call exec_cliVAL01,cmd_invalidate_target,$@))
-	$(info $(call exec_cliVAL01,cmd_touch_target,$@))
+	$(info $(call exec_cliVAL01,cmd_mark_target_done,$@))
 
 # ----------------------------------------------------------------------------
 # Target:    EMPTYTARGET EMPTYTARGET (.PHONY) [EMPTYTARGET]

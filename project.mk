@@ -9,9 +9,6 @@ GMSWE_REPORT ?= $(true)
 GMSWE_LOG    ?= $(true)
 GMSWE_TEST   ?= $(true)
 
-#DOCUMENTROOT := public_html
-#BASEURL      ?= http://localhost
 BASEURL      ?= http://localhost
 SITEMAP_WILDCARD ?= $(DOCUMENTROOT)/Gallery*.jpg *.html
-
 endif #__gmswe_project_included

@@ -99,12 +99,12 @@ cmd_recursively_remove_folder = $(__gmswe_tr1)$(if $1,rm --one-file-system --rec
 WILDCARD := *#.html
 
 # ----------------------------------------------------------------------------
-# Function:  cmd_touch_target
+# Function:  cmd_mark_target_done
 # Arguments: 1: A file or folder (target)
 # Returns:   A CLI CMD for $(SHELL)
 # Does:      Update the access and modification times of each 
 #            target 1 to the current time
 # ----------------------------------------------------------------------------
-cmd_touch_target = $(__gmswe_tr1)$(if $1,touch $1)
+cmd_mark_target_done = $(__gmswe_tr1)$(if $1,touch $1)
 
 endif # __gmswe_command_included
