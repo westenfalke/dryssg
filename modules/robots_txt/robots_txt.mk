@@ -16,7 +16,7 @@ DOCUMENTROOT ?= public_html
 $(DOCUMENTROOT_ROBOTS.TXT) : $(DOCUMENTROOT_SITEMAP.XML)
 	$(__gmswe_dbg_tnp)
 	$(info $(call exec_cliVAL01,cmd_invalidate_target,$@))
-	$(eval $(call func_create_robots_txt,$(DOCUMENTROOT_SITEMAP.XML),$@))
+	$(eval $(call func_create_robots_txt,$<,$@))
 	$(info $(call exec_cliVAL01,cmd_mark_target_done,$@))
 
 

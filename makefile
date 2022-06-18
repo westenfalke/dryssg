@@ -1,9 +1,8 @@
 include config.mk
-.PHONY : find func_foo func_printallvars EMPTYTARGET FORCE QUERY
+.PHONY : find func_foo EMPTYTARGET FORCE QUERY
 	$(__gmswe_dbg_tnp)
 .SILENT :
 	$(__gmswe_dbg_tnp)
-
 
 # ----------------------------------------------------------------------------
 # Target:    FORCE FORCE (.PHONY) [FORCE]
@@ -101,7 +100,7 @@ $(DOCUMENTROOT)/%.html : $(DOCUMENTS)/%.md
 	$(__gmswe_dbg_tnp)
 	$(info $(call exec_cliVAL01,cmd_invalidate_target,$@))
 	$(info $(call exec_cliVAL01,cmd_create_folder_w_parent,$(dir $@)))
-	$(info $(call exec_cliVAL,cmd_transform_md2html, $(DOCUMENTS)/%.md $@))
+	$(info $(call exec_cliVAL,cmd_transform_md2html,$< $@))
 	$(info $(call exec_cliVAL01,cmd_mark_target_done,$@))
 DOCUMENTS_ALL_MD = $(patsubst $(DOCUMENTS)/%.md,$(DOCUMENTROOT)/%.html,$(call func_rwildcard,$(DOCUMENTS),*.md))
 
@@ -128,18 +127,6 @@ EMPTYTARGET : FORCE
 	$(__gmswe_dbg_tnp)
 
 # ----------------------------------------------------------------------------
-# Target:    func_printallvars func_printallvars (.PHONY) [func_printallvars]
-# Arguments: None
-# Does:      Prints the name, value and (expanded value) of all variables
-#            in $(.VARIABLES)
-#            except if they start with '__' hence this are likely to be gmsl
-#            or if their origin is in (environment% default automatic)
-# ----------------------------------------------------------------------------
-func_printallvars : FORCE
-	$(__gmswe_dbg_tnp)
-	echo $(call func_printallvars)
-
-# ----------------------------------------------------------------------------
 # Target:    $$(FIND) $(FIND) [find]
 # Arguments: $(QUERY) text/plain [a-zA-Z0-9_-]
 # Does:      Searches the comments blocks of the make files
@@ -160,6 +147,5 @@ $(WEBSITE) :  $(DOCUMENTROOT_ROBOTS.TXT)
 	$(__gmswe_dbg_tnp)
 	$(info $(call exec_cliVAL01,cmd_invalidate_target,$@))
 	$(info $(call exec_cliVAL01,cmd_mark_target_done,$@))
-
 
 .DEFAULT_GOAL := QUERY
