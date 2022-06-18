@@ -1,8 +1,24 @@
 ifndef __gmswe_robots_txt_included
 __gmswe_robots_txt_included = $(true)
 
+ROBOTS.TXT   ?= robots.txt
+$(eval DOCUMENTROOT_ROBOTS.TXT = $(DOCUMENTROOT)/$(ROBOTS.TXT))
+
 BASEURL      ?= http:\\localhost
 DOCUMENTROOT ?= public_html
+
+# ----------------------------------------------------------------------------
+# Target:    $$(DOCUMENTROOT_ROBOTS.TXT) $(DOCUMENTROOT_ROBOTS.TXT) [robots.txt}
+# Arguments: None
+# Does:      Provides a is static file in order to point
+#            search engins to the sitmap.xml
+# ----------------------------------------------------------------------------
+$(DOCUMENTROOT_ROBOTS.TXT) : $(DOCUMENTROOT_SITEMAP.XML)
+	$(__gmswe_dbg_tnp)
+	$(info $(call exec_cliVAL01,cmd_invalidate_target,$@))
+	$(eval $(call func_create_robots_txt,$(DOCUMENTROOT_SITEMAP.XML),$@))
+	$(info $(call exec_cliVAL01,cmd_mark_target_done,$@))
+
 
 # ----------------------------------------------------------------------------
 # Function:  func_robots_txt

@@ -1,5 +1,5 @@
 ifndef __gmswe_modules_included
-__gmswe_modules_included := T
+__gmswe_modules_included := $(true)
 include modules/trace/trace.mk
 include modules/debug/debug.mk
 include modules/logging/logging.mk

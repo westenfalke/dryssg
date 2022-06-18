@@ -43,7 +43,7 @@ QUERY : $(if $(QUERY),$(FIND),$(USAGE))
 # Does:      Removes the folder provided by DOCUMENTROOT and its content
 #            It does not remove other generated content
 # ----------------------------------------------------------------------------
-$(CLEAN_DOCUMENTROOT) :
+$(CLEAN_DOCUMENTROOT) : FORCE
 	$(__gmswe_dbg_tnp)
 	$(info $(call exec_cliVAL01,cmd_invalidate_target,$@))
 	$(info $(call exec_cliPTR01,cmd_recursively_remove_folder,DOCUMENTROOT))
@@ -78,8 +78,6 @@ $(DOCUMENTROOT) :
 	$(__gmswe_dbg_tnp)
 	$(info $(call exec_cliVAL01,cmd_invalidate_target,$@))
 	$(info $(call exec_cliVAL01,cmd_create_folder_w_parent,$@))
-	$(info $(call exec_cliPTR01,cmd_invalidate_target,CLEAN_DOCUMENTROOT))
-	$(info $(call exec_cliPTR01,cmd_invalidate_target,CLEAN))
 	$(info $(call exec_cliVAL01,cmd_mark_target_done,$@))
 
 # ----------------------------------------------------------------------------
@@ -88,10 +86,10 @@ $(DOCUMENTROOT) :
 # Does:      Provide the parent folder for the WEBSITE.
 #            The content of this folder is wat's going to be published
 # ----------------------------------------------------------------------------
-$(DOCUMENTS_INDEX.MD) :
+$(DOCUMENTS_ALL_MD) : $(DOCUMENTROOT)
 	$(__gmswe_dbg_tnp)
-	$(info $(call exec_cliVAL01,cmd_invalidate_target,$@))
-	$(info $(call exec_cliVAL01,cmd_mark_target_done,$@))
+#	$(info $(call exec_cliVAL01,cmd_invalidate_target,$@))
+#	$(info $(call exec_cliVAL01,cmd_mark_target_done,$@))
 
 # ----------------------------------------------------------------------------
 # Target:    $$(DOCUMENTROOT_INDEX.HTML) $(DOCUMENTROOT_INDEX.HTML) [public_html/index.html]
@@ -103,7 +101,7 @@ $(DOCUMENTROOT)/%.html : $(DOCUMENTS)/%.md
 	$(__gmswe_dbg_tnp)
 	$(info $(call exec_cliVAL01,cmd_invalidate_target,$@))
 	$(info $(call exec_cliVAL01,cmd_create_folder_w_parent,$(dir $@)))
-	$(info $(call exec_cliVAL,cmd_transform_md2html,$< $@))
+	$(info $(call exec_cliVAL,cmd_transform_md2html, $(DOCUMENTS)/%.md $@))
 	$(info $(call exec_cliVAL01,cmd_mark_target_done,$@))
 DOCUMENTS_ALL_MD = $(patsubst $(DOCUMENTS)/%.md,$(DOCUMENTROOT)/%.html,$(call func_rwildcard,$(DOCUMENTS),*.md))
 
@@ -118,18 +116,6 @@ $(DOCUMENTROOT_SITEMAP.XML) : $(DOCUMENTS_ALL_MD)
 	$(__gmswe_dbg_tnp)
 	$(info $(call exec_cliVAL01,cmd_invalidate_target,$@))
 	$(eval $(call func_write_sitemap_xml,$(DOCUMENTROOT),$(SITEMAP_WILDCARD),$@))
-	$(info $(call exec_cliVAL01,cmd_mark_target_done,$@))
-
-# ----------------------------------------------------------------------------
-# Target:    $$(DOCUMENTROOT_ROBOTS.TXT) $(DOCUMENTROOT_ROBOTS.TXT) [robots.txt}
-# Arguments: None
-# Does:      Provides a is static file in order to point
-#            search engins to the sitmap.xml
-# ----------------------------------------------------------------------------
-$(DOCUMENTROOT_ROBOTS.TXT) : $(DOCUMENTROOT_SITEMAP.XML)
-	$(__gmswe_dbg_tnp)
-	$(info $(call exec_cliVAL01,cmd_invalidate_target,$@))
-	$(eval $(call func_create_robots_txt,$<,$@))
 	$(info $(call exec_cliVAL01,cmd_mark_target_done,$@))
 
 # ----------------------------------------------------------------------------
@@ -170,7 +156,7 @@ $(FIND) : FORCE
 # Arguments: None
 # Does:      Build all parts of a website
 # ----------------------------------------------------------------------------
-$(WEBSITE) : $(DOCUMENTROOT) $(DOCUMENTROOT_ROBOTS.TXT)
+$(WEBSITE) :  $(DOCUMENTROOT_ROBOTS.TXT)
 	$(__gmswe_dbg_tnp)
 	$(info $(call exec_cliVAL01,cmd_invalidate_target,$@))
 	$(info $(call exec_cliVAL01,cmd_mark_target_done,$@))
