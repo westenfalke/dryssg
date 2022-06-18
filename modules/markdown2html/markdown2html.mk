@@ -1,7 +1,7 @@
 ifndef __gmswe_markdown2html_included
 __gmswe_markdown2html_included = $(true)
 
-DOCUMENTROOT ?= public_html
+#DOCUMENTROOT ?= public_html
 PANDOC ?= /usr/bin/pandoc
 CONV_NAME := PANDOC
 CONV_FORMAT_FROM ?= --from=markdown

@@ -9,6 +9,8 @@ GMSWE_REPORT ?= $(true)
 GMSWE_LOG    ?= $(true)
 GMSWE_TEST   ?= $(true)
 
-BASEURL      ?= http://localhost
-SITEMAP_WILDCARD ?= $(DOCUMENTROOT)/Gallery*.jpg *.html
+#SITEMAP_BASEURL_PORT ?= :8080
+#BASEURL      ?= http://localhost$(PORT)
+#SITEMAP_WILDCARD ?= $(DOCUMENTROOT)/Gallery*.jpg *.html
+
 endif #__gmswe_project_included

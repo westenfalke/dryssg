@@ -4,6 +4,10 @@ include config.mk
 .SILENT :
 	$(__gmswe_dbg_tnp)
 
+
+BASEURL      ?= .
+DOCUMENTROOT ?= public_html
+
 # ----------------------------------------------------------------------------
 # Target:    FORCE FORCE (.PHONY) [FORCE]
 # Arguments: None
@@ -58,26 +62,23 @@ $(CLEAN) : $(CLEAN_DOCUMENTROOT)
 	$(info $(call exec_cliVAL01,cmd_mark_target_done,$@))
 
 # ----------------------------------------------------------------------------
-# Target:    $$(DOCUMENTS) $(DOCUMENTS) [documents]
-# Arguments: None
-# Does:      Creates the folder provided by DOCUMENTS
-# ----------------------------------------------------------------------------
-$(DOCUMENTS):
-	$(__gmswe_dbg_tnp)
-	$(info $(call exec_cliVAL01,cmd_create_folder_w_parent,$@))
-	$(info $(call exec_cliVAL01,cmd_mark_target_done,$@))
-
-# ----------------------------------------------------------------------------
 # Target:    $$(DOCUMENTROOT) $(DOCUMENTROOT) [public_html]
 # Arguments: None
-# Does:      Removes the folder provided by DOCUMENTROOT and its content
-#            It does not remove other generated content
+# Does:      ?
 # ----------------------------------------------------------------------------
-$(DOCUMENTROOT) :
+$(DOCUMENTROOT) : $(DOCUMENTROOT_ALL_DIR)
 	$(__gmswe_dbg_tnp)
-	$(info $(call exec_cliVAL01,cmd_invalidate_target,$@))
+#	$(info $(call exec_cliVAL01,cmd_invalidate_target,$@))
+#	$(info $(call exec_cliVAL01,cmd_create_folder_w_parent,$@))
+#	$(info $(call exec_cliVAL01,cmd_mark_target_done,$@))
+
+# ----------------------------------------------------------------------------
+# Target:    $$(DOCUMENTROOT)/%/ $(DOCUMENTROOT)/%/ [public_html/%/]
+# Arguments: None
+# Does:      ?
+# ----------------------------------------------------------------------------
+$(DOCUMENTROOT)/%/ :
 	$(info $(call exec_cliVAL01,cmd_create_folder_w_parent,$@))
-	$(info $(call exec_cliVAL01,cmd_mark_target_done,$@))
 
 # ----------------------------------------------------------------------------
 # Target:    $$(DOCUMENTROOT_INDEX.HTML) $(DOCUMENTROOT_INDEX.HTML) [public_html/index.html]
@@ -85,10 +86,9 @@ $(DOCUMENTROOT) :
 # Does:      Provide the parent folder for the WEBSITE.
 #            The content of this folder is wat's going to be published
 # ----------------------------------------------------------------------------
-$(DOCUMENTROOT)/%.html : $(DOCUMENTS)/%.md
+$(DOCUMENTROOT)/%.html : $(DOCUMENTS)/%.md $(DOCUMENTROOT)
 	$(__gmswe_dbg_tnp)
 	$(info $(call exec_cliVAL01,cmd_invalidate_target,$@))
-	$(info $(call exec_cliVAL01,cmd_create_folder_w_parent,$(dir $@)))
 	$(info $(call exec_cliVAL,cmd_transform_md2html,$< $@))
 	$(info $(call exec_cliVAL01,cmd_mark_target_done,$@))
 
@@ -109,9 +109,10 @@ $(FIND) : FORCE
 # Arguments: None
 # Does:      Build all parts of a website
 # ----------------------------------------------------------------------------
-$(WEBSITE) :  $(DOCUMENTROOT_ROBOTS.TXT)
+$(WEBSITE) : $(DOCUMENTROOT_ROBOTS.TXT)
 	$(__gmswe_dbg_tnp)
 	$(info $(call exec_cliVAL01,cmd_invalidate_target,$@))
-	$(info $(call exec_cliVAL01,cmd_mark_target_done,$@))
+	find  $(DOCUMENTROOT) |xargs  touch --date=$$(date +"%T") $(WEBSITE)
+#	$(info $(call exec_cliVAL01,cmd_mark_target_done,$@))
 
 .DEFAULT_GOAL := QUERY

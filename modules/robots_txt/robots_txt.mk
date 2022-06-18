@@ -1,11 +1,10 @@
 ifndef __gmswe_robots_txt_included
 __gmswe_robots_txt_included = $(true)
+#include modules/sitemap_xml/sitemap_xml.mk
 
 ROBOTS.TXT   ?= robots.txt
-$(eval DOCUMENTROOT_ROBOTS.TXT = $(DOCUMENTROOT)/$(ROBOTS.TXT))
-
-BASEURL      ?= http:\\localhost
-DOCUMENTROOT ?= public_html
+DOCUMENTROOT_ROBOTS.TXT ?= $(DOCUMENTROOT)/$(ROBOTS.TXT)
+BASEURL      ?= .
 
 # ----------------------------------------------------------------------------
 # Target:    $$(DOCUMENTROOT_ROBOTS.TXT) $(DOCUMENTROOT_ROBOTS.TXT) [robots.txt}
@@ -16,7 +15,7 @@ DOCUMENTROOT ?= public_html
 $(DOCUMENTROOT_ROBOTS.TXT) : $(DOCUMENTROOT_SITEMAP.XML)
 	$(__gmswe_dbg_tnp)
 	$(info $(call exec_cliVAL01,cmd_invalidate_target,$@))
-	$(eval $(call func_create_robots_txt,$<,$@))
+	$(call func_create_robots_txt,$<,$@)
 	$(info $(call exec_cliVAL01,cmd_mark_target_done,$@))
 
 
@@ -32,7 +31,7 @@ $(DOCUMENTROOT_ROBOTS.TXT) : $(DOCUMENTROOT_SITEMAP.XML)
 # Does:      
 # ----------------------------------------------------------------------------
 define func_create_robots_txt
-$(__gmswe_tr1)
+$(__gmswe_tr2)
 $(if $(call seq,$(call first,$(call split,/,$1)),$(DOCUMENTROOT)),
 $(if $(call seq,$(DOCUMENTROOT_ROBOTS.TXT),$2),
 $(file > $2,# Thank you for reading this far.

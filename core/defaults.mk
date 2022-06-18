@@ -1,5 +1,4 @@
 ifndef __gmswe_defaults_included
-include config.mk
 __gmswe_defaults_included := $(true)
 
 # set to $(true) to exclude project.mk
@@ -15,9 +14,8 @@ FIND         ?= find
 USAGE        ?= usage
 WEBSITE      ?= website
 CLEAN        ?= clean
-DOCUMENTS    ?= documents
 #BASEURL      ?= http://localhost
-DOCUMENTROOT ?= public_html
+DOCUMENTROOT := public_html
 $(eval CLEAN_DOCUMENTROOT = $(CLEAN)_$(DOCUMENTROOT))
 INDEX.HTML   ?= index.html
 $(eval DOCUMENTROOT_INDEX.HTML = $(DOCUMENTROOT)/$(INDEX.HTML))

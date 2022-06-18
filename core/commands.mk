@@ -1,5 +1,4 @@
 ifndef __gmswe_command_included
-include config.mk
 __gmswe_command_included = $(true)
 __gmswe_comma := ,
 __gmswe_nullstring :=
@@ -11,7 +10,7 @@ __gmswe_nullstring :=
 # Does:      Create the folder(s), if they do not already exist
 #            no error if existing, makes parent directories as needed
 # ----------------------------------------------------------------------------
-cmd_create_folder_w_parent = $(__gmswe_tr1)$(if $1,mkdir --parent $(__gmswe_log_p_create) $1)
+cmd_create_folder_w_parent = $(__gmswe_tr1)$(if $1 ,mkdir --parent $(__gmswe_log_p_create) $1)
 
 # ----------------------------------------------------------------------------
 # Function:  exec_cliPTR01

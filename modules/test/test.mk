@@ -1,5 +1,4 @@
 ifndef __gmswe_test_included
-include config.mk
 __gmswe_test_included := $(true)
 
 ifdef GMSWE_TEST

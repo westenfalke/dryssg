@@ -1,5 +1,4 @@
 ifndef __gmswe_debug_included
-include config.mk
 __gmswe_debug_included := $(true)
 
 ifdef GMSWE_DEBUG

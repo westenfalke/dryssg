@@ -1,5 +1,4 @@
 ifndef __gmswe_functions_included
-include config.mk
 __gmswe_functions_included = $(true)
 __gmswe_comma := ,
 __gmswe_nullstring :=

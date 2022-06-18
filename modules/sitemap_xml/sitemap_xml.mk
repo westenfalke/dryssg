@@ -1,8 +1,11 @@
 ifndef __gmswe_sitemap_xml_included
 __gmswe_sitemap_xml_included = $(true)
-
+SITEMAP.XML  ?= sitemap.xml
+DOCUMENTROOT_SITEMAP.XML ?= $(DOCUMENTROOT)/$(SITEMAP.XML)
 SITEMAP_WILDCARD ?= *.html
-BASEURL      ?= http://localhost
+SITEMAP_BASEURL_PORT ?=
+BASEURL      ?= http://localhost$(SITEMAP_BASEURL_PORT)
+
 XML_HEAD     ?= <?xml version="1.0" encoding="UTF-8"?>
 URLSET_OPEN  ?= <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 URL_OPEN     ?= <url>
@@ -11,8 +14,6 @@ LOC_CLOSE    ?= </loc>
 URL_CLOSE    ?= </url>
 URLSET_CLOSE ?= </urlset>
 
-DOCUMENTS_ALL_MD = $(patsubst $(DOCUMENTS)/%.md,$(DOCUMENTROOT)/%.html,$(call func_rwildcard,$(DOCUMENTS),*.md))
-
 # ----------------------------------------------------------------------------
 # Target:    $$(DOCUMENTROOT_SITEMAP.XML) $(DOCUMENTROOT_SITEMAP.XML) [public_html/sitmap.xml]
 # Arguments: None
@@ -20,7 +21,7 @@ DOCUMENTS_ALL_MD = $(patsubst $(DOCUMENTS)/%.md,$(DOCUMENTROOT)/%.html,$(call fu
 #            A search engine can use this file to navigate
 #            and index the website
 # ----------------------------------------------------------------------------
-$(DOCUMENTROOT_SITEMAP.XML) : $(DOCUMENTROOT) $(DOCUMENTS_ALL_MD)
+$(DOCUMENTROOT_SITEMAP.XML) : $(DOCUMENTROOT_ALL_HTML)
 	$(__gmswe_dbg_tnp)
 	$(info $(call exec_cliVAL01,cmd_invalidate_target,$@))
 	$(eval $(call func_write_sitemap_xml,$(DOCUMENTROOT),$(SITEMAP_WILDCARD),$@))

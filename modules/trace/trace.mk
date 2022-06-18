@@ -1,5 +1,4 @@
 ifndef __gmswe_trace_included
-include config.mk
 __gmswe_trace_included := $(true)
 
 ifdef GMSWE_TRACE
