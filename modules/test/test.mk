@@ -11,4 +11,13 @@ else
 
 endif #GMSWE_TEST
 
+# ----------------------------------------------------------------------------
+# Target:    EMPTYTARGET EMPTYTARGET (.PHONY) [EMPTYTARGET]
+# Arguments: None
+# Does:      Nothing, but
+#            It's usesed to create a baseline for tests and in profiling
+# ----------------------------------------------------------------------------
+EMPTYTARGET : FORCE
+	$(__gmswe_dbg_tnp)
+
 endif #__gmswe_test_included

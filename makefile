@@ -118,15 +118,6 @@ $(DOCUMENTROOT_SITEMAP.XML) : $(DOCUMENTS_ALL_MD)
 	$(info $(call exec_cliVAL01,cmd_mark_target_done,$@))
 
 # ----------------------------------------------------------------------------
-# Target:    EMPTYTARGET EMPTYTARGET (.PHONY) [EMPTYTARGET]
-# Arguments: None
-# Does:      Nothing, but
-#            It's usesed to create a baseline for tests and in profiling
-# ----------------------------------------------------------------------------
-EMPTYTARGET : FORCE
-	$(__gmswe_dbg_tnp)
-
-# ----------------------------------------------------------------------------
 # Target:    $$(FIND) $(FIND) [find]
 # Arguments: $(QUERY) text/plain [a-zA-Z0-9_-]
 # Does:      Searches the comments blocks of the make files
