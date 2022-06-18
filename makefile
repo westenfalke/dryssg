@@ -67,8 +67,9 @@ $(CLEAN) : $(CLEAN_DOCUMENTROOT)
 # Arguments: None
 # Does:      ?
 # ----------------------------------------------------------------------------
-$(DOCUMENTROOT_ALL_DIR) :
-	$(info $(call exec_cliVAL01,cmd_create_folder_w_parent,$@))
+#$(DOCUMENTROOT_ALL_DIR) :
+#	$(info $(call exec_cliVAL01,cmd_create_folder_w_parent,$@))
+
 #$(DOCUMENTROOT) : $(DOCUMENTROOT_ALL_DIR)
 #	$(__gmswe_dbg_tnp)
 #	$(error FOO)
@@ -92,9 +93,10 @@ $(DOCUMENTROOT_ALL_DIR) :
 # Does:      Provide the parent folder for the WEBSITE.
 #            The content of this folder is wat's going to be published
 # ----------------------------------------------------------------------------
-$(DOCUMENTROOT)/%.html : $(DOCUMENTS)/%.md $(DOCUMENTROOT_ALL_DIR)
+$(DOCUMENTROOT)/%.html : $(DOCUMENTS)/%.md
 	$(__gmswe_dbg_tnp)
 	$(info $(call exec_cliVAL01,cmd_invalidate_target,$@))
+	$(info $(call exec_cliVAL01,cmd_create_folder_w_parent,$(dir $@)))
 	$(info $(call exec_cliVAL,cmd_transform_md2html,$< $@))
 	$(info $(call exec_cliVAL01,cmd_mark_target_done,$@))
 
@@ -118,7 +120,7 @@ $(FIND) : FORCE
 $(WEBSITE) : $(DOCUMENTROOT_ROBOTS.TXT)
 	$(__gmswe_dbg_tnp)
 	$(info $(call exec_cliVAL01,cmd_invalidate_target,$@))
-	find  $(DOCUMENTROOT) |xargs  touch --date=$$(date +"%T")
+#	find  $(DOCUMENTROOT) |xargs  touch --date=$$(date +"%T")
 	$(info $(call exec_cliVAL01,cmd_mark_target_done,$@))
 
 %.mk :
