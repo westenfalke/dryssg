@@ -4,6 +4,7 @@ include config.mk
 .SILENT :
 	$(__gmswe_dbg_tnp)
 
+.SUFFIXES: # Delete the default suffixes
 
 BASEURL      ?= .
 DOCUMENTROOT ?= public_html
@@ -66,10 +67,15 @@ $(CLEAN) : $(CLEAN_DOCUMENTROOT)
 # Arguments: None
 # Does:      ?
 # ----------------------------------------------------------------------------
-$(DOCUMENTROOT) : $(DOCUMENTROOT_ALL_DIR)
-	$(__gmswe_dbg_tnp)
+$(DOCUMENTROOT_ALL_DIR) :
+	$(info $(call exec_cliVAL01,cmd_create_folder_w_parent,$@))
+#$(DOCUMENTROOT) : $(DOCUMENTROOT_ALL_DIR)
+#	$(__gmswe_dbg_tnp)
+#	$(error FOO)
 #	$(info $(call exec_cliVAL01,cmd_invalidate_target,$@))
-#	$(info $(call exec_cliVAL01,cmd_create_folder_w_parent,$@))
+#	$(info $(call exec_cliVAL01,cmd_create_folder_w_parent,$?))
+#	touch -t 200001010000 $? $@
+#	$(info $(call exec_cliVAL01,cmd_mark_target_done,$(DOCUMENTROOT_ALL_DIR)))
 #	$(info $(call exec_cliVAL01,cmd_mark_target_done,$@))
 
 # ----------------------------------------------------------------------------
@@ -77,8 +83,8 @@ $(DOCUMENTROOT) : $(DOCUMENTROOT_ALL_DIR)
 # Arguments: None
 # Does:      ?
 # ----------------------------------------------------------------------------
-$(DOCUMENTROOT)/%/ :
-	$(info $(call exec_cliVAL01,cmd_create_folder_w_parent,$@))
+#$(DOCUMENTROOT)/%/ :
+#	$(info $(call exec_cliVAL01,cmd_create_folder_w_parent,$@))
 
 # ----------------------------------------------------------------------------
 # Target:    $$(DOCUMENTROOT_INDEX.HTML) $(DOCUMENTROOT_INDEX.HTML) [public_html/index.html]
@@ -86,7 +92,7 @@ $(DOCUMENTROOT)/%/ :
 # Does:      Provide the parent folder for the WEBSITE.
 #            The content of this folder is wat's going to be published
 # ----------------------------------------------------------------------------
-$(DOCUMENTROOT)/%.html : $(DOCUMENTS)/%.md $(DOCUMENTROOT)
+$(DOCUMENTROOT)/%.html : $(DOCUMENTS)/%.md $(DOCUMENTROOT_ALL_DIR)
 	$(__gmswe_dbg_tnp)
 	$(info $(call exec_cliVAL01,cmd_invalidate_target,$@))
 	$(info $(call exec_cliVAL,cmd_transform_md2html,$< $@))
@@ -112,7 +118,9 @@ $(FIND) : FORCE
 $(WEBSITE) : $(DOCUMENTROOT_ROBOTS.TXT)
 	$(__gmswe_dbg_tnp)
 	$(info $(call exec_cliVAL01,cmd_invalidate_target,$@))
-	find  $(DOCUMENTROOT) |xargs  touch --date=$$(date +"%T") $(WEBSITE)
-#	$(info $(call exec_cliVAL01,cmd_mark_target_done,$@))
+	find  $(DOCUMENTROOT) |xargs  touch --date=$$(date +"%T")
+	$(info $(call exec_cliVAL01,cmd_mark_target_done,$@))
+
+%.mk :
 
 .DEFAULT_GOAL := QUERY
