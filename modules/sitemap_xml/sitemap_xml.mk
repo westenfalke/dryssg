@@ -11,6 +11,21 @@ LOC_CLOSE    ?= </loc>
 URL_CLOSE    ?= </url>
 URLSET_CLOSE ?= </urlset>
 
+DOCUMENTS_ALL_MD = $(patsubst $(DOCUMENTS)/%.md,$(DOCUMENTROOT)/%.html,$(call func_rwildcard,$(DOCUMENTS),*.md))
+
+# ----------------------------------------------------------------------------
+# Target:    $$(DOCUMENTROOT_SITEMAP.XML) $(DOCUMENTROOT_SITEMAP.XML) [public_html/sitmap.xml]
+# Arguments: None
+# Does:      Creates a file referencing the HTML-files of the website
+#            A search engine can use this file to navigate
+#            and index the website
+# ----------------------------------------------------------------------------
+$(DOCUMENTROOT_SITEMAP.XML) : $(DOCUMENTROOT) $(DOCUMENTS_ALL_MD)
+	$(__gmswe_dbg_tnp)
+	$(info $(call exec_cliVAL01,cmd_invalidate_target,$@))
+	$(eval $(call func_write_sitemap_xml,$(DOCUMENTROOT),$(SITEMAP_WILDCARD),$@))
+	$(info $(call exec_cliVAL01,cmd_mark_target_done,$@))
+
 # ----------------------------------------------------------------------------
 # Function:  func_write_sitemap_xml
 # Arguments: 1: A list of folder
