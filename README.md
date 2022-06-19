@@ -64,7 +64,7 @@ This static website generator is based on `make`  and  the capability to manage 
 
 ### Gallery
 
-> 2022-07 Images: Yes the are images and there is already another `makefile` to create and maintain images and `metadata.yaml` in a gallery. 
+> 2022-07 Images: Yes there are images and there is already another `makefile` to create and maintain images and `metadata.yaml` in a gallery. 
 
 
 
