@@ -2,6 +2,7 @@ include config.mk
 .PHONY : find func_foo EMPTYTARGET FORCE QUERY
 .SILENT :
 .SUFFIXES :  # Delete the default suffixes
+.NO_PARALLEL : QUERY $(NO_PARALLEL_CORE_TARGETS) $(PARALLEL_MODULE_TARGETS)
 
 BASEURL      ?= .
 DOCUMENTROOT ?= public_html
@@ -47,7 +48,7 @@ QUERY : $(if $(QUERY),$(FIND),$(USAGE))
 $(CLEAN_DOCUMENTROOT) : FORCE
 	$(__gmswe_dbg_tnp)
 	$(info $(call exec_cliVAL01,cmd_invalidate_target,$@))
-	$(info $(call exec_cliVAL01,cmd_invalidate_target,$(DOCUMENTROOT)))
+	$(info $(call exec_cliPTR01,cmd_invalidate_target,DOCUMENTROOT))
 	$(info $(call exec_cliVAL01,cmd_mark_target_done,$@))
 
 # ----------------------------------------------------------------------------
@@ -96,15 +97,23 @@ $(FIND) : FORCE
 	$(if $(SANQUERY),-$(call cmd_fetch_comment4pattern,$(SANQUERY),makefile))
 
 # ----------------------------------------------------------------------------
-# Target:    $$(WEBSITE) $(WEBSITE) [website]
+# Target:    $$(WEBSITE) $(WEBSITE) [website_build]
 # Arguments: None
 # Does:      Build all parts of a website
 # ----------------------------------------------------------------------------
 $(WEBSITE) : $(DOCUMENTROOT_ROBOTS.TXT)
 	$(__gmswe_dbg_tnp)
 	$(info $(call exec_cliVAL01,cmd_invalidate_target,$@))
-	$(info $(call exec_cliPTR,cmd_sweep_files,DOCUMENTROOT))
-	$(info $(call exec_cliPTR,cmd_sweep_folder,DOCUMENTROOT))
+	$(info $(call exec_cliVAL01,cmd_mark_target_done,$@))
+
+# ----------------------------------------------------------------------------
+# Target:    $$(DEPLOY) $(DEPLOY) [website_build_deployed]
+# Arguments: None
+# Does:      Build all parts of a website
+# ----------------------------------------------------------------------------
+$(DEPLOY) : $(CLEAN_DOCUMENTROOT) $(WEBSITE)
+	$(__gmswe_dbg_tnp)
+	$(info $(call exec_cliVAL01,cmd_invalidate_target,$@))
 	$(info $(call exec_cliVAL01,cmd_mark_target_done,$@))
 
 %.mk :

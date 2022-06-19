@@ -20,7 +20,7 @@ cmd_create_folder_w_parent = $(__gmswe_tr1)$(if $1 ,[ -d $1 ] || mkdir --parent 
 # Does:      Invoke $(call) the function with the parameter and execute
 #            the result as CLI CMD in a $(shell)
 # ----------------------------------------------------------------------------
-exec_cliPTR01 = $(__gmswe_tr2)$(if $1,$(shell $(call $1,$(value $2))))
+exec_cliPTR01 = $(__gmswe_tr2)$(if $1,$(call exec_cmd,$(call $1,$(value $2))))
 
 # ----------------------------------------------------------------------------
 # Function:  exec_cliVAL01
@@ -104,7 +104,19 @@ endef
 #            toched with '-date=@0' and found with '! -newermt 0'
 #            @see cmd_invalidate_target
 # ----------------------------------------------------------------------------
-cmd_sweep_files = $(__gmswe_tr2)find $1 -type f ! -newermt 0 | xargs --max-args=100 $(RM) $(__gmswe_log_p_delete)
+func_sweep_files = $(__gmswe_tr1)$(if $1,$(call exec_cmdVAL01,cmd_sweep_files,$1))
+
+cmd_select_files_to_sweep_in = $(__gmswe_tr1)$(if $1,find $1 -type f ! -newermt 0)
+cmd_sweep_files = $(__gmswe_tr1)$(if $1,rm -f $(__gmswe_log_p_delete) $1)
+# ----------------------------------------------------------------------------
+# Function:  cmd_sweep_folder
+# Arguments: 1: The folder to sweep out
+# Returns:   A CLI CMD for $(SHELL)
+# Does:      Remove files not newer than '19700101000'
+#            toched with '-date=@0' and found with '! -newermt 0'
+#            @see cmd_invalidate_target
+# ----------------------------------------------------------------------------
+cmd_sweep_folder = $(__gmswe_tr2)find $1 -type d ! -newermt 0 | xargs --max-args=100 rmdir --ignore-fail-on-non-empty $(__gmswe_log_p_delete)
 
 # ----------------------------------------------------------------------------
 # Function:  cmd_recursively_remove_folder

@@ -1,5 +1,7 @@
 ifndef __gmswe_sitemap_xml_included
 __gmswe_sitemap_xml_included = $(true)
+
+
 SITEMAP.XML  ?= sitemap.xml
 DOCUMENTROOT_SITEMAP.XML ?= $(DOCUMENTROOT)/$(SITEMAP.XML)
 SITEMAP_WILDCARD ?= *.html
@@ -14,6 +16,15 @@ LOC_CLOSE    ?= </loc>
 URL_CLOSE    ?= </url>
 URLSET_CLOSE ?= </urlset>
 
+$(eval DOCUMENTROOT_SWEEP_FILES ?= files_sweeped_in_$(DOCUMENTROOT))
+
+$(DOCUMENTROOT_SWEEP_FILES) : $(DOCUMENTROOT_ALL_HTML)
+	$(__gmswe_dbg_tnp)
+	$(info $(call exec_cliVAL01,cmd_invalidate_target,$@))
+	$(eval documentroot_files_to_sweep = $(call exec_cliPTR,cmd_select_files_to_sweep_in,DOCUMENTROOT))
+	$(eval documentroot_sweep_files = $(call exec_cliPTR01,cmd_sweep_files,documentroot_files_to_sweep))
+	$(info $(call exec_cliVAL01,cmd_mark_target_done,$@))
+
 # ----------------------------------------------------------------------------
 # Target:    $$(DOCUMENTROOT_SITEMAP.XML) $(DOCUMENTROOT_SITEMAP.XML) [public_html/sitmap.xml]
 # Arguments: None
@@ -21,7 +32,7 @@ URLSET_CLOSE ?= </urlset>
 #            A search engine can use this file to navigate
 #            and index the website
 # ----------------------------------------------------------------------------
-$(DOCUMENTROOT_SITEMAP.XML) : $(DOCUMENTROOT_ALL_HTML)
+$(DOCUMENTROOT_SITEMAP.XML) : $(DOCUMENTROOT_ALL_HTML) $(DOCUMENTROOT_SWEEP_FILES)
 	$(__gmswe_dbg_tnp)
 	$(info $(call exec_cliVAL01,cmd_invalidate_target,$@))
 	$(eval $(call func_write_sitemap_xml,$(DOCUMENTROOT),$(SITEMAP_WILDCARD),$@))

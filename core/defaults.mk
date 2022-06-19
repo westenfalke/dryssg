@@ -12,7 +12,8 @@ __gmswe_project_included := $(false)
 
 FIND         ?= find
 USAGE        ?= usage
-WEBSITE      ?= website
+WEBSITE      ?= website_build
+DEPLOY      ?= $(WEBSITE)_and_deployed
 CLEAN        ?= clean
 #BASEURL      ?= http://localhost
 DOCUMENTROOT := public_html
