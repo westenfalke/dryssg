@@ -10,7 +10,7 @@ __gmswe_nullstring :=
 # Does:      Create the folder(s), if they do not already exist
 #            no error if existing, makes parent directories as needed
 # ----------------------------------------------------------------------------
-cmd_create_folder_w_parent = $(__gmswe_tr1)$(if $1 ,mkdir --parent $(__gmswe_log_p_create) $1)
+cmd_create_folder_w_parent = $(__gmswe_tr1)$(if $1 ,[ -d $1 ] || mkdir --parent $(__gmswe_log_p_create) $1)
 
 # ----------------------------------------------------------------------------
 # Function:  exec_cliPTR01
@@ -30,23 +30,22 @@ exec_cliPTR01 = $(__gmswe_tr2)$(if $1,$(shell $(call $1,$(value $2))))
 # Does:      Invoke $(call) with function 1 with the value name 2 and execute
 #            the result as CLI CMD in a $(shell)
 # ----------------------------------------------------------------------------
-exec_cliVAL01 = $(__gmswe_tr2)$(if $1,$(shell $(call $1,$2)))
+exec_cliVAL01 = $(__gmswe_tr2)$(if $1,$(call exec_cmd,$(call $1,$2)))
 
 # ----------------------------------------------------------------------------
 # Function:  exec_cliVAL
-# Arguments: 1: Name of function to $(call) withe the list of parameters 2
+# Arguments: 1: Name of function to $(call) with the list of parameters 2
 #            2: List of parameter to use when calling the function in 1
 # Returns:   Nothing?
 # Does:      Invoke $(call) the function with the parameters and execute
 #            the result as CLI CMD in a $(shell)
 # ----------------------------------------------------------------------------
-exec_cliVAL = $(__gmswe_tr2) \
-               $(eval cmd =\
-                 $$(call $1,$(call merge,$(__gmswe_comma),$(foreach param,$2,$(param))\
-                 ))\
-               )\
-             $(info $$(cmd) $(cmd))\
-             $(shell $(cmd))
+define exec_cliVAL
+$(__gmswe_tr2)
+$(eval cmd =\
+  $$(call $1,$(call merge,$(__gmswe_comma),$(foreach param,$2,$(param)))))\
+$(call exec_cmd,$(cmd))
+endef
 
 # ----------------------------------------------------------------------------
 # Function:  exec_cliPTR
@@ -56,13 +55,20 @@ exec_cliVAL = $(__gmswe_tr2) \
 # Does:      Invoke $(call) the function with the value names and execute
 #            the result as CLI CMD in a $(shell)
 # ----------------------------------------------------------------------------
-exec_cliPTR = $(__gmswe_tr2) \
-               $(eval cmd =\
-                 $$(call $1,$(call merge,$(__gmswe_comma),$(foreach param,$2,$(value $(param)))\
-                 ))\
-               )\
-             $(info $$(cmd) $(cmd))\
-             $(shell $(cmd))
+define exec_cliPTR
+$(__gmswe_tr2) \
+$(eval cmd =\
+  $$(call $1,$(call merge,$(__gmswe_comma),$(foreach param,$2,$(value $(param))))))\
+$(call exec_cmd,$(cmd))
+endef
+
+# ----------------------------------------------------------------------------
+# Function:  exec_cmd
+# Arguments: 1: A CLI CMD to be run via $(shell)
+# Returns:   Nothing?
+# Does:      Execute the CLI CMD 1 in a $(shell)
+# ----------------------------------------------------------------------------
+exec_cmd = $(__gmswe_tr1)$(if $1,$(shell $1))
 
 # ----------------------------------------------------------------------------
 # Function:  cmd_fetch_comment4pattern
@@ -78,12 +84,27 @@ cmd_fetch_comment4pattern = $(__gmswe_tr2)$(if $1,$(if $2,grep -B 10 -A 10 -E '^
 # Function:  cmd_invalidate_target
 # Arguments: 1: A file or folder
 # Returns:   A CLI CMD for $(SHELL)
-# Does:      Removes the folder and its content to invalidate a target
-#            Fails silently if file or folder does not exist
-#            Skips any directory that is on a file system
-#            different from that of the corresponding command line argument
+# Does:      Sets the date of file (folder and its content)
+#            way back into the past --date=@0 to invalidate a target
+#            Nothing if the file or folder does not exist
 # ----------------------------------------------------------------------------
-cmd_invalidate_target = $(__gmswe_tr1)$(if $1,rm --one-file-system --recursive --force $(__gmswe_log_p_delete) $1)
+define cmd_invalidate_target
+$(__gmswe_tr1)
+  $(if $1,                                                    \
+    [ -d $1 ]                                                  \
+      && find  $1 -type f| xargs touch --date=@0 --no-create    \
+      ||                         touch --date=@0 --no-create $1)
+endef
+
+# ----------------------------------------------------------------------------
+# Function:  cmd_sweep_files
+# Arguments: 1: The folder to sweep out
+# Returns:   A CLI CMD for $(SHELL)
+# Does:      Remove files not newer than '19700101000'
+#            toched with '-date=@0' and found with '! -newermt 0'
+#            @see cmd_invalidate_target
+# ----------------------------------------------------------------------------
+cmd_sweep_files = $(__gmswe_tr2)find $1 -type f ! -newermt 0 | xargs --max-args=100 $(RM) $(__gmswe_log_p_delete)
 
 # ----------------------------------------------------------------------------
 # Function:  cmd_recursively_remove_folder
