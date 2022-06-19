@@ -85,6 +85,41 @@ $(DOCUMENTROOT)/%.html : $(DOCUMENTS)/%.md $(DOCUMENTROOT)
 	$(info $(call exec_cliVAL01,cmd_mark_target_done,$@))
 
 # ----------------------------------------------------------------------------
+# Target:    $$(WEBSITE) $(WEBSITE) [website_build]
+# Arguments: None
+# Does:      A dirty build of all parts of a website
+# ----------------------------------------------------------------------------
+$(WEBSITE) : $(DOCUMENTROOT_ROBOTS.TXT)
+	$(__gmswe_dbg_tnp)
+	$(info $(call exec_cliVAL01,cmd_invalidate_target,$@))
+	$(info $(call exec_cliVAL01,cmd_mark_target_done,$@))
+
+# ----------------------------------------------------------------------------
+# Target:    $$(DEPLOY) $(DEPLOY) [website_build_deployed]
+# Arguments: None
+# Does:      A sweeped build of all parts of a website
+# ----------------------------------------------------------------------------
+$(DEPLOY) : $(CLEAN) $(WEBSITE)
+	$(__gmswe_dbg_tnp)
+	$(info $(call exec_cliVAL01,cmd_invalidate_target,$@))
+	$(info $(call exec_cliVAL01,cmd_mark_target_done,$@))
+
+# ----------------------------------------------------------------------------
+# Target:    %.mk %.mk [%.mk]
+# Arguments: None
+# Does:      just to speed things up
+# ----------------------------------------------------------------------------
+%.mk :
+
+# ----------------------------------------------------------------------------
+# Target:    PURGE_DOCUMENTROOT PURGE_DOCUMENTROOT [PURGE_DOCUMENTROOT]
+# Arguments: None
+# Does:      Remove the DOCUMENTROOT and all of its content
+# ----------------------------------------------------------------------------
+PURGE_DOCUMENTROOT : $(DOCUMENTROOT)
+	rm -rfI $<
+
+# ----------------------------------------------------------------------------
 # Target:    $$(FIND) $(FIND) [find]
 # Arguments: $(QUERY) text/plain [a-zA-Z0-9_-]
 # Does:      Searches the comments blocks of the make files
@@ -95,27 +130,5 @@ $(FIND) : FORCE
 	$(if $(SANQUERY),-$(call cmd_fetch_comment4pattern,$(SANQUERY),/usr/include/__gmsl))
 	$(if $(SANQUERY),-$(call cmd_fetch_comment4pattern,$(SANQUERY),*.mk))
 	$(if $(SANQUERY),-$(call cmd_fetch_comment4pattern,$(SANQUERY),makefile))
-
-# ----------------------------------------------------------------------------
-# Target:    $$(WEBSITE) $(WEBSITE) [website_build]
-# Arguments: None
-# Does:      Build all parts of a website
-# ----------------------------------------------------------------------------
-$(WEBSITE) : $(DOCUMENTROOT_ROBOTS.TXT)
-	$(__gmswe_dbg_tnp)
-	$(info $(call exec_cliVAL01,cmd_invalidate_target,$@))
-	$(info $(call exec_cliVAL01,cmd_mark_target_done,$@))
-
-# ----------------------------------------------------------------------------
-# Target:    $$(DEPLOY) $(DEPLOY) [website_build_deployed]
-# Arguments: None
-# Does:      Build all parts of a website
-# ----------------------------------------------------------------------------
-$(DEPLOY) : $(CLEAN_DOCUMENTROOT) $(WEBSITE)
-	$(__gmswe_dbg_tnp)
-	$(info $(call exec_cliVAL01,cmd_invalidate_target,$@))
-	$(info $(call exec_cliVAL01,cmd_mark_target_done,$@))
-
-%.mk :
 
 .DEFAULT_GOAL := QUERY
