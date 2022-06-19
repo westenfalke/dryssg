@@ -66,7 +66,7 @@ $(CLEAN) : $(CLEAN_DOCUMENTROOT)
 # Does:      Creates the folder provides by DOCUMENTROOT
 #            This target used for documentation purpose
 # ----------------------------------------------------------------------------
-$(DOCUMENTROOT) :
+$(DOCUMENTROOT) : $(DOCUMENTS)
 	$(info $(call exec_cliVAL01,cmd_invalidate_target,$@))
 	$(info $(call exec_cliVAL01,cmd_create_folder_w_parent,$@))
 	$(info $(call exec_cliVAL01,cmd_mark_target_done,$@))

@@ -32,7 +32,7 @@ $(DOCUMENTROOT_SWEEP_FILES) : $(DOCUMENTROOT_ALL_HTML)
 #            A search engine can use this file to navigate
 #            and index the website
 # ----------------------------------------------------------------------------
-$(DOCUMENTROOT_SITEMAP.XML) : $(DOCUMENTROOT_ALL_HTML) $(DOCUMENTROOT_SWEEP_FILES)
+$(DOCUMENTROOT_SITEMAP.XML) : $(DOCUMENTROOT) $(DOCUMENTROOT_ALL_HTML) $(DOCUMENTROOT_SWEEP_FILES)
 	$(__gmswe_dbg_tnp)
 	$(info $(call exec_cliVAL01,cmd_invalidate_target,$@))
 	$(eval $(call func_write_sitemap_xml,$(DOCUMENTROOT),$(SITEMAP_WILDCARD),$@))
