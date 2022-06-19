@@ -42,7 +42,7 @@ $(DOCUMENTROOT_SITEMAP.XML) : $(DOCUMENTROOT_ALL_HTML)
 define func_write_sitemap_xml
 $(__gmswe_tr3)
 $(if $(call seq,$(call first,$(call split,/,$3)),$(DOCUMENTROOT)),
-  $(file >> $3,$(XML_HEAD))
+  $(file  > $3,$(XML_HEAD))
   $(file >> $3,$(URLSET_OPEN))
   $(if $2$1,
     $(call func_write_rsitemap,$1,$2,$3)

@@ -1,10 +1,7 @@
 include config.mk
 .PHONY : find func_foo EMPTYTARGET FORCE QUERY
-	$(__gmswe_dbg_tnp)
 .SILENT :
-	$(__gmswe_dbg_tnp)
-
-.SUFFIXES: # Delete the default suffixes
+.SUFFIXES :  # Delete the default suffixes
 
 BASEURL      ?= .
 DOCUMENTROOT ?= public_html
