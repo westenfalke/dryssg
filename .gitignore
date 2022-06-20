@@ -1,2 +1,10 @@
 *.swp
 *.orig
+documents
+public_html
+clean
+clean_public_html
+website_build
+website_build_and_deployed
+files_sweeped_in_public_html
+*.log
