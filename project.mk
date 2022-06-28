@@ -9,10 +9,10 @@ GMSWE_REPORT ?= $(true)
 GMSWE_LOG    ?= $(true)
 GMSWE_TEST   ?= $(true)
 
-INSTALLDIR := ../candyscafe.de
+#INSTALLDIR := .# default @see ./core/base.mk
 
 SITEMAP_BASEURL_PORT ?= :8042
 BASEURL      ?= http://localhost$(PORT)
-#SITEMAP_WILDCARD ?= $(DOCUMENTROOT)/Gallery*.jpg *.html
+#SITEMAP_WILDCARD ?= $(DOCUMENTROOT)/Gallery*.jpg *.html# extend sitmap to .jpg inside the Gallery folder
 
 endif #__gmswe_project_included

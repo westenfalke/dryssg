@@ -1,8 +1,8 @@
 include config.mk
 .PHONY : find func_foo EMPTYTARGET FORCE QUERY
 .SILENT :
-.SUFFIXES :  # Delete the default suffixes
-.NO_PARALLEL : QUERY $(NO_PARALLEL_CORE_TARGETS) $(PARALLEL_MODULE_TARGETS)
+.SUFFIXES : # Delete the default suffixes
+.NO_PARALLEL : $(NO_PARALLEL_CORE_TARGETS) $(PARALLEL_MODULE_TARGETS)
 
 BASEURL      ?= .
 DOCUMENTROOT ?= public_html
@@ -26,18 +26,8 @@ $(USAGE) : FORCE
 	@echo "# make $(USAGE)"
 	@echo "# make $(CLEAN)"
 	@echo "# make $(WEBSITE)"
-	@echo "# make find [QUERY=pattern]"
+	@echo "# make $(DEPLOY)"
 
-# ----------------------------------------------------------------------------
-# Target:      QUERY QUERY (.DEFAULT_GOAL) [QUERY]
-# Prerequisit: 'usage :' if $(QUERY) is empty, else 'find :'
-# Arguments:   $$(QUERY)
-# Does:        Supplies CLI with auto compleation for the find target
-#              find [QUERY=pattern]
-#              Diplays usage, QUERY is empty
-# ----------------------------------------------------------------------------
-QUERY : $(if $(QUERY),$(FIND),$(USAGE))
-	$(__gmswe_dbg_tnp)
 
 # ----------------------------------------------------------------------------
 # Target:    $$(CLEAN_DOCUMENTROOT) $CLEAN_DOCUMENTROOT [clean_public_html]
@@ -120,16 +110,4 @@ $(DEPLOY) : $(CLEAN) $(WEBSITE)
 PURGE_DOCUMENTROOT : $(DOCUMENTROOT)
 	rm -rfI $<
 
-# ----------------------------------------------------------------------------
-# Target:    $$(FIND) $(FIND) [find]
-# Arguments: $(QUERY) text/plain [a-zA-Z0-9_-]
-# Does:      Searches the comments blocks of the make files
-# ----------------------------------------------------------------------------
-$(FIND) : FORCE
-	$(__gmswe_dbg_tnp)
-	$(eval SANQUERY = $(shell echo $(QUERY) | sed 's/[^a-zA-Z0-9_-]//g'))
-	$(if $(SANQUERY),-$(call cmd_fetch_comment4pattern,$(SANQUERY),/usr/include/__gmsl))
-	$(if $(SANQUERY),-$(call cmd_fetch_comment4pattern,$(SANQUERY),*.mk))
-	$(if $(SANQUERY),-$(call cmd_fetch_comment4pattern,$(SANQUERY),makefile))
-
-.DEFAULT_GOAL := QUERY
+.DEFAULT_GOAL := $(WEBSITE)

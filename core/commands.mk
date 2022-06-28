@@ -71,16 +71,6 @@ endef
 exec_cmd = $(__gmswe_tr1)$(if $1,$(shell $1))
 
 # ----------------------------------------------------------------------------
-# Function:  cmd_fetch_comment4pattern
-# Arguments: 1: A Pattern
-#            2: A filename
-# Returns:   A command to filter for a block comment
-#            in the file filename that contains the pattern
-#            and nothing on empty or missing parameter
-# ----------------------------------------------------------------------------
-cmd_fetch_comment4pattern = $(__gmswe_tr2)$(if $1,$(if $2,grep -B 10 -A 10 -E '^\#\s*.*$1.*' $2 | grep ^\#))
-
-# ----------------------------------------------------------------------------
 # Function:  cmd_invalidate_target
 # Arguments: 1: A file or folder
 # Returns:   A CLI CMD for $(SHELL)
