@@ -67,7 +67,7 @@ $(DOCUMENTROOT) : $(DOCUMENTS)
 # Does:      Provide the parent folder for the WEBSITE.
 #            The content of this folder is wat's going to be published
 # ----------------------------------------------------------------------------
-$(DOCUMENTROOT)/%.html : $(DOCUMENTS)/%.md $(DOCUMENTROOT)
+$(DOCUMENTROOT)/%.html : $(DOCUMENTS)/%.md $(RESOURCES) $(DOCUMENTROOT) $(CONV_DEFAULT.HTML)
 	$(__gmswe_dbg_tnp)
 	$(info $(call exec_cliVAL01,cmd_invalidate_target,$@))
 	$(info $(call exec_cliVAL01,cmd_create_folder_w_parent,$(dir $@)))
