@@ -1,10 +1,5 @@
 ifndef __gmswe_robots_txt_included
 __gmswe_robots_txt_included = $(true)
-#include modules/sitemap_xml/sitemap_xml.mk
-
-ROBOTS.TXT   ?= robots.txt
-DOCUMENTROOT_ROBOTS.TXT ?= $(DOCUMENTROOT)/$(ROBOTS.TXT)
-BASEURL      ?= .
 
 # ----------------------------------------------------------------------------
 # Target:    $$(DOCUMENTROOT_ROBOTS.TXT) $(DOCUMENTROOT_ROBOTS.TXT) [robots.txt}
@@ -32,8 +27,8 @@ $(DOCUMENTROOT_ROBOTS.TXT) : $(DOCUMENTROOT_SITEMAP.XML)
 # ----------------------------------------------------------------------------
 define func_create_robots_txt
 $(__gmswe_tr2)
-$(if $(call seq,$(call first,$(call split,/,$1)),$(DOCUMENTROOT)),
-$(if $(call seq,$(DOCUMENTROOT_ROBOTS.TXT),$2),
+$(if $1,
+$(if $2,
 $(file > $2,# Thank you for reading this far.
 User-agent: *
 Allow: *

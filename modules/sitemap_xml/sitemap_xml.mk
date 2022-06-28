@@ -1,7 +1,6 @@
 ifndef __gmswe_sitemap_xml_included
 __gmswe_sitemap_xml_included = $(true)
 
-
 XML_HEAD     ?= <?xml version="1.0" encoding="UTF-8"?>
 URLSET_OPEN  ?= <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 URL_OPEN     ?= <url>

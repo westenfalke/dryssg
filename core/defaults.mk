@@ -10,10 +10,18 @@ __gmswe_defaults_included := $(true)
 #GMSWE_REPORT ?= $(true)
 #GMSWE_TEST   ?= $(true)
 
+
+DOCUMENTROOT_NAME ?= public_html
+DOCUMENTROOT ?= $(INSTALLDIR)/$(DOCUMENTROOT_NAME)
+SWEEP_DOCUMENTROOT ?= $(SWEEP)_$(DOCUMENTROOT_NAME)
+
+ROBOTS.TXT   ?= robots.txt
+DOCUMENTROOT_ROBOTS.TXT ?= $(DOCUMENTROOT)/$(ROBOTS.TXT)
+
 SITEMAP.XML  ?= sitemap.xml
 DOCUMENTROOT_SITEMAP.XML ?= $(DOCUMENTROOT)/$(SITEMAP.XML)
 SITEMAP_WILDCARD ?= *.html
-SITEMAP_BASEURL_PORT ?= :8842
+SITEMAP_BASEURL_PORT ?= \:8842
 BASEURL ?= http://localhost$(SITEMAP_BASEURL_PORT)
 
 METADATA.YAML ?= metadata.yaml
@@ -22,9 +30,5 @@ USAGE        ?= usage
 WEBSITE      ?= website_build
 DEPLOY       ?= website_build_and_deployed
 SWEEP        ?= sweeped
-#BASEURL @see ./modules/sitemap_xml
-DOCUMENTROOT_NAME ?= public_html
-DOCUMENTROOT ?= $(INSTALLDIR)/$(DOCUMENTROOT_NAME)
-SWEEP_DOCUMENTROOT ?= $(SWEEP)_$(DOCUMENTROOT_NAME)
 
 endif #__gmswe_defaults_included
