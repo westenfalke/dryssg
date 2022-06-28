@@ -16,7 +16,7 @@ LOC_CLOSE    ?= </loc>
 URL_CLOSE    ?= </url>
 URLSET_CLOSE ?= </urlset>
 
-$(eval DOCUMENTROOT_SWEEP_FILES ?= files_sweeped_in_$(DOCUMENTROOT_NAME))
+DOCUMENTROOT_SWEEP_FILES ?= files_sweeped_in_$(DOCUMENTROOT_NAME)
 
 $(DOCUMENTROOT_SWEEP_FILES) : $(DOCUMENTROOT_ALL_HTML)
 	$(__gmswe_dbg_tnp)
