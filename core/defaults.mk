@@ -10,13 +10,13 @@ __gmswe_defaults_included := $(true)
 #GMSWE_REPORT ?= $(true)
 #GMSWE_TEST   ?= $(true)
 
-FIND         ?= find
 USAGE        ?= usage
 WEBSITE      ?= website_build
-DEPLOY      ?= $(WEBSITE)_and_deployed
-CLEAN        ?= clean
-#BASEURL      ?= http://localhost
-DOCUMENTROOT := $(INSTALLDIR)/public_html
-$(eval CLEAN_DOCUMENTROOT = $(CLEAN)_$(DOCUMENTROOT))
+DEPLOY       ?= website_build_and_deployed
+SWEEP        ?= sweeped
+#BASEURL @see ./modules/sitemap_xml
+DOCUMENTROOT_NAME ?= public_html
+DOCUMENTROOT ?= $(INSTALLDIR)/$(DOCUMENTROOT_NAME)
+SWEEP_DOCUMENTROOT ?= $(SWEEP)_$(DOCUMENTROOT_NAME)
 
 endif #__gmswe_defaults_included

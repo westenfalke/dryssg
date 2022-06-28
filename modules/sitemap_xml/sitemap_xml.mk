@@ -5,7 +5,7 @@ __gmswe_sitemap_xml_included = $(true)
 SITEMAP.XML  ?= sitemap.xml
 DOCUMENTROOT_SITEMAP.XML ?= $(DOCUMENTROOT)/$(SITEMAP.XML)
 SITEMAP_WILDCARD ?= *.html
-SITEMAP_BASEURL_PORT ?=
+SITEMAP_BASEURL_PORT ?= :8842
 BASEURL      ?= http://localhost$(SITEMAP_BASEURL_PORT)
 
 XML_HEAD     ?= <?xml version="1.0" encoding="UTF-8"?>

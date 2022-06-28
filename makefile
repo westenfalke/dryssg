@@ -1,5 +1,5 @@
 include config.mk
-.PHONY : find func_foo EMPTYTARGET FORCE QUERY
+.PHONY : EMPTYTARGET FORCE
 .SILENT :
 .SUFFIXES : # Delete the default suffixes
 .NO_PARALLEL : $(NO_PARALLEL_CORE_TARGETS) $(PARALLEL_MODULE_TARGETS)
@@ -24,28 +24,28 @@ FORCE :
 $(USAGE) : FORCE
 	$(__gmswe_dbg_tnp)
 	@echo "# make $(USAGE)"
-	@echo "# make $(CLEAN)"
+	@echo "# make $(SWEEP)"
 	@echo "# make $(WEBSITE)"
 	@echo "# make $(DEPLOY)"
 
 
 # ----------------------------------------------------------------------------
-# Target:    $$(CLEAN_DOCUMENTROOT) $CLEAN_DOCUMENTROOT [clean_public_html]
+# Target:    $$(SWEEP_DOCUMENTROOT) $SWEEP_DOCUMENTROOT [sweep_public_html]
 # Arguments: None
 # Does:      Removes the folder provided by DOCUMENTROOT and its content
 #            It does not remove other generated content
 # ----------------------------------------------------------------------------
-$(CLEAN_DOCUMENTROOT) : FORCE
+$(SWEEP_DOCUMENTROOT) : FORCE
 	$(__gmswe_dbg_tnp)
 	$(info $(call exec_cliVAL01,cmd_invalidate_target,$@))
-	$(info $(call exec_cliPTR01,cmd_invalidate_target,DOCUMENTROOT))
+	$(info $(call exec_cliVAL01,cmd_invalidate_target,$(DOCUMENTROOT)))
 	$(info $(call exec_cliVAL01,cmd_mark_target_done,$@))
 
 # ----------------------------------------------------------------------------
-# Target:    $$(CLEAN) $(CLEAN) [clean]
+# Target:    $$(SWEEP) $(SWEEP) [sweep]
 # Arguments: None
-# Does:      Triggers all $(CLEAN)_.* targets as prerequisite
-$(CLEAN) : $(CLEAN_DOCUMENTROOT)
+# Does:      Triggers all $(SWEEP)_.* targets as prerequisite
+$(SWEEP) : $(SWEEP_DOCUMENTROOT)
 	$(__gmswe_dbg_tnp)
 	$(info $(call exec_cliVAL01,cmd_invalidate_target,$@))
 	$(info $(call exec_cliVAL01,cmd_mark_target_done,$@))
@@ -82,6 +82,7 @@ $(DOCUMENTROOT)/%.html : $(DOCUMENTS)/%.md $(DOCUMENTROOT)
 $(WEBSITE) : $(DOCUMENTROOT_ROBOTS.TXT)
 	$(__gmswe_dbg_tnp)
 	$(info $(call exec_cliVAL01,cmd_invalidate_target,$@))
+	$(info $(call exec_cliVAL01,cmd_invalidate_target,$(SWEEP_DOCUMENTROOT)))
 	$(info $(call exec_cliVAL,cmd_sync_static_files))
 	$(info $(call exec_cliVAL01,cmd_mark_target_done,$@))
 
@@ -90,7 +91,7 @@ $(WEBSITE) : $(DOCUMENTROOT_ROBOTS.TXT)
 # Arguments: None
 # Does:      A sweeped build of all parts of a website
 # ----------------------------------------------------------------------------
-$(DEPLOY) : $(CLEAN) $(WEBSITE)
+$(DEPLOY) : $(SWEEP) $(WEBSITE)
 	$(__gmswe_dbg_tnp)
 	$(info $(call exec_cliVAL01,cmd_invalidate_target,$@))
 	$(info $(call exec_cliVAL01,cmd_mark_target_done,$@))
@@ -103,11 +104,11 @@ $(DEPLOY) : $(CLEAN) $(WEBSITE)
 %.mk :
 
 # ----------------------------------------------------------------------------
-# Target:    PURGE_DOCUMENTROOT PURGE_DOCUMENTROOT [PURGE_DOCUMENTROOT]
+# Target:    clean clean [clean]
 # Arguments: None
 # Does:      Remove the DOCUMENTROOT and all of its content
 # ----------------------------------------------------------------------------
-PURGE_DOCUMENTROOT : $(DOCUMENTROOT)
-	rm -rfI $<
+clean : $(DOCUMENTROOT) $(FORCE)
+	rm -rf $<
 
 .DEFAULT_GOAL := $(WEBSITE)
