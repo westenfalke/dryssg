@@ -9,7 +9,8 @@ __gmswe_defaults_included := $(true)
 #GMSWE_LOG    ?= $(true)
 #GMSWE_REPORT ?= $(true)
 #GMSWE_TEST   ?= $(true)
-
+METADATA.YAML ?= metadata.yaml
+AFTER_BODY.HTML ?= after-body.html
 USAGE        ?= usage
 WEBSITE      ?= website_build
 DEPLOY       ?= website_build_and_deployed

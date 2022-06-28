@@ -1,11 +1,12 @@
 *.log
 *.swp
 *.orig
+resources/*
+.pandoc/*
 documents
 public_html
 sweeped
 sweeped_public_html
 website_build
 website_build_and_deployed
-resources/*
-.pandoc/*
+files_sweeped_in_public_html

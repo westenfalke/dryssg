@@ -1,26 +1,28 @@
 ifndef __gmswe_markdown2html_included
 __gmswe_markdown2html_included = $(true)
 
-CONV_NAME := PANDOC
+CONV_NAME := PANDOC# set to the name of the variable which containst the path to the binary
 PANDOC ?= /usr/bin/pandoc
 CONV_DATADIRNAME ?= .pandoc
 CONV_DATADIR ?= $(INSTALLDIR)/$(CONV_DATADIRNAME)
 CONV_PARAM_DATADIR ?= --data-dir=$(CONV_DATADIR)
-CONV_FORMAT_FROM ?= --from=markdown
-CONV_FORMAT_TO ?= --to=html5
-CONV_STANDALONE ?= --standalone
-CONV_INPUTFILE ?= $1
-CONV_OUTPUTFILE ?= --output=$2
-CONV_DEFAULT.HTML ?= $(CONV_DATADIR)/tempaltes/default.html
-CONV_TEMPLATE_FILE ?= --template $(CONV_DEFAULT.HTML)
+CONV_PARAM_FORMAT_FROM ?= --from=markdown
+CONV_PARAM_FORMAT_TO ?= --to=html
+CONV_PARAM_STANDALONE ?= --standalone
+CONV_PARAM_INPUTFILE ?= $1
+CONV_PARAM_OUTPUTFILE ?= --output=$2
+CONV_DEFAULT_TEMPLATE_HTML_NAME ?= default.html
+CONV_DEFAULT.HTML ?= $(CONV_DATADIR)/templates/$(CONV_DEFAULT_TEMPLATE_HTML_NAME)
+CONV_TEMPLATE_HTML_NAME ?= $(CONV_DEFAULT_TEMPLATE_HTML_NAME)
+CONV_PARAM_TEMPLATE_FILE ?= --template $(CONV_TEMPLATE_HTML_NAME)
 CONV_RELPATHTODOCUMENTROOT = $(shell realpath --relative-to=$(dir $2) $(DOCUMENTROOT))
 CONV_PARAM_DOCUMENTROOT = --variable=documentroot:$(CONV_RELPATHTODOCUMENTROOT)
-CONV_METADATA_FILE_EXIST = $(if $1$,$(wildcard $(dir $1)metadata.yaml))
-CONV_PARAM_METADATA_FILE = $(if $(CONV_METADATA_FILE_EXIST),--metadata-file=$(wildcard $(dir $1)metadata.yaml))
-CONV_PARAM_METADATA_FILE_DEFAULT ?= --metadata-file=$(RESOURCES_DIR)/metadata.yaml
-CONV_AFTER_BODY ?= --include-after-body=$(RESOURCES_DIR)/after-body.html
-CONV_CSS += --css=$(CONV_RELPATHTODOCUMENTROOT)/css/bulma-carousel.min.css
-CONV_CSS += --css=$(CONV_RELPATHTODOCUMENTROOT)/css/bulma.css
+CONV_METADATA_FILE_EXIST = $(if $1$,$(wildcard $(dir $1)$(METADATA.YAML)))
+CONV_PARAM_METADATA_FILE = $(if $(CONV_METADATA_FILE_EXIST),--metadata-file=$(wildcard $(dir $1)$(METADATA.YAML)))
+CONV_PARAM_METADATA_FILE_DEFAULT ?= --metadata-file=$(RESOURCES_METADATA.YAML)
+CONV_PARAM_AFTER_BODY ?= --include-after-body=$(RESOURCES_DIR)/$(AFTER_BODY.HTML)
+CONV_PARAM_CSS += --css=$(CONV_RELPATHTODOCUMENTROOT)/css/bulma-carousel.min.css
+CONV_PARAM_CSS += --css=$(CONV_RELPATHTODOCUMENTROOT)/css/bulma.css
 
 # ----------------------------------------------------------------------------
 # Target:    $$(DEFAULT.HTML) $(DEFAULT.HTML) .pandoc
@@ -50,9 +52,11 @@ $(CONV_DATADIR) :
 #            2. Output filename (*.html in HTML5)
 # Returns:   Nothing
 # Does:      ?
+# REM:       The variable defined after $(CONV_NAME) will use $1 and $2
+#            to deternin thier values
 # ----------------------------------------------------------------------------
 define cmd_transform_md2html
-$(__gmswe_tr2)$(value $(CONV_NAME)) $(CONV_FORMAT_FROM) $(CONV_FORMAT_TO) $(CONV_STANDALONE) $(CONV_CSS) $(CONV_PARAM_DATADIR) $(CONV_TEMPLATE_FILE) $(CONV_PARAM_DOCUMENTROOT) $(CONV_INPUTFILE) $(CONV_PARAM_METADATA_FILE) $(CONV_PARAM_METADATA_FILE_DEFAULT) $(CONV_AFTER_BODY) $(CONV_OUTPUTFILE)
+$(__gmswe_tr2)$(value $(CONV_NAME)) $(CONV_PARAM_FORMAT_FROM) $(CONV_PARAM_FORMAT_TO) $(CONV_PARAM_STANDALONE) $(CONV_PARAM_CSS) $(CONV_PARAM_DATADIR) $(CONV_PARAM_TEMPLATE_FILE) $(CONV_PARAM_DOCUMENTROOT) $(CONV_PARAM_INPUTFILE) $(CONV_PARAM_METADATA_FILE) $(CONV_PARAM_METADATA_FILE_DEFAULT) $(CONV_PARAM_AFTER_BODY) $(CONV_PARAM_OUTPUTFILE)
 endef
 
 endif # __gmswe_markdown2html_included
