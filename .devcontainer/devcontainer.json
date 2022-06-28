@@ -22,5 +22,8 @@
 	"remoteUser": "vscode",
 	"features": {
 		"github-cli": "latest"
-	}
+	},
+	"extensions": [
+		"ms-vscode.makefile-tools"
+	]
 }
