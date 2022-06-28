@@ -1,7 +1,7 @@
 ifndef __gmswe_documents_included
 __gmswe_documents_included = $(true)
 
-DOCUMENTS             ?= documents
+DOCUMENTS             ?= $(INSTALLDIR)/documents
 DOCUMENTS_ALL_MD      ?= $(sort $(call func_rwildcard,$(DOCUMENTS),*.md))
 DOCUMENTROOT_ALL_HTML ?= $(patsubst $(DOCUMENTS)/%.md,$(DOCUMENTROOT)/%.html,$(DOCUMENTS_ALL_MD))
 DOCUMENTROOT_ALL_DIR  ?= $(dir $(DOCUMENTROOT_ALL_HTML))

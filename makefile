@@ -92,10 +92,11 @@ $(DOCUMENTROOT)/%.html : $(DOCUMENTS)/%.md $(DOCUMENTROOT)
 $(WEBSITE) : $(DOCUMENTROOT_ROBOTS.TXT)
 	$(__gmswe_dbg_tnp)
 	$(info $(call exec_cliVAL01,cmd_invalidate_target,$@))
+	$(info $(call exec_cliVAL,cmd_sync_static_files))
 	$(info $(call exec_cliVAL01,cmd_mark_target_done,$@))
 
 # ----------------------------------------------------------------------------
-# Target:    $$(DEPLOY) $(DEPLOY) [website_build_deployed]
+# Target:    $$(DEPLOY) $(DEPLOY) [website_build_and_deployed]
 # Arguments: None
 # Does:      A sweeped build of all parts of a website
 # ----------------------------------------------------------------------------
