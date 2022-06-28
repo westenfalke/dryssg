@@ -29,7 +29,7 @@ CONV_PARAM_CSS += --css=$(CONV_RELPATHTODOCUMENTROOT)/css/bulma.css
 # Arguments: None
 # Does:      Cretes (probably empty) default tempaltes
 # ----------------------------------------------------------------------------
-$(CONV_DEFAULT.HTML) : $(CONV_DATADIR)
+$(CONV_DEFAULT.HTML) :
 	$(__gmswe_dbg_tnp)
 	$(info $(call exec_cliVAL01,cmd_create_folder_w_parent,$(dir $@)))
 	[ -e $@ ] || pandoc --print-default-template=html5 | sed -e 's/<\!--.*>//'  -e 's/<script src=.*//'  -e 's/.*]-->//' > $@ 
@@ -40,7 +40,7 @@ $(CONV_DEFAULT.HTML) : $(CONV_DATADIR)
 # Does:      Creates the folder for CONC templates 
 #            and (probably empty) default tempaltes
 # ----------------------------------------------------------------------------
-$(CONV_DATADIR) : 
+$(CONV_DATADIR) : $(CONV_DEFAULT.HTML)
 	$(__gmswe_dbg_tnp)
 	$(info $(call exec_cliVAL01,cmd_invalidate_target,$@))
 	$(info $(call exec_cliVAL01,cmd_create_folder_w_parent,$@))

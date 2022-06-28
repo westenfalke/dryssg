@@ -2,12 +2,6 @@ ifndef __gmswe_sitemap_xml_included
 __gmswe_sitemap_xml_included = $(true)
 
 
-SITEMAP.XML  ?= sitemap.xml
-DOCUMENTROOT_SITEMAP.XML ?= $(DOCUMENTROOT)/$(SITEMAP.XML)
-SITEMAP_WILDCARD ?= *.html
-SITEMAP_BASEURL_PORT ?= :8842
-BASEURL      ?= http://localhost$(SITEMAP_BASEURL_PORT)
-
 XML_HEAD     ?= <?xml version="1.0" encoding="UTF-8"?>
 URLSET_OPEN  ?= <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 URL_OPEN     ?= <url>
@@ -52,7 +46,7 @@ $(DOCUMENTROOT_SITEMAP.XML) : $(DOCUMENTROOT) $(DOCUMENTROOT_ALL_HTML) $(DOCUMEN
 # ----------------------------------------------------------------------------
 define func_write_sitemap_xml
 $(__gmswe_tr3)
-$(if $(call seq,$(call first,$(call split,/,$3)),$(DOCUMENTROOT)),
+$(if $3,
   $(file  > $3,$(XML_HEAD))
   $(file >> $3,$(URLSET_OPEN))
   $(if $2$1,
@@ -77,7 +71,7 @@ endef
 define func_write_rsitemap
 $(__gmswe_tr3)
 $(if $1$2,
-  $(if $(call seq,$(call first,$(call split,/,$3)),$(DOCUMENTROOT)),
+  $(if $3,
     $(foreach d,$(wildcard $1*),
       $(call func_write_rsitemap,$d/,$2,$3)
       $(call func_write_sitemap_entry,$(filter $(subst *,%,$2),$d),$3)

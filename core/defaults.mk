@@ -9,6 +9,13 @@ __gmswe_defaults_included := $(true)
 #GMSWE_LOG    ?= $(true)
 #GMSWE_REPORT ?= $(true)
 #GMSWE_TEST   ?= $(true)
+
+SITEMAP.XML  ?= sitemap.xml
+DOCUMENTROOT_SITEMAP.XML ?= $(DOCUMENTROOT)/$(SITEMAP.XML)
+SITEMAP_WILDCARD ?= *.html
+SITEMAP_BASEURL_PORT ?= :8842
+BASEURL ?= http://localhost$(SITEMAP_BASEURL_PORT)
+
 METADATA.YAML ?= metadata.yaml
 AFTER_BODY.HTML ?= after-body.html
 USAGE        ?= usage
