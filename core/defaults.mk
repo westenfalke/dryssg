@@ -16,7 +16,7 @@ WEBSITE      ?= website_build
 DEPLOY      ?= $(WEBSITE)_and_deployed
 CLEAN        ?= clean
 #BASEURL      ?= http://localhost
-DOCUMENTROOT := public_html
+DOCUMENTROOT := $(INSTALLDIR)/public_html
 $(eval CLEAN_DOCUMENTROOT = $(CLEAN)_$(DOCUMENTROOT))
 
 endif #__gmswe_defaults_included
