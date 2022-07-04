@@ -1,12 +1,16 @@
 ifndef __gmswe_markdown2html_included
 __gmswe_markdown2html_included = $(true)
 
+#echo modules/markdown2html/markdown2html.mk|sha256sum
+MARKDOWN2HTML.MODULE-ID := 8d041fef6aa9d87739ce82a83e8107896d1ad28398e3814cf5adc229989a890f
+MARKDOWN2HTML.NAME = MARKDOWN2HTML
+MARKDOWN2HTML.SHORT_NAME = CONV
 CONV_NAME := PANDOC# set to the name of the variable which containst the path to the binary
 PANDOC ?= /usr/bin/pandoc
 CONV_DATADIRNAME ?= .pandoc
 CONC_TEMPLATE_DIR_NAME ?= templates
 CONV_DATADIR ?= $(INSTALLDIR)/$(CONV_DATADIRNAME)
-CONV_TEMPLATEDIR ?= (CONV_DATADIR)/$(CONC_TEMPLATE_DIR_NAME)
+CONV_TEMPLATEDIR ?= $(CONV_DATADIR)/$(CONC_TEMPLATE_DIR_NAME)
 CONV_PARAM_DATADIR ?= --data-dir=$(CONV_DATADIR)
 CONV_PARAM_FORMAT_FROM ?= --from=markdown
 CONV_PARAM_FORMAT_TO ?= --to=html

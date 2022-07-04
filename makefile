@@ -109,6 +109,11 @@ $(DEPLOY) : $(SWEEP) $(WEBSITE)
 # Does:      Remove the DOCUMENTROOT and all of its content
 # ----------------------------------------------------------------------------
 clean : $(DOCUMENTROOT) $(FORCE)
+	$(__gmswe_dbg_tnp)
 	rm -rf $<
+
+reset : $(DOCUMENTROOT) $(DOCUMENTS) $(RESOURCES_DIR) $(CONV_DATADIR)
+	$(__gmswe_dbg_tnap)
+	rm -rfI --verbose $^
 
 .DEFAULT_GOAL := $(WEBSITE)
