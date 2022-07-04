@@ -24,6 +24,8 @@ SITEMAP_WILDCARD ?= *.html
 SITEMAP_BASEURL_PORT ?= \:8842
 BASEURL ?= http://localhost$(SITEMAP_BASEURL_PORT)
 
+INDEX.MD     ?= index.md
+
 METADATA.YAML ?= metadata.yaml
 AFTER_BODY.HTML ?= after-body.html
 USAGE        ?= usage

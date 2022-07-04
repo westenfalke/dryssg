@@ -12,7 +12,27 @@ MENU_CARD_TEMPLATE_HTML_NAME ?=  menu_card_partial.html
 MENU_CARD_TEMPLATE_HTML ?= $(CONV_TEMPLATEDIR)/$(MENU_CARD_TEMPLATE_HTML_NAME)
 MENU_CARD_DIR_NAME ?= menu_card
 MENU_CARD_DIR ?= $(DOCUMENTS)/$(MENU_CARD_DIR_NAME)
+MENU_CARD_METDATDTA_YAML ?= $(MENU_CARD_DIR)/$(METADATA.YAML)
+MENU_CARD_INDEX_MD ?= $(MENU_CARD_DIR)/$(INDEX.MD)
 MENU_CARD.DEPENDS_ON := modules/markdown2html/markdown2html.mk modules/trace/trace.mk modules/debug/debug.mk $(MENU_CARD_TEMPLATE_HTML_NAME) 
+
+
+
+
+
+$(MENU_CARD_INDEX_MD) :
+	$(__gmswe_dbg_tnp)
+	$(info $(call exec_cliVAL01,cmd_invalidate_target,$@))
+	$(info $(call exec_cliVAL01,cmd_create_folder_w_parent,$(dir $@)))
+	$(info $(shell cp --no-clobber $(__gmswe_log_p_copy) $(MENU_CARD.MODUL-LOC)/$(INDEX.MD) $(MENU_CARD_INDEX_MD)))
+	$(info $(call exec_cliVAL01,cmd_mark_target_done,$@))
+
+$(MENU_CARD_METDATDTA_YAML) :
+	$(__gmswe_dbg_tnp)
+	$(info $(call exec_cliVAL01,cmd_invalidate_target,$@))
+	$(info $(call exec_cliVAL01,cmd_create_folder_w_parent,$(dir $@)))
+	$(info $(shell cp --no-clobber $(__gmswe_log_p_copy) $(MENU_CARD.MODUL-LOC)/$(METADATA.YAML) $(MENU_CARD_METDATDTA_YAML)))
+	$(info $(call exec_cliVAL01,cmd_mark_target_done,$@))
 
 $(MENU_CARD_TEMPLATE_HTML) :
 	$(__gmswe_dbg_tnp)
@@ -27,7 +47,7 @@ $(MENU_CARD_TEMPLATE_HTML) :
 # Arguments: None
 # Does:      ?
 # ----------------------------------------------------------------------------
-$(MENU_CARD_DIR) : $(MENU_CARD_TEMPLATE_HTML)
+$(MENU_CARD_DIR) : $(MENU_CARD_TEMPLATE_HTML) $(MENU_CARD_METDATDTA_YAML) $(MENU_CARD_INDEX_MD)
 	$(__gmswe_dbg_tnp)	
 	$(info $(call exec_cliVAL01,cmd_create_folder_w_parent,$@))
 	$(info $(call exec_cliVAL01,cmd_mark_target_done,$@))    

@@ -5,7 +5,7 @@ DOCUMENTS             ?= $(INSTALLDIR)/documents
 DOCUMENTS_ALL_MD      ?= $(sort $(call func_rwildcard,$(DOCUMENTS),*.md))
 DOCUMENTROOT_ALL_HTML ?= $(patsubst $(DOCUMENTS)/%.md,$(DOCUMENTROOT)/%.html,$(DOCUMENTS_ALL_MD))
 DOCUMENTROOT_ALL_DIR  ?= $(dir $(DOCUMENTROOT_ALL_HTML))
-INDEX.MD     ?= index.md
+
 DOCUMENTS_INDEX.MD ?= $(DOCUMENTS)/$(INDEX.MD)
 # ----------------------------------------------------------------------------
 # Target:    $$(DOCUMENTS) $(DOCUMENTS) [documents]

@@ -1,5 +1,5 @@
 include config.mk
-.PHONY : EMPTYTARGET FORCE
+.PHONY : EMPTYTARGET FORCE reset
 .SILENT :
 .SUFFIXES : # Delete the default suffixes
 .NO_PARALLEL : $(NO_PARALLEL_CORE_TARGETS) $(PARALLEL_MODULE_TARGETS)
@@ -112,8 +112,15 @@ clean : $(DOCUMENTROOT) $(FORCE)
 	$(__gmswe_dbg_tnp)
 	rm -rf $<
 
+
+# ----------------------------------------------------------------------------
+# Target:    reset reset [reset]
+# Arguments: None
+# Does:      remmove all default folder
+# REM:       HERE LIVE DRAGONS
+# ----------------------------------------------------------------------
 reset : $(DOCUMENTROOT) $(DOCUMENTS) $(RESOURCES_DIR) $(CONV_DATADIR)
 	$(__gmswe_dbg_tnap)
-	rm -rfI --verbose $^
+	rm -rfi --verbose $^
 
 .DEFAULT_GOAL := $(WEBSITE)
