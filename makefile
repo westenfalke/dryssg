@@ -71,7 +71,7 @@ $(DOCUMENTROOT)/%.html : $(DOCUMENTS)/%.md $(RESOURCES_DIR) $(DOCUMENTROOT) $(CO
 	$(__gmswe_dbg_tnp)
 	$(info $(call exec_cliVAL01,cmd_invalidate_target,$@))
 	$(info $(call exec_cliVAL01,cmd_create_folder_w_parent,$(dir $@)))
-	$(info $(call exec_cliVAL,cmd_transform_md2html,$< $@))
+	$(info $(call exec_cliVAL,conv_cmd_transform_md2html,$< $@))
 	$(info $(call exec_cliVAL01,cmd_mark_target_done,$@))
 
 # ----------------------------------------------------------------------------
