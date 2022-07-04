@@ -1,6 +1,7 @@
 ifndef __gmswe_menu_card_included
 __gmswe_menu_card_included = $(true)
 
+MANU_CARD.MENU 
 MENU_CARD_TEMPLATE_HTML_NAME ?=  menu_card_partial.html
 MENU_CARD_TEMPLATE_HTML ?= $(CONV_TEMPLATEDIR)/$(MENU_CARD_TEMPLATE_HTML_NAME)
 MENU_CARD_DIR_NAME ?= menu_card
