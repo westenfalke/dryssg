@@ -90,13 +90,26 @@ endef
 # Function:  cmd_sweep_files
 # Arguments: 1: The folder to sweep out
 # Returns:   A CLI CMD for $(SHELL)
-# Does:      Remove files not newer than '19700101000'
+# Does:      Remove files *not* newer than '19700101000'
 #            toched with '-date=@0' and found with '! -newermt 0'
 #            @see cmd_invalidate_target
 # ----------------------------------------------------------------------------
 func_sweep_files = $(__gmswe_tr1)$(if $1,$(call exec_cmdVAL01,cmd_sweep_files,$1))
 
+# ----------------------------------------------------------------------------
+# Function:  cmd_select_files_to_sweep_in
+# Arguments: 1: A folder 
+# Returns:   A CLI CMD for $(SHELL)  
+# Does:      Finds all files in folder 1 that *not* newer than '19700101000'
+# ----------------------------------------------------------------------------
 cmd_select_files_to_sweep_in = $(__gmswe_tr1)$(if $1,find $1 -type f ! -newermt 0)
+
+# ----------------------------------------------------------------------------
+# Function:  cmd_sweep_files
+# Arguments: 1: 
+# Returns:   A CLI CMD for $(SHELL)
+# Does:      ?
+# ----------------------------------------------------------------------------
 cmd_sweep_files = $(__gmswe_tr1)$(if $1,rm -f $(__gmswe_log_p_delete) $1)
 # ----------------------------------------------------------------------------
 # Function:  cmd_sweep_folder
