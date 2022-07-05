@@ -31,7 +31,7 @@ CONV_PARAM_CSS += --css=$(CONV_RELPATHTODOCUMENTROOT)/css/bulma-carousel.min.css
 CONV_PARAM_CSS += --css=$(CONV_RELPATHTODOCUMENTROOT)/css/bulma.css
 
 # ----------------------------------------------------------------------------
-# Target:    $$(DEFAULT.HTML) $(DEFAULT.HTML) .pandoc
+# Target:    $$(CONV_DEFAULT.HTML) $(CONV_DEFAULT.HTML) .pandoc/templates/default.html
 # Arguments: None
 # Does:      Creates default tempaltes
 # ----------------------------------------------------------------------------

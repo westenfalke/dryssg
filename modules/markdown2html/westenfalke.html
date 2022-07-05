@@ -64,25 +64,25 @@
                 $endif$
                 <div class="container">
                     $if(slideisenabled)$
-                    ${ slideshow.partial.html() }
+                    ${ slideshow_partial.html() }
                     $endif$
                 </div>
                 $if(menu)$
                 <div class="container">
-                    ${ menu.partial.html() }
+                    ${ menu_partial.html() }
                 </div>
                 $endif$
                 $if(menue)$
                 <div class="container">
                     <div class="">
-                        ${ menue.partial.html() }
+                        ${ menue_partial.html() }
                     </div>
                 </div>
                 $endif$
                 $if(gallery)$
                 <div class="container">
                     <div class="">
-                        ${ gallery.partial.html() }
+                        ${ gallery_partial.html() }
                     </div>
                 </div>
                 $endif$
@@ -92,7 +92,7 @@
                     </div>
                 </div>
                 <div class="container">
-                    ${ footer.partial.html() }
+                    ${ footer_partial.html() }
                 </div>
             </div>
             $if(sitemap)$ 
@@ -100,7 +100,7 @@
                 <div class="container ">
                     <div class="content">
                         <aside class="">
-                            ${ sitemap.partial.html() }
+                            ${ sitemap_partial.html() }
                         </aside>
                     </div>
                 </div>
@@ -108,7 +108,7 @@
             $endif$
             $if(slideisenabled)$
               <script src="$documentroot$/js/bulma-carousel.min.js"></script>
-              ${ slideshow.config.partial.js() }
+              ${ slideshow_config.partial.js() }
             $endif$
             $for(include-after)$
             $include-after$

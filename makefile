@@ -59,6 +59,7 @@ $(SWEEP) : $(SWEEP_DOCUMENTROOT)
 $(DOCUMENTROOT) : $(DOCUMENTS)
 	$(info $(call exec_cliVAL01,cmd_invalidate_target,$@))
 	$(info $(call exec_cliVAL01,cmd_create_folder_w_parent,$@))
+	$(info $(call cmd_sync_static_files))#(sh/c)ould this be a target?!
 	$(info $(call exec_cliVAL01,cmd_mark_target_done,$@))
 
 # ----------------------------------------------------------------------------
@@ -67,7 +68,7 @@ $(DOCUMENTROOT) : $(DOCUMENTS)
 # Does:      Provide the parent folder for the WEBSITE.
 #            The content of this folder is wat's going to be published
 # ----------------------------------------------------------------------------
-$(DOCUMENTROOT)/%.html : $(DOCUMENTS)/%.md $(RESOURCES_DIR) $(DOCUMENTROOT) $(CONV_DATADIR) $(MENU_CARD_DIR)
+$(DOCUMENTROOT)/%.html : $(DOCUMENTS)/%.md $(RESOURCES_DIR) $(DOCUMENTROOT) $(CONV_DATADIR) $(MENU_CARD_DIR) $(STATICDIR)
 	$(__gmswe_dbg_tnp)
 	$(info $(call exec_cliVAL01,cmd_invalidate_target,$@))
 	$(info $(call exec_cliVAL01,cmd_create_folder_w_parent,$(dir $@)))

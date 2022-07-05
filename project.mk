@@ -23,5 +23,5 @@ GMSWE_TEST   ?= $(true)
 SITEMAP_BASEURL_PORT ?= :8042
 BASEURL      ?= http://localhost$(PORT)
 #SITEMAP_WILDCARD ?= $(DOCUMENTROOT)/Gallery*.jpg *.html# extend sitmap to .jpg inside the Gallery folder
-CONV_DEFAULT_TEMPLATE_HTML_NAME = candyscafe.html
+CONV_TEMPLATE_HTML_NAME ?= westenfalke.html
 endif #__gmswe_project_included
