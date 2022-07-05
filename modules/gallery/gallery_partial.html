@@ -1,0 +1,16 @@
+<!-- gallery_partial.html >>> -->
+$for(gallery)$
+<h2>$gallery.name$</h2>
+<div id="gallery" class="$gallery.class$">
+    $for(image)$
+    <div class="$it.divclass$">
+    <figure class="$it.figureclass$">
+        <a href="$documentroot$/$it.href$">
+            <img class="$it.imgclass$" src="$documentroot$/$it.src$" title="$it.title$" alt="$it.alt$" loading="$it.loading$"></img>
+        </a>
+    </figure>
+    </div>
+    $endfor$
+</div>
+$endfor$
+<!-- <<< gallery_partial.html -->

@@ -11,6 +11,9 @@ __gmswe_defaults_included := $(true)
 #GMSWE_TEST   ?= $(true)
 
 
+STATICFILESDIRNAME ?= static
+STATICOUTDIR       ?= $(INSTALLDIR)/$(STATICFILESDIRNAME)
+
 DOCUMENTROOT_NAME ?= public_html
 DOCUMENTROOT ?= $(INSTALLDIR)/$(DOCUMENTROOT_NAME)
 SWEEP_DOCUMENTROOT ?= $(SWEEP)_$(DOCUMENTROOT_NAME)
@@ -28,9 +31,14 @@ INDEX.MD     ?= index.md
 
 METADATA.YAML ?= metadata.yaml
 AFTER_BODY.HTML ?= after-body.html
+
+
+#MAIN TARGETS
 USAGE        ?= usage
 WEBSITE      ?= website_build
 DEPLOY       ?= website_build_and_deployed
 SWEEP        ?= sweeped
+
+
 
 endif #__gmswe_defaults_included
