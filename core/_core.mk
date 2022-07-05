@@ -1,9 +1,9 @@
-ifndef __gmswe_core_included
-__gmswe_core_included := $(true)
+ifndef __core__core_included
+__core__core_included := $(true)
 
 include core/base.mk
-include core/defaults.mk
-include core/functions.mk
-include core/commands.mk
+include core/def.mk
+include core/func.mk
+include core/cmd.mk
 
-endif #__gmswe_core_included
+endif #__core__core_included

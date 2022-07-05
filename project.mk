@@ -6,7 +6,7 @@ __gmswe_project_included = $(true)
 # Hence all *.mk files are incude only once,
 # declaring them already inluded, will prevent
 # them from beeing loaded in the first place.
-#__gmswe_gallery_included = $(true)
+#__module_gallery.included = $(true)
 #__gmswe_default_extension_included = $(true)
 #__gmswe_getting_started_included = $(true)
 #__gmswe_westenfalke_included = $(true)
@@ -18,10 +18,10 @@ GMSWE_REPORT ?= $(true)
 GMSWE_LOG    ?= $(true)
 GMSWE_TEST   ?= $(true)
 
-#INSTALLDIR := .# default @see ./core/base.mk
+#CORE_BASE_INSTALL_DIR := .# default @see ./core/base.mk
 
-SITEMAP_BASEURL_PORT ?= :8042
-BASEURL      ?= http://localhost$(PORT)
-#SITEMAP_WILDCARD ?= $(DOCUMENTROOT)/Gallery*.jpg *.html# extend sitmap to .jpg inside the Gallery folder
-CONV_TEMPLATE_HTML_NAME ?= westenfalke.html
+CORE_DEF_BASEURL_PORT ?= \:8042
+CORE_DEF_BASEURL      ?= http://localhost$(CORE_DEF_BASEURL_PORT)
+#CORE_DEF_SITEMAP_WILDCARD ?= $(CORE_DEF_DOCUMENTROOT)/Gallery*.jpg *.html# extend sitmap to .jpg inside the Gallery folder
+MOUDULE_MD2HTML.TEMPLATE_HTML_NAME ?= westenfalke.html
 endif #__gmswe_project_included

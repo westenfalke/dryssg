@@ -17,7 +17,7 @@ GETTING_STARTED_TARGET ?= getting_started_target_action
 # REM:       Default template @see modules/debug/debug.mk 
 # ----------------------------------------------------------------------------
 $(GETTING_STARTED_TARGET) :
-	$(__gmswe_dbg_tnp)
+	$(__module_dbg.tnp)
 
 # ----------------------------------------------------------------------------
 # Function:  cmd_create_somthing_amazing_4_getting_started
@@ -26,6 +26,6 @@ $(GETTING_STARTED_TARGET) :
 # Does:      Nothing
 # REM:       Function template @see modules/trace/trace.mk 
 # ----------------------------------------------------------------------------
-cmd_create_somthing_amazing_4_getting_started = $(__gmswe_tr0) $(GETTING_STARTED_A_VALUE)
+cmd_create_somthing_amazing_4_getting_started = $(module_trace.tr0) $(GETTING_STARTED_A_VALUE)
 
 endif # __gmswe_getting_started_included

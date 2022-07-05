@@ -17,7 +17,7 @@ WESTENFALKE_TARGET ?= westenfalke_target_action
 # REM:       Default template @see modules/debug/debug.mk 
 # ----------------------------------------------------------------------------
 $(WESTENFALKE_TARGET) :
-	$(__gmswe_dbg_tnp)
+	$(__module_dbg.tnp)
 
 # ----------------------------------------------------------------------------
 # Function:  cmd_create_somthing_amazing_4_westenfalke
@@ -26,6 +26,6 @@ $(WESTENFALKE_TARGET) :
 # Does:      Nothing
 # REM:       Function template @see modules/trace/trace.mk 
 # ----------------------------------------------------------------------------
-cmd_create_somthing_amazing_4_westenfalke = $(__gmswe_tr0) $(WESTENFALKE_A_VALUE)
+cmd_create_somthing_amazing_4_westenfalke = $(module_trace.tr0) $(WESTENFALKE_A_VALUE)
 
 endif # __gmswe_westenfalke_included

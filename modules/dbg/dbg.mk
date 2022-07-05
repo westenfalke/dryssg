@@ -1,37 +1,37 @@
-ifndef __gmswe_debug_included
-__gmswe_debug_included := $(true)
+ifndef __module_dbg.included
+__module_dbg.included := $(true)
 
 ifdef GMSWE_DEBUG
-__gmswe_dbg_trg  = $(warning $$@ $@)
-__gmswe_dbg_pre  = $(warning $$< $<)
-__gmswe_dbg_tnp  = $(warning $$@ $@ $$< $<)
-__gmswe_dbg_tnap = $(warning $$@ $@ $$^ $^)
+__module_dbg.trg  = $(warning $$@ $@)
+__module_dbg.pre  = $(warning $$< $<)
+__module_dbg.tnp  = $(warning $$@ $@ $$< $<)
+__module_dbg.tnap = $(warning $$@ $@ $$^ $^)
 else
-__gmswe_dbg_trg  :=
-__gmswe_dbg_pre  :=
-__gmswe_dbg_tnp  :=
-__gmswe_dbg_tnap :=
+__module_dbg.trg  :=
+__module_dbg.pre  :=
+__module_dbg.tnp  :=
+__module_dbg.tnap :=
 endif
 
 # ----------------------------------------------------------------------------
-# Function:  func_printallvars
+# Function:  modules_dbg.func_printallvars
 # Arguments: None
 # Returns:   A list of the name, value and (expanded value) of all variables
 #            in $(.VARIABLES)
 #            except if they start with '__' hence this are likely to be gmsl
 #            or if their origin is in (environment% default automatic)
 # ----------------------------------------------------------------------------
-func_printallvars = $(call func_printvars,.VARIABLES)
+modules_dbg.func_printallvars = $(call __module_dbg.func_printvars,.VARIABLES)
 
 # ----------------------------------------------------------------------------
-# Function:  func_printvars
+# Function:  __module_dbg.func_printvars
 # Arguments: 1: A list
 # Returns:   A list of the name, value and (expanded value)
 #            of all variables in the list
 #            except if they start with '__' hence this are likely to be gmsl
 #            or if their origin is in (environment% default automatic)
 # ----------------------------------------------------------------------------
-func_printvars = $(foreach V,                              \
+__module_dbg.func_printvars = $(foreach V,                              \
               $(filter-out __% and assert%,                 \
                 $(sort $(value $1))),                        \
                 $(if                                          \
@@ -42,4 +42,4 @@ func_printvars = $(foreach V,                              \
             )
 
 
-endif #__gmswe_debug_included
+endif #__module_dbg.included

@@ -17,7 +17,7 @@ DEFAULT_EXTENSION_TARGET ?= default_extension_target_action
 # REM:       Default template @see modules/debug/debug.mk 
 # ----------------------------------------------------------------------------
 $(DEFAULT_EXTENSION_TARGET) :
-	$(__gmswe_dbg_tnp)
+	$(__module_dbg.tnp)
 
 # ----------------------------------------------------------------------------
 # Function:  cmd_create_somthing_amazing_4_default_extension
@@ -26,6 +26,6 @@ $(DEFAULT_EXTENSION_TARGET) :
 # Does:      Nothing
 # REM:       Function template @see modules/trace/trace.mk 
 # ----------------------------------------------------------------------------
-cmd_create_somthing_amazing_4_default_extension = $(__gmswe_tr0) $(DEFAULT_EXTENSION_A_VALUE)
+cmd_create_somthing_amazing_4_default_extension = $(module_trace.tr0) $(DEFAULT_EXTENSION_A_VALUE)
 
 endif # __gmswe_default_extension_included

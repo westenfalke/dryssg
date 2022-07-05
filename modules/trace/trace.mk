@@ -1,18 +1,18 @@
-ifndef __gmswe_trace_included
-__gmswe_trace_included := $(true)
+ifndef __module_trace_included
+__module_trace_included := $(true)
 
 ifdef GMSWE_TRACE
-__gmswe_tr0 = $(warning $0())
-__gmswe_tr1 = $(warning $0('$1'))
-__gmswe_tr2 = $(warning $0('$1','$2'))
-__gmswe_tr3 = $(warning $0('$1','$2','$3'))
-__gmswe_tr4 = $(warning $0('$1','$2','$3','$4'))
+module_trace.tr0 = $(warning $0())
+module_trace.tr1 = $(warning $0('$1'))
+module_trace.tr2 = $(warning $0('$1','$2'))
+module_trace.tr3 = $(warning $0('$1','$2','$3'))
+module_trace.tr4 = $(warning $0('$1','$2','$3','$4'))
 else
-__gmswe_tr0 :=
-__gmswe_tr1 :=
-__gmswe_tr2 :=
-__gmswe_tr3 :=
-__gmswe_tr4 :=
+module_trace.tr0 :=
+module_trace.tr1 :=
+module_trace.tr2 :=
+module_trace.tr3 :=
+module_trace.tr4 :=
 endif
 
-endif #__gmswe_trace_included
+endif #__module_trace_included
