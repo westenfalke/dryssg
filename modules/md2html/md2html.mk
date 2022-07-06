@@ -2,7 +2,7 @@ ifndef __module_md2html.included
 __module_md2html.included = $(true)
 
 #echo modules/md2html/md2html.mk|sha256sum
-MOUDULE_MD2HTML.MODULE-ID := 8d041fef6aa9d87739ce82a83e8107896d1ad28398e3814cf5adc229989a890f
+MOUDULE_MD2HTML.ID := e1fa357bce9129ab571d7a0ee599c3c6431590dc36738fbd2f249f25c89fa2b7
 MOUDULE_MD2HTML.NAME = MD2HTML
 MOUDULE_MD2HTML.SHORT_NAME = CONV
 MOUDULE_MD2HTML.NAME := PANDOC# set to the name of the variable which containst the path to the binary

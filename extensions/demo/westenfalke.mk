@@ -1,7 +1,8 @@
 ifndef __gmswe_westenfalke_included
 __gmswe_westenfalke_included = $(true)
 
-EXTENSION_WESTENFALKE.LOC = extensions/demo/westenfalke.mk
+EXTENSION_WESTENFALKE.LOC := extensions/demo
+EXTENSION_WESTENFALKE.MAKEFILE := westenfalke.mk
 #echo extensions/demo/westenfalke.mk|sha256sum
 EXTENSION_WESTENFALKE.ID  := 4d31b8d757e8a9ebd5aaa03069eb345a18df80609e6204e5a3dc306e3970ed53
 EXTENSION_WESTENFALKE.NAME = WESTENFALKE
