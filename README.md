@@ -74,8 +74,10 @@ This static website generator is based on `make`  and  the capability to manage 
 
 an *ix OS and `bash` , `bulma <partially>`, `date`, `find`, `git`, `GMSL`, `make`. `pandoc`, `realpath`,`remake`, `rsync`, `sed`, `test`, `touch`
 
+@see [Dockerfile](https://github.com/westenfalke/dryssg/blob/main/.devcontainer/Dockerfile)
+
 ### Soft dependencies
 
 The tests, examples and documentation will use these tools for convenience's sake and will probably break without them:   
 
- `gh-cli`,  `FastStone Image Viewer,` `image magick`,  `sass-cli`, `Typora`, `WSL`
+ `gh-cli`,  `FastStone Image Viewer`, `nginx`, `image magick`,  `sass-cli`, `Typora`, `WSL`
