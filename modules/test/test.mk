@@ -1,5 +1,5 @@
-ifndef __gmswe_test_included
-__gmswe_test_included := $(true)
+ifndef __module_test.included
+__module_test.included := $(true)
 
 ifdef GMSWE_TEST
 
@@ -17,6 +17,6 @@ endif #GMSWE_TEST
 #            It's usesed to create a baseline for tests and in profiling
 # ----------------------------------------------------------------------------
 EMPTYTARGET : FORCE
-	$(__gmswe_dbg_tnp)
+	$(__module_dbg.tnp)
 
-endif #__gmswe_test_included
+endif #__module_test.included

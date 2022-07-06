@@ -1,0 +1,37 @@
+
+
+menu_card:
+  - sectiontitle: "BRUNCH&nbsp;-
+  MITTWOCH&nbsp;bis&nbsp;SONNTAG
+  10&nbsp;-&nbsp;15&nbsp;UHR"
+  - title: "DIE GÄNGIGE CANDY"
+    description: "Brotkorb, Butter, Wurst, Käse, Ei, Aufstriche (saisonal wechselnd)"
+    price : "11,80€"
+
+  - title: "Der geniesserische Sebastian"
+    description: "Brotkorb, Rührei, Lachs, Kren, Gemüsebeilage"
+    price : "12,30€"
+
+  - title: "Der kleine Kilian"
+    description: "Müsli Bircherart mit frischem Joghurt"
+    price : "6,20€"
+
+  - title: "Der schnelle Stefan"
+    description: "Croissant mit Butter, Marmelade & Obstbeilage"
+    price : "4,70€"
+
+  - title: "Die gesunde Valeria"
+    description: "Vegetarisch: Brotkorb, Auswahl an Aufstrichen (saisonal wechselnd), Ei, Käse, Joghurt, Obstsalat"
+    price : "11,90€"
+
+  - title: "Vegan"
+    description: "Brotkorb, Auswahl an Aufstrichen (saisonal wechselnd), Bananenbrot, veganer Milchreis, Obstsalat"
+    price : "11,90€"
+
+  - title: "Strammer Max"
+    description: "Zwei Scheiben Brot mit Butter, Schinken und Spiegelei"
+    price : "6,20€"
+
+  - title: "Die starke Berta"
+    description: "3Eier (Rührei oder Spiegelei), zwei Scheiben Brot, Butter, Gemüsebeilage"
+    price : "6,90€"

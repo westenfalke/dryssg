@@ -1,11 +1,11 @@
 include config.mk
-.PHONY : find func_foo EMPTYTARGET FORCE QUERY
+.PHONY : EMPTYTARGET FORCE reset
 .SILENT :
-.SUFFIXES :  # Delete the default suffixes
-.NO_PARALLEL : QUERY $(NO_PARALLEL_CORE_TARGETS) $(PARALLEL_MODULE_TARGETS)
+.SUFFIXES : # Delete the default suffixes
+.NO_PARALLEL : $(NO_PARALLEL_CORE_TARGETS) $(PARALLEL_MODULE_TARGETS)
 
-BASEURL      ?= .
-DOCUMENTROOT ?= public_html
+CORE_DEF_BASEURL      ?= .
+CORE_DEF_DOCUMENTROOT ?= public_html
 
 # ----------------------------------------------------------------------------
 # Target:    FORCE FORCE (.PHONY) [FORCE]
@@ -14,95 +14,88 @@ DOCUMENTROOT ?= public_html
 #            therefore to trigger another (not PHONY) target
 # ----------------------------------------------------------------------------
 FORCE :
-	$(__gmswe_dbg_tnp)
+	$(__module_dbg.tnp)
 
 # ----------------------------------------------------------------------------
-# Target:    $$(USAGE) $(USAGE) [usage]
+# Target:    $$(CCORE_DEF_USAGE) $(CCORE_DEF_USAGE) [usage]
 # Arguments: None
 # Does:      Diplays usage
 # ----------------------------------------------------------------------------
-$(USAGE) : FORCE
-	$(__gmswe_dbg_tnp)
-	@echo "# make $(USAGE)"
-	@echo "# make $(CLEAN)"
-	@echo "# make $(WEBSITE)"
-	@echo "# make find [QUERY=pattern]"
+$(CCORE_DEF_USAGE) : FORCE
+	$(__module_dbg.tnp)
+	@echo "# make $(CCORE_DEF_USAGE)"
+	@echo "# make $(CORE_DEF_SWEEP)"
+	@echo "# make $(CORE_DEF_WEBSITE)"
+	@echo "# make $(CORE_DEF_DEPLOY)"
+
 
 # ----------------------------------------------------------------------------
-# Target:      QUERY QUERY (.DEFAULT_GOAL) [QUERY]
-# Prerequisit: 'usage :' if $(QUERY) is empty, else 'find :'
-# Arguments:   $$(QUERY)
-# Does:        Supplies CLI with auto compleation for the find target
-#              find [QUERY=pattern]
-#              Diplays usage, QUERY is empty
-# ----------------------------------------------------------------------------
-QUERY : $(if $(QUERY),$(FIND),$(USAGE))
-	$(__gmswe_dbg_tnp)
-
-# ----------------------------------------------------------------------------
-# Target:    $$(CLEAN_DOCUMENTROOT) $CLEAN_DOCUMENTROOT [clean_public_html]
+# Target:    $$(CORE_DEF_SWEEP_DOCUMENTROOT) $CORE_DEF_SWEEP_DOCUMENTROOT [sweep_public_html]
 # Arguments: None
-# Does:      Removes the folder provided by DOCUMENTROOT and its content
+# Does:      Removes the folder provided by CORE_DEF_DOCUMENTROOT and its content
 #            It does not remove other generated content
 # ----------------------------------------------------------------------------
-$(CLEAN_DOCUMENTROOT) : FORCE
-	$(__gmswe_dbg_tnp)
-	$(info $(call exec_cliVAL01,cmd_invalidate_target,$@))
-	$(info $(call exec_cliPTR01,cmd_invalidate_target,DOCUMENTROOT))
-	$(info $(call exec_cliVAL01,cmd_mark_target_done,$@))
+$(CORE_DEF_SWEEP_DOCUMENTROOT) : FORCE
+	$(__module_dbg.tnp)
+	$(info $(call core_exec_cliVAL01,core_cmd_invalidate_target,$@))
+	$(info $(call core_exec_cliVAL01,core_cmd_invalidate_target,$(CORE_DEF_DOCUMENTROOT)))
+	$(info $(call core_exec_cliVAL01,core_cmd_mark_target_done,$@))
 
 # ----------------------------------------------------------------------------
-# Target:    $$(CLEAN) $(CLEAN) [clean]
+# Target:    $$(CORE_DEF_SWEEP) $(CORE_DEF_SWEEP) [sweep]
 # Arguments: None
-# Does:      Triggers all $(CLEAN)_.* targets as prerequisite
-$(CLEAN) : $(CLEAN_DOCUMENTROOT)
-	$(__gmswe_dbg_tnp)
-	$(info $(call exec_cliVAL01,cmd_invalidate_target,$@))
-	$(info $(call exec_cliVAL01,cmd_mark_target_done,$@))
+# Does:      Triggers all $(CORE_DEF_SWEEP)_.* targets as prerequisite
+$(CORE_DEF_SWEEP) : $(CORE_DEF_SWEEP_DOCUMENTROOT)
+	$(__module_dbg.tnp)
+	$(info $(call core_exec_cliVAL01,core_cmd_invalidate_target,$@))
+	$(info $(call core_exec_cliVAL01,core_cmd_mark_target_done,$@))
 
 # ----------------------------------------------------------------------------
-# Target:    $$(DOCUMENTROOT) $(DOCUMENTROOT) [public_html]
-# Arguments: DOCUMENTROOT
-# Does:      Creates the folder provides by DOCUMENTROOT
+# Target:    $$(CORE_DEF_DOCUMENTROOT) $(CORE_DEF_DOCUMENTROOT) [public_html]
+# Arguments: CORE_DEF_DOCUMENTROOT
+# Does:      Creates the folder provides by CORE_DEF_DOCUMENTROOT
 #            This target used for documentation purpose
 # ----------------------------------------------------------------------------
-$(DOCUMENTROOT) : $(DOCUMENTS)
-	$(info $(call exec_cliVAL01,cmd_invalidate_target,$@))
-	$(info $(call exec_cliVAL01,cmd_create_folder_w_parent,$@))
-	$(info $(call exec_cliVAL01,cmd_mark_target_done,$@))
+$(CORE_DEF_DOCUMENTROOT) : $(MODULE_DOC.DOCUMENTS)
+	$(info $(call core_exec_cliVAL01,core_cmd_invalidate_target,$@))
+	$(info $(call core_exec_cliVAL01,core_cmd_create_folder_w_parent,$@))
+	$(info $(call modules_ststic_files.cmd_sync_files))#(sh/c)ould this be a target?!
+	$(info $(call core_exec_cliVAL01,core_cmd_mark_target_done,$@))
 
 # ----------------------------------------------------------------------------
 # Target:    $$(DOCUMENTROOT_INDEX.HTML) $(DOCUMENTROOT_INDEX.HTML) [public_html/index.html]
 # Arguments: None
-# Does:      Provide the parent folder for the WEBSITE.
+# Does:      Provide the parent folder for the CORE_DEF_WEBSITE.
 #            The content of this folder is wat's going to be published
 # ----------------------------------------------------------------------------
-$(DOCUMENTROOT)/%.html : $(DOCUMENTS)/%.md $(DOCUMENTROOT)
-	$(__gmswe_dbg_tnp)
-	$(info $(call exec_cliVAL01,cmd_invalidate_target,$@))
-	$(info $(call exec_cliVAL01,cmd_create_folder_w_parent,$(dir $@)))
-	$(info $(call exec_cliVAL,cmd_transform_md2html,$< $@))
-	$(info $(call exec_cliVAL01,cmd_mark_target_done,$@))
+$(CORE_DEF_DOCUMENTROOT)/%.html : $(MODULE_DOC.DOCUMENTS)/%.md $(MODULE_RES.DIR) $(CORE_DEF_DOCUMENTROOT) $(MOUDULE_MD2HTML.DATADIR) $(MODULE_MENU_CARD.DIR) $(MODULE_STATIC_FILES.DIR)
+	$(__module_dbg.tnp)
+	$(info $(call core_exec_cliVAL01,core_cmd_invalidate_target,$@))
+	$(info $(call core_exec_cliVAL01,core_cmd_create_folder_w_parent,$(dir $@)))
+	$(info $(call core_exec_cliVAL,module_md2html.cmd_transform_md2html,$< $@))
+	$(info $(call core_exec_cliVAL01,core_cmd_mark_target_done,$@))
 
 # ----------------------------------------------------------------------------
-# Target:    $$(WEBSITE) $(WEBSITE) [website_build]
+# Target:    $$(CORE_DEF_WEBSITE) $(CORE_DEF_WEBSITE) [website_build]
 # Arguments: None
 # Does:      A dirty build of all parts of a website
 # ----------------------------------------------------------------------------
-$(WEBSITE) : $(DOCUMENTROOT_ROBOTS.TXT)
-	$(__gmswe_dbg_tnp)
-	$(info $(call exec_cliVAL01,cmd_invalidate_target,$@))
-	$(info $(call exec_cliVAL01,cmd_mark_target_done,$@))
+$(CORE_DEF_WEBSITE) : $(CORE_DEF_DOCUMENTROOT_ROBOTS.TXT)
+	$(__module_dbg.tnp)
+	$(info $(call core_exec_cliVAL01,core_cmd_invalidate_target,$@))
+	$(info $(call core_exec_cliVAL01,core_cmd_invalidate_target,$(CORE_DEF_SWEEP_DOCUMENTROOT)))
+	$(info $(call core_exec_cliVAL,modules_ststic_files.cmd_sync_files))
+	$(info $(call core_exec_cliVAL01,core_cmd_mark_target_done,$@))
 
 # ----------------------------------------------------------------------------
-# Target:    $$(DEPLOY) $(DEPLOY) [website_build_deployed]
+# Target:    $$(CORE_DEF_DEPLOY) $(CORE_DEF_DEPLOY) [website_build_and_deployed]
 # Arguments: None
 # Does:      A sweeped build of all parts of a website
 # ----------------------------------------------------------------------------
-$(DEPLOY) : $(CLEAN) $(WEBSITE)
-	$(__gmswe_dbg_tnp)
-	$(info $(call exec_cliVAL01,cmd_invalidate_target,$@))
-	$(info $(call exec_cliVAL01,cmd_mark_target_done,$@))
+$(CORE_DEF_DEPLOY) : $(CORE_DEF_SWEEP) $(CORE_DEF_WEBSITE)
+	$(__module_dbg.tnp)
+	$(info $(call core_exec_cliVAL01,core_cmd_invalidate_target,$@))
+	$(info $(call core_exec_cliVAL01,core_cmd_mark_target_done,$@))
 
 # ----------------------------------------------------------------------------
 # Target:    %.mk %.mk [%.mk]
@@ -112,23 +105,23 @@ $(DEPLOY) : $(CLEAN) $(WEBSITE)
 %.mk :
 
 # ----------------------------------------------------------------------------
-# Target:    PURGE_DOCUMENTROOT PURGE_DOCUMENTROOT [PURGE_DOCUMENTROOT]
+# Target:    clean clean [clean]
 # Arguments: None
-# Does:      Remove the DOCUMENTROOT and all of its content
+# Does:      Remove the CORE_DEF_DOCUMENTROOT and all of its content
 # ----------------------------------------------------------------------------
-PURGE_DOCUMENTROOT : $(DOCUMENTROOT)
-	rm -rfI $<
+clean : $(CORE_DEF_DOCUMENTROOT) $(FORCE)
+	$(__module_dbg.tnp)
+	rm -rf $<
+
 
 # ----------------------------------------------------------------------------
-# Target:    $$(FIND) $(FIND) [find]
-# Arguments: $(QUERY) text/plain [a-zA-Z0-9_-]
-# Does:      Searches the comments blocks of the make files
-# ----------------------------------------------------------------------------
-$(FIND) : FORCE
-	$(__gmswe_dbg_tnp)
-	$(eval SANQUERY = $(shell echo $(QUERY) | sed 's/[^a-zA-Z0-9_-]//g'))
-	$(if $(SANQUERY),-$(call cmd_fetch_comment4pattern,$(SANQUERY),/usr/include/__gmsl))
-	$(if $(SANQUERY),-$(call cmd_fetch_comment4pattern,$(SANQUERY),*.mk))
-	$(if $(SANQUERY),-$(call cmd_fetch_comment4pattern,$(SANQUERY),makefile))
+# Target:    reset reset [reset]
+# Arguments: None
+# Does:      remmove all default folder
+# REM:       HERE LIVE DRAGONS
+# ----------------------------------------------------------------------
+reset : $(CORE_DEF_DOCUMENTROOT) $(MODULE_DOC.DOCUMENTS) $(MODULE_RES.DIR) $(MOUDULE_MD2HTML.DATADIR)
+	$(__module_dbg.tnap)
+	rm -rfi --verbose $^
 
-.DEFAULT_GOAL := QUERY
+.DEFAULT_GOAL := $(CORE_DEF_WEBSITE)
