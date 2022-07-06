@@ -24,7 +24,7 @@ $(EXTENSION_WESTENFALKE.TEMPLATE_HTML_TO) :
 # Does:      Nothing
 # REM:       Default template @see modules/debug/debug.mk 
 # ----------------------------------------------------------------------------
-$(EXTENSION_WESTENFALKE.TEMPLATE_HTML) : $(MOUDULE_MD2HTML.DEFAULT.HTML)
+$(EXTENSION_WESTENFALKE.TEMPLATE_HTML) : $(MOUDULE_MD2HTML.DEFAULT.HTML) $(EXTENSION_WESTENFALKE.TEMPLATE_HTML_TO)
 	$(__module_dbg.tnp)
 	$(info $(call core_exec_cliVAL01,core_cmd_invalidate_target,$@))
 	$(info $(call core_exec_cliVAL01,core_cmd_mark_target_done,$@))
