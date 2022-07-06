@@ -10,8 +10,7 @@ EXTENSIONWESTENFALKE.SHORT_NAME = DEX
 EXTENSION_WESTENFALKE.TEMPLATE_HTML_NAME ?= westenfalke.html 
 EXTENSION_WESTENFALKE.TEMPLATE_HTML_FROM ?= $(EXTENSION_WESTENFALKE.LOC)/$(EXTENSION_WESTENFALKE.TEMPLATE_HTML_NAME)
 EXTENSION_WESTENFALKE.TEMPLATE_HTML_TO   ?= $(MOUDULE_MD2HTML.TEMPLATEDIR)/$(EXTENSION_WESTENFALKE.TEMPLATE_HTML_NAME)
-WESTENFALKE_A_VALUE ?= a value of the default extension
-WESTENFALKE_TARGET ?= westenfalke_template_active
+EXTENSION_WESTENFALKE.TEMPLATE_HTML ?= westenfalke_template_active
 
 $(EXTENSION_WESTENFALKE.TEMPLATE_HTML_TO) :
 	$(info $(call core_exec_cliVAL01,core_cmd_invalidate_target,$@))
@@ -20,12 +19,12 @@ $(EXTENSION_WESTENFALKE.TEMPLATE_HTML_TO) :
 	$(info $(call core_exec_cliVAL01,core_cmd_mark_target_done,$@))
 
 # ----------------------------------------------------------------------------
-# Target:    $$(WESTENFALKE_TARGET) $(WESTENFALKE_TARGET) [westenfalke_target_action_name]
+# Target:    $$(EXTENSION_WESTENFALKE.TEMPLATE_HTML) $(EXTENSION_WESTENFALKE.TEMPLATE_HTML) [westenfalke_target_action_name]
 # Arguments: None
 # Does:      Nothing
 # REM:       Default template @see modules/debug/debug.mk 
 # ----------------------------------------------------------------------------
-$(WESTENFALKE_TARGET) : $(MOUDULE_MD2HTML.DEFAULT.HTML)
+$(EXTENSION_WESTENFALKE.TEMPLATE_HTML) : $(MOUDULE_MD2HTML.DEFAULT.HTML)
 	$(__module_dbg.tnp)
 	$(info $(call core_exec_cliVAL01,core_cmd_invalidate_target,$@))
 	$(info $(call core_exec_cliVAL01,core_cmd_mark_target_done,$@))

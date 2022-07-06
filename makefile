@@ -68,7 +68,7 @@ $(CORE_DEF_DOCUMENTROOT) : $(MODULE_DOC.DOCUMENTS)
 # Does:      Provide the parent folder for the CORE_DEF_WEBSITE.
 #            The content of this folder is wat's going to be published
 # ----------------------------------------------------------------------------
-$(CORE_DEF_DOCUMENTROOT)/%.html : $(MODULE_DOC.DOCUMENTS)/%.md $(MODULE_RES.DIR) $(CORE_DEF_DOCUMENTROOT) $(MOUDULE_MD2HTML.DATADIR) $(MODULE_MENU_CARD.DIR) $(MODULE_STATIC_FILES.DIR)
+$(CORE_DEF_DOCUMENTROOT)/%.html : $(MODULE_DOC.DOCUMENTS)/%.md $(MODULE_RES.DIR) $(CORE_DEF_DOCUMENTROOT) $(MOUDULE_MD2HTML.DATADIR) $(MODULE_MENU_CARD.DIR) $(MODULE_STATIC_FILES.DIR) $(EXTENSION_WESTENFALKE.TEMPLATE_HTML)
 	$(__module_dbg.tnp)
 	$(info $(call core_exec_cliVAL01,core_cmd_invalidate_target,$@))
 	$(info $(call core_exec_cliVAL01,core_cmd_create_folder_w_parent,$(dir $@)))
