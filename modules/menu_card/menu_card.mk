@@ -21,21 +21,21 @@ $(MODULE_MENU_CARD.INDEX_MD) :
 	$(__module_dbg.tnp)
 	$(info $(call core_exec_cliVAL01,core_cmd_invalidate_target,$@))
 	$(info $(call core_exec_cliVAL01,core_cmd_create_folder_w_parent,$(dir $@)))
-	$(info $(shell cp --no-clobber $(__module_log.log_p_copy) $(MODULE_MENU_CARD.MODUL-LOC)/$(CORE_DEF_INDEX.MD) $(MODULE_MENU_CARD.INDEX_MD)))
+	$(info $(shell cp --no-clobber $(__module_log.log_p_copy_verbose) $(MODULE_MENU_CARD.MODUL-LOC)/$(CORE_DEF_INDEX.MD) $(MODULE_MENU_CARD.INDEX_MD)))
 	$(info $(call core_exec_cliVAL01,core_cmd_mark_target_done,$@))
 
 $(MODULE_MENU_CARD.METDATDTA_YAML) :
 	$(__module_dbg.tnp)
 	$(info $(call core_exec_cliVAL01,core_cmd_invalidate_target,$@))
 	$(info $(call core_exec_cliVAL01,core_cmd_create_folder_w_parent,$(dir $@)))
-	$(info $(shell cp --no-clobber $(__module_log.log_p_copy) $(MODULE_MENU_CARD.MODUL-LOC)/$(CORE_DEF_METADATA.YAML) $(MODULE_MENU_CARD.METDATDTA_YAML)))
+	$(info $(shell cp --no-clobber $(__module_log.log_p_copy_verbose) $(MODULE_MENU_CARD.MODUL-LOC)/$(CORE_DEF_METADATA.YAML) $(MODULE_MENU_CARD.METDATDTA_YAML)))
 	$(info $(call core_exec_cliVAL01,core_cmd_mark_target_done,$@))
 
 $(MODULE_MENU_CARD.TEMPLATE_HTML) :
 	$(__module_dbg.tnp)
 	$(info $(call core_exec_cliVAL01,core_cmd_invalidate_target,$@))
 	$(info $(call core_exec_cliVAL01,core_cmd_create_folder_w_parent,$(dir $@)))
-	$(info $(shell cp --no-clobber $(__module_log.log_p_copy) $(MODULE_MENU_CARD.MODUL-LOC)/$(MODULE_MENU_CARD.TEMPLATE_HTML_NAME) $(MODULE_MENU_CARD.TEMPLATE_HTML)))
+	$(info $(shell cp --no-clobber $(__module_log.log_p_copy_verbose) $(MODULE_MENU_CARD.MODUL-LOC)/$(MODULE_MENU_CARD.TEMPLATE_HTML_NAME) $(MODULE_MENU_CARD.TEMPLATE_HTML)))
 	$(info $(call core_exec_cliVAL01,core_cmd_mark_target_done,$@))
 
 

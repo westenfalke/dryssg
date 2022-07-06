@@ -23,5 +23,5 @@ GMSWE_TEST   ?= $(true)
 CORE_DEF_BASEURL_PORT ?= :8823
 CORE_DEF_BASEURL      ?= http://127.0.0.1$(CORE_DEF_BASEURL_PORT)
 #CORE_DEF_SITEMAP_WILDCARD ?= $(CORE_DEF_DOCUMENTROOT)/Gallery*.jpg *.html# extend sitmap to .jpg inside the Gallery folder
-MOUDULE_MD2HTML.TEMPLATE_HTML_NAME ?= westenfalke.html
+MOUDULE_MD2HTML.TEMPLATE_HTML_NAME ?= $(EXTENSION_WESTENFALKE.TEMPLATE_HTML_NAME)
 endif #__gmswe_project_included
